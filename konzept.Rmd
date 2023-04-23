@@ -1,0 +1,118 @@
+---
+title: "Stromverbrauch Basel-Stadt"
+subtitle: "Konzept Open Data Visualisierung"
+author: "Bela Koch"
+date: "2023-04-19"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Idee: Energie-Dashboard
+
+Ziel: ein **Dashboard** für das Montoring des Stromverbrauchs schaffen
+
+Dieses Dashboard soll einerseits einen einfachen **Überblick** über die aktuelle
+Lage sowie eine **eigenständige** aber **geführte** Analyse der Daten ermöglichen.
+
+## Die Daten: Effektiver und erwarteter Stomverbrauch
+
+Dieser Datensatz beinhaltet den täglichen Stromverbrauch sowie den mittels eines Modells berechneten, anhand des Kalendertages und der Witterung zu erwartenden Stromverbrauch.
+
+enthaltene Variablen:
+```{r}
+df_eff_erw <- read.csv("/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/eff_erw_daily.csv", sep=";")
+for(name in names(df_eff_erw)){cat(paste(name, "\n"))}
+```
+
+## Die Daten: Kantonaler Stromverbrauch
+
+Dieser Datensatz beinhaltet die Summe der elektrischen Energie, die im Kanton Basel-Stadt innert 15-Minuten Intervallen aus dem Netz bezogen wird, inklusive Netzverluste.
+
+enthaltene Variablen:
+```{r}
+df_15min <- read.csv("/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/kant_15min.csv", sep=";")
+for(name in names(df_15min)){cat(paste(name, "\n"))}
+```
+
+## Einstiegsseite
+
+![](/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/GUI.png)
+
+durch Klicken wird interaktive Grafik geöffnet
+
+## Beispiel: interaktives Liniendiagramm
+
+\begin{columns}
+
+\column{0.4\textwidth}
+\begin{itemize}
+\item möglichst interaktiv (zoom, brushing, hovers, etc)
+\item Anzeige diverser Zeiträume
+\item checkboxen für diverse Optionen (Beispiele auf nächstem Slide)
+\end{itemize}
+
+\column{0.6\textwidth}
+Hier wird ein Titel sein
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/line_main.png}
+Hier wird dynamisch Erklärtext stehen, auch abhängig von checkboxen
+
+\end{columns}
+
+## Liniendiagramm: Optionen durch Checkboxen
+
+<!-- row 1 -->
+\begin{columns}
+\column{0.5\textwidth}
+Hinterlegung diverser Zeiträume (z.B. Kommunikationskampagne, Wintermonate)
+\column{0.5\textwidth}
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/line_background.png}
+\end{columns}
+
+<!-- row 2 -->
+\begin{columns}
+\column{0.5\textwidth}
+Anzeige des Konfidenzintervalles der Schätzung (inkl. Anzeige ob effektiver
+Stromverbrauch im Konfidenzintervall)
+\column{0.5\textwidth}
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/line_ci.png}
+\end{columns}
+
+<!-- row 3 -->
+\begin{columns}
+\column{0.5\textwidth}
+Anzeige des effektiven und erwarteten Stromverbrauches
+\column{0.5\textwidth}
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/line_twoline.png}
+\end{columns}
+
+## Calendar Heatmap
+
+Soll wiederum möglichst interaktiv gestaltet sein (Auswahl der Jahre, hovers, etc)
+
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/calendar_daily.png}
+
+## Calendar Heatmp
+
+<!-- row 1 -->
+\begin{columns}
+\column{0.4\textwidth}
+durch Klicken auf einen Tag könnte eventuell intraday heatmap gezeigt werden
+\column{0.6\textwidth}
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/calendar_intraday.png}
+\end{columns}
+
+
+
+<!-- row 2 -->
+\begin{columns}
+\column{0.4\textwidth}
+es soll die Option geben, auch intraday Daten im "Jahres-Heatmap" zu zeigen
+\column{0.6\textwidth}
+\includegraphics{/Users/belakoch/Documents/Studium/Master/FS23/Open Data Project/coding/energy-monitor/data/img/calendar_daily_intraday.png}
+\end{columns}
+
+
+

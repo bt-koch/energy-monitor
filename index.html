@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="rsc/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="stylesheet.css" rel="stylesheet">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="testPlot.js"></script>
+
+    <title>Energy Monitor</title>
+</head>
+
+<body>
+    <script src="dashboard.js"></script>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <h2>Energy Monitor</h2>
+        <ul class="nav flex-column mt-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="showContent('content-home')">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard1')">Dashboard 1</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')">Dashboard 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard3')">Dashboard 3</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showContent('content-about')">About</a>
+            </li>
+        </ul>
+    </div>
+    <!-- main -->
+    <div class="content" id="content-home">
+        <h1>Dashboard</h1>
+        <p>Welcome to your dashboard! Here you can manage your data and settings.</p>
+        
+        <!-- Four Sections with Plots -->
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="section">
+                    <!-- Content for Section 1 -->
+                    <h3>Section 1</h3>
+                    <p>Content for Section 1</p>
+                    <!-- Add your plot or other content here -->
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="section">
+                    <!-- Content for Section 2 -->
+                    <h3>Section 2</h3>
+                    <p>Content for Section 2</p>
+                    <!-- Add your plot or other content here -->
+                    <img src="data/img/line_main.png" style="width: 100%;">
+                    <!-- <div id="testplot-container"></div> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="section">
+                    <!-- Content for Section 3 -->
+                    <h3>Section 3</h3>
+                    <p>Content for Section 3</p>
+                    <!-- Add your plot or other content here -->
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="section">
+                    <!-- Content for Section 4 -->
+                    <h3>Section 4</h3>
+                    <p>Content for Section 4</p>
+                    <!-- Add your plot or other content here -->
+                    <img src="data/img/calendar_daily_intraday.png" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="content" id="content-dashboard1">
+        <!-- Content for Dashboard 1 option -->
+        <!-- Add your content here -->
+        <h1>Lineplot</h1>
+        <p>this is dashboard 1</p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed vestibulum ultrices vehicula. Sed eget dui et erat
+            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
+            urna pharetra a. Nulla bibendum sapien at ex vehicula
+            tempor. Nam gravida odio vel tellus blandit.
+        </p>
+        <img src="data/img/line_main.png" style="width: 100%;">
+        <p>
+            Pellentesque habitant morbi tristique senectus et netus
+            et malesuada fames ac turpis egestas. Donec laoreet
+            fringilla libero, nec blandit turpis scelerisque at.
+            Curabitur a ligula sit amet mauris pellentesque
+            vestibulum vitae sit amet dui. Proin auctor enim
+            urna, at malesuada dui pellentesque vitae. Fusce
+            tristique mi sed ipsum ullamcorper tempus. Sed vel
+            elit elit. Praesent at ipsum in risus suscipit
+            tristique a eget ex. Pellentesque habitant morbi
+            tristique senectus et netus et malesuada fames ac
+            turpis egestas. Sed fermentum felis nunc, et suscipit
+            enim malesuada id. Aliquam id dignissim libero, in
+            malesuada sapien. Etiam fermentum, lacus a efficitur
+            cursus, nulla dolor convallis velit, ac malesuada
+            turpis orci in dui. In non magna sollicitudin,
+            dignissim tellus ac, suscipit purus. Pellentesque
+            fringilla fringilla libero, eu dapibus velit dignissim
+            id. Nunc luctus felis at vehicula porttitor. Quisque
+            bibendum urna et est laoreet, nec fermentum elit
+            bibendum.
+        </p>
+    </div>
+    
+    <div class="content" id="content-dashboard2">
+        <!-- Content for Dashboard 2 option -->
+        <!-- Add your content here -->
+        <h1>Calendat Heatmap</h1>
+        <p>this is dashboard 2</p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed vestibulum ultrices vehicula. Sed eget dui et erat
+            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
+            urna pharetra a. Nulla bibendum sapien at ex vehicula
+            tempor. Nam gravida odio vel tellus blandit.
+        </p>
+        <img src="data/img/calendar_daily_intraday.png" style="width: 100%;">
+        <p>
+            Pellentesque habitant morbi tristique senectus et netus
+            et malesuada fames ac turpis egestas. Donec laoreet
+            fringilla libero, nec blandit turpis scelerisque at.
+            Curabitur a ligula sit amet mauris pellentesque
+            vestibulum vitae sit amet dui. Proin auctor enim
+            urna, at malesuada dui pellentesque vitae. Fusce
+            tristique mi sed ipsum ullamcorper tempus. Sed vel
+            elit elit. Praesent at ipsum in risus suscipit
+            tristique a eget ex. Pellentesque habitant morbi
+            tristique senectus et netus et malesuada fames ac
+            turpis egestas. Sed fermentum felis nunc, et suscipit
+            enim malesuada id. Aliquam id dignissim libero, in
+            malesuada sapien. Etiam fermentum, lacus a efficitur
+            cursus, nulla dolor convallis velit, ac malesuada
+            turpis orci in dui. In non magna sollicitudin,
+            dignissim tellus ac, suscipit purus. Pellentesque
+            fringilla fringilla libero, eu dapibus velit dignissim
+            id. Nunc luctus felis at vehicula porttitor. Quisque
+            bibendum urna et est laoreet, nec fermentum elit
+            bibendum.
+        </p>
+    </div>
+    
+    <div class="content" id="content-dashboard3">
+        <!-- Content for Dashboard 3 option -->
+        <!-- Add your content here -->
+        <p>this is dashboard 3</p>
+    </div>
+
+    <div class="content" id="content-about">
+        <p>this is about section</p>
+    </div>
+
+    <!-- Optional JavaScript -->
+
+    <script>
+        generateTestPlot("testplot-container");
+    </script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.13.0/umd/popper.min.js"></script>
+    <script src="rsc/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

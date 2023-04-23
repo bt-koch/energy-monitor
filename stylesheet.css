@@ -1,0 +1,26 @@
+/* Custom styles for the dashboard */
+body {
+    padding-top: 60px;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    width: 250px;
+    z-index: 100;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    display: none; /* hide sections by default */
+}
+
+/* show "content-home" section as starting page */
+#content-home {
+    display: block;
+}
