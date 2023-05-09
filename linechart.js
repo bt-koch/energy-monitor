@@ -2,9 +2,10 @@
 
 (function() {
   // adjust graph width, height and margins
-  const margin = {top: 30, right: 60, bottom: 180, left: 60};
-  const margin2 = {top: 210, right: 60, bottom: 50, left: 60};
-  const width = 764 - margin.left - margin.right;
+  const margin = {top: 30, right: 20, bottom: 100, left: 20};
+  const margin2 = {top: 210, right: 20, bottom: 100, left: 20};
+  /* const width = 764 - margin.left - margin.right; */
+  const width = 0.8*window.innerWidth - margin.left - margin.right;
   const height = 1.25*283 - margin.top - margin.bottom;
   const height2 = 1.25*283 - margin2.top - margin2.bottom;
   
@@ -46,7 +47,7 @@
     .y1(d => y2(d.price));
   
   // append the SVG to HTML
-  const svg = d3.select('lineplot').append('svg')
+  const svg = d3.select('#lineplot').append('svg')
     .attr('class', 'chart')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom + 60)
@@ -94,7 +95,7 @@
     // add header
     legend.append('text')
       .attr('class', 'chart__symbol')
-      .text('NASDAQ: AAPL')
+      .text('Stromverbrauch')
     // add filter selection
     const rangeSelection = legend
       .append('g')
@@ -251,9 +252,14 @@
       var d0 = data[i - 1];
       var d1 = data[i];
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      helperText.text(legendFormat(new Date(d.date)) + ' - Price: ' + d.price + ' Avg: ' + d.average);
+      helperText.text(legendFormat(new Date(d.date)) + ' - effektiv: ' + d.price + ' erwartet: ' + d.average);
       priceTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.price) + ')');
       averageTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
+
+      const testdate = d3.select("#testdate");
+      testdate.text(legendFormat(new Date(d.date)));
+      const testvalue = d3.select("#testvalue");
+      testvalue.text(d.price);
     }
     
     function brushed() {

@@ -14,7 +14,7 @@
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="testPlot.js"></script>
-    <script src="linechart.js"></script>
+    
 
     <title>Energy Monitor</title>
 </head>
@@ -52,25 +52,27 @@
         
         <!-- Four Sections with Plots -->
         <div class="row d-flex align-items-stretch">
-            <div class="col-lg-6 col-md-12">
+            <div class="col-lg-3 col-md-12">
                 <div class="card h-100">
                     <!-- Content for Section 1 -->
                     <div class="card-body">
                         <h3 class="card-title">Section 1</h3>
-                        <p class="card-text">Content for Section 1</p>
+                        <p class="card-text">Stromverbrauch Vortag:</p>
+                        <h1>112 GWh</h1>
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12">
+            <div class="col-lg-9 col-md-12">
                 <div class="card h-100">
                     <!-- Content for Section 2 -->
                     
                     <div class="card-body">
-                        <h3 class="card-title">Section 2</h3>
+                        <!-- <h3 class="card-title">Section 2</h3> -->
                         <p class="card-text">Content for Section 2</p>
                     </div>
-                    <img class="card-img-bottom" src="data/img/line_main.png" style="width: 50%;">
+                    <img class="card-img-bottom" src="data/img/screenshot_line.png" style="width: 100%;">
+                    <br>
                     <!-- Add your plot or other content here -->
                     
                     <!-- <div id="testplot-container"></div> -->
@@ -101,11 +103,6 @@
                 </div>
             </div>
         </div>
-
-    
-
-
-
     </div>
 
     <div class="content" id="content-dashboard1">
@@ -118,7 +115,9 @@
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
             accumsan lacinia. Etiam malesuada massa mi, ac dapibus
             urna pharetra a. Nulla bibendum sapien at ex vehicula
-            tempor. Nam gravida odio vel tellus blandit.
+            tempor. Nam gravida odio vel tellus blandit. Test für
+            dynamische Anpassung von Text: der tatsächliche Stromverbrauch
+            vom <span id="testdate"></span> war <span id="testvalue"></span>
         </p>
         <div id="lineplot"></div>
         <p>
@@ -188,12 +187,19 @@
         <p>this is dashboard 3</p>
     </div>
 
+    <div class="content" id="content-details">
+        <p>this is detail section</p>
+        <p>kurze Info zum Modell für Berechnung erwarteter Stromverbrauch</p>
+        <p>Model Performance Monitoring</p>
+    </div>
+
     <div class="content" id="content-about">
         <p>this is about section</p>
     </div>
 
     <!-- Optional JavaScript -->
 
+    <script src="linechart.js"></script>
     <script>
         generateTestPlot("testplot-container");
     </script>
