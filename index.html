@@ -56,9 +56,12 @@
                 <div class="card h-100">
                     <!-- Content for Section 1 -->
                     <div class="card-body">
-                        <h3 class="card-title">Section 1</h3>
                         <p class="card-text">Stromverbrauch Vortag:</p>
-                        <h1>112 GWh</h1>
+                        <h1>112.4 GWh</h1>
+                        <p class="card-text">sieben Tage Schnitt:</p>
+                        <h1>132.7 GWh</h1>
+                        <p class="card-text">eine weitere schlaue Zahl:</p>
+                        <h1>232.4 GWh</h1>
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
@@ -184,17 +187,93 @@
     <div class="content" id="content-dashboard3">
         <!-- Content for Dashboard 3 option -->
         <!-- Add your content here -->
-        <p>this is dashboard 3</p>
+        <p>tbd</p>
     </div>
 
     <div class="content" id="content-details">
-        <p>this is detail section</p>
         <p>kurze Info zum Modell für Berechnung erwarteter Stromverbrauch</p>
-        <p>Model Performance Monitoring</p>
+        <p>Model Performance Monitoring (beispielsweise MSE anzeigen)</p>
     </div>
 
     <div class="content" id="content-about">
-        <p>this is about section</p>
+        <p>hier alle administrativen links und infos etc</p>
+        <div class="row d-flex align-items-stretch">
+            <div class="col-lg-3 col-md-12">
+                <div class="card h-100">
+                    <div class="card-header">
+                        Datenquelle 1
+                    </div>
+                    <!-- Content for Section 1 -->
+                    <div class="card-body">
+                        <h3 class="card-title">Kantonaler Stromverbrauch</h3>
+                        <p class="card-text">
+                            Dieser Datensatz beinhaltet die Summe der elektrischen Energie, die im Kanton Basel-Stadt
+                            innert 15-Minuten Intervallen aus dem Netz bezogen wird, inklusive Netzverluste.
+                        </p>
+                        <p class="card-text"></p>
+                            Lokal direkt am Ort der Produktion verbrauchte elektrische Energie (z.B. aus Photovoltaikanlagen),
+                            welche nicht ins öffentliche Netz eingespiesen wird, ist in den vorliegenden Daten nicht enthalten.
+                            Seit 1. September 2020 liegen auch Daten zum Verbrauch der Kunden in der Grundversorgung vs. dem freien Markt vor.
+                        </p>
+                        <p class="card-text">
+                            Die Daten umfassen den an allen im Netz installierten fernausgelesenen Zählern gemessenen Verbrauch sowie ergänzend,
+                            da nicht 100 % der Zähler fernauslesbar sind, Daten aus den ins Netz eingespeisten Strommengen. 
+                        <p class="card-text">
+                            Hinweis: Die Werte der folgenden Messstartzeiten sind interpoliert: 01.01.2014 00:00, 01.11.2015 00:00 und 01.10.2019 00:00.
+                        </p>
+                        <a href="https://data.bs.ch/explore/dataset/100233/table/?sort=timestamp_interval_start" target="_blank" class="btn btn-primary">Link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="card h-100">
+                    <div class="card-header">
+                        Datenquelle 2
+                    </div>
+                    <!-- Content for Section 1 -->
+                    <div class="card-body">
+                        <h3 class="card-title">Effektiver und erwarteter täglicher Stromverbrauch</h3>
+                        <p class="card-text">
+                            Dieser Datensatz beinhaltet den täglichen Stromverbrauch sowie den mittels eines Modells
+                            berechneten, anhand des Kalendertages und der Witterung zu erwartenden Stromverbrauch.
+                        </p>
+                        <p class="card-text"></p>
+                            Der Stromverbrauch ist die Summe der elektrischen Energie, die im Kanton Basel-Stadt täglich
+                            aus dem Netz bezogen wird, inklusive Netzverluste. Der tägliche Stromverbrauch ergibt sich als
+                            Summe des viertelstündlich ausgewiesenen Stromverbrauchs aus Datenquelle 1.
+                        </p>
+                        <p class="card-text">
+                            Lokal direkt am Ort der Produktion verbrauchte elektrische Energie (z.B. aus Photovoltaikanlagen),
+                            welche nicht ins öffentliche Netz eingespiesen wird, ist in den vorliegenden Daten nicht enthalten.
+                            Die Daten umfassen den an allen im Netz installierten fernausgelesenen Zählern gemessenen Verbrauch
+                            sowie ergänzend, da nicht 100% der Zähler fernauslesbar sind, Daten aus den ins Netz eingespeisten Strommengen.
+                        </p>
+                        <a href="https://data.bs.ch/explore/dataset/100245/table/?sort=time" target="_blank" class="btn btn-primary">Link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="card h-100">
+                    <div class="card-header">
+                        Sourcecode
+                    </div>
+                    <!-- Content for Section 1 -->
+                    <div class="card-body">
+                        <h3 class="card-title">Sourcecode</h3>
+                        <p class="card-text">
+                            bli
+                        </p>
+                        <p class="card-text"></p>
+                            bla
+                        </p>
+                        <p class="card-text">
+                            blup
+                        </p>
+                        <a href="https://github.com/bt-koch/energy-monitor/tree/master" target="_blank" class="btn btn-primary">Link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Optional JavaScript -->
