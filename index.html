@@ -8,6 +8,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="rsc/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="https://kit.fontawesome.com/8a9845a52c.js" crossorigin="anonymous"></script>
 
     <!-- Custom CSS -->
     <link href="stylesheet.css" rel="stylesheet">
@@ -32,29 +34,28 @@
         <h2>Energy Monitor</h2>
         <ul class="nav flex-column mt-4">
             <li class="nav-item">
-                <a class="nav-link active" href="#" onclick="showContent('content-home')">Home</a>
+                <a class="nav-link active" href="#" onclick="showContent('content-home')"><i class="fa-solid fa-house"></i> Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard1')">Dashboard 1</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard1')"><i class="fa-solid fa-chart-line"></i> Line Chart</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')">Dashboard 2</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')"><i class="fa-solid fa-calendar-days"></i> Calendar Heatmap</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard3')">Dashboard 3</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard3')"><i class="fa-solid fa-person-circle-question"></i> tbd</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-details')">Details</a>
+                <a class="nav-link" href="#" onclick="showContent('content-details')"><i class="fa-solid fa-circle-info"></i> Details</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-about')">About</a>
+                <a class="nav-link" href="#" onclick="showContent('content-about')"><i class="fa-solid fa-address-card"></i> About</a>
             </li>
         </ul>
     </div>
     <!-- main -->
     <div class="content" id="content-home">
         <h1>Dashboard</h1>
-        <p>Welcome to your dashboard! Here you can manage your data and settings.</p>
         
         <!-- Four Sections with Plots -->
         <div class="row d-flex align-items-stretch">
@@ -63,11 +64,11 @@
                     <!-- Content for Section 1 -->
                     <div class="card-body">
                         <p class="card-text">Stromverbrauch Vortag:</p>
-                        <h1>112.4 GWh</h1>
+                        <h1>112.4 GWh <i class="fa-solid fa-arrow-trend-up"></i></h1>
                         <p class="card-text">sieben Tage Schnitt:</p>
-                        <h1>132.7 GWh</h1>
-                        <p class="card-text">eine weitere schlaue Zahl:</p>
-                        <h1>232.4 GWh</h1>
+                        <h1>132.7 GWh <i class="fa-solid fa-arrow-trend-down"></i></h1>
+                        <p class="card-text">evtl. weitere Kennzahl:</p>
+                        <h1>232.4 GWh <i class="fa-solid fa-circle-exclamation"></i></h1>
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
@@ -77,8 +78,6 @@
                     <!-- Content for Section 2 -->
                     
                     <div class="card-body">
-                        <!-- <h3 class="card-title">Section 2</h3> -->
-                        <p class="card-text">Content for Section 2</p>
                     </div>
                     <img class="card-img-bottom" src="data/img/screenshot_line.png" style="width: 100%;">
                     <br>
@@ -94,8 +93,7 @@
                 <div class="card h-100">
                     <!-- Content for Section 3 -->
                     <div class="card-body">
-                        <h3 class="card-title">Section 3</h3>
-                        <p class="card-text">Content for Section 3</p>
+                        <h3 class="card-title">tbd</h3>
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
@@ -104,8 +102,6 @@
                 <div class="card h-100">
                     <!-- Content for Section 4 -->
                     <div class="card-body">
-                        <h3 class="card-title">Section 4</h3>
-                        <p class="card-text">Content for Section 4</p>
                     </div>
                     <img class="card-img-bottom" src="data/img/calendar_daily_intraday.png" style="width: 50%;">
                     <!-- Add your plot or other content here -->
@@ -118,7 +114,6 @@
         <!-- Content for Dashboard 1 option -->
         <!-- Add your content here -->
         <h1>Lineplot</h1>
-        <p>this is dashboard 1</p>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
@@ -128,46 +123,39 @@
             dynamische Anpassung von Text: der tatsächliche Stromverbrauch
             vom <span id="testdate"></span> war <span id="testvalue"></span>
         </p>
-        <div id="lineplot"></div>
-        
+                
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" 
                     id="dropdownMenu1" data-bs-toggle="dropdown" 
                     aria-haspopup="true" aria-expanded="true">
-              <!-- <i class="glyphicon glyphicon-cog"></i> -->x
+              <i class="fa fa-gear"></i>
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
             
               <li >
                 <label>
-                  <input type="checkbox"> Cheese
+                  <input type="checkbox"> Wintermonate markieren
                 </label>
               </li>
               
               <li >
                 <label>
-                  <input type="checkbox"> Pepperoni
+                  <input type="checkbox"> Kommunikationskampage markieren
                 </label>
               </li>
               
               <li >
                 <label>
-                  <input type="checkbox"> Peppers
+                  <input type="checkbox"> rollender Durchschnitt anzeigen
                 </label>
               </li>
               
             </ul>
         </div>
+
+        <div id="lineplot"></div>
         
-
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Default checkbox
-            </label>
-          </div>
-
         <p>
             Pellentesque habitant morbi tristique senectus et netus
             et malesuada fames ac turpis egestas. Donec laoreet
@@ -190,19 +178,17 @@
             bibendum urna et est laoreet, nec fermentum elit
             bibendum.
         </p>
-        <h5>Einige Ideen und to do's</h5>
+  <!--       <h5>Einige Ideen und to do's</h5>
         <ul>
             <li>für mittels unterem Plot angezeigten Zeitraum bspw. Werte wie Durchschnitt berechnen</li>
             <li>Breite des Charts soll sich an Fenster anpassen</li>
-            <li>Milk</li>
-          </ul>
+          </ul> -->
     </div>
     
     <div class="content" id="content-dashboard2">
         <!-- Content for Dashboard 2 option -->
         <!-- Add your content here -->
         <h1>Calendat Heatmap</h1>
-        <p>this is dashboard 2</p>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
@@ -236,8 +222,6 @@
     </div>
     
     <div class="content" id="content-dashboard3">
-        <!-- Content for Dashboard 3 option -->
-        <!-- Add your content here -->
         <p>tbd</p>
     </div>
 
@@ -252,7 +236,7 @@
             <div class="col-lg-3 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        Datenquelle 1
+                        <i class="fa-solid fa-table"></i> Datenquelle 1
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
@@ -272,14 +256,14 @@
                         <p class="card-text">
                             Hinweis: Die Werte der folgenden Messstartzeiten sind interpoliert: 01.01.2014 00:00, 01.11.2015 00:00 und 01.10.2019 00:00.
                         </p>
-                        <a href="https://data.bs.ch/explore/dataset/100233/table/?sort=timestamp_interval_start" target="_blank" class="btn btn-primary">Link</a>
+                        <a href="https://data.bs.ch/explore/dataset/100233/table/?sort=timestamp_interval_start" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        Datenquelle 2
+                        <i class="fa-solid fa-table"></i> Datenquelle 2
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
@@ -299,14 +283,14 @@
                             Die Daten umfassen den an allen im Netz installierten fernausgelesenen Zählern gemessenen Verbrauch
                             sowie ergänzend, da nicht 100% der Zähler fernauslesbar sind, Daten aus den ins Netz eingespeisten Strommengen.
                         </p>
-                        <a href="https://data.bs.ch/explore/dataset/100245/table/?sort=time" target="_blank" class="btn btn-primary">Link</a>
+                        <a href="https://data.bs.ch/explore/dataset/100245/table/?sort=time" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        Sourcecode
+                        <i class="fa-brands fa-github"></i> Sourcecode
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
@@ -320,12 +304,14 @@
                         <p class="card-text">
                             blup
                         </p>
-                        <a href="https://github.com/bt-koch/energy-monitor/tree/master" target="_blank" class="btn btn-primary">Link</a>
+                        <a href="https://github.com/bt-koch/energy-monitor/tree/master" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
 
     <!-- Optional JavaScript -->
 
