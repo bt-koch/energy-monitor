@@ -12,8 +12,14 @@
     <!-- Custom CSS -->
     <link href="stylesheet.css" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="rsc/bootstrap/js/bootstrap.min.js"></script>
+
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="testPlot.js"></script>
+    <script src="dashboard.js"></script>
     
 
     <title>Energy Monitor</title>
@@ -123,6 +129,45 @@
             vom <span id="testdate"></span> war <span id="testvalue"></span>
         </p>
         <div id="lineplot"></div>
+        
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" 
+                    id="dropdownMenu1" data-bs-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="true">
+              <!-- <i class="glyphicon glyphicon-cog"></i> -->x
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+            
+              <li >
+                <label>
+                  <input type="checkbox"> Cheese
+                </label>
+              </li>
+              
+              <li >
+                <label>
+                  <input type="checkbox"> Pepperoni
+                </label>
+              </li>
+              
+              <li >
+                <label>
+                  <input type="checkbox"> Peppers
+                </label>
+              </li>
+              
+            </ul>
+        </div>
+        
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Default checkbox
+            </label>
+          </div>
+
         <p>
             Pellentesque habitant morbi tristique senectus et netus
             et malesuada fames ac turpis egestas. Donec laoreet
@@ -145,6 +190,12 @@
             bibendum urna et est laoreet, nec fermentum elit
             bibendum.
         </p>
+        <h5>Einige Ideen und to do's</h5>
+        <ul>
+            <li>für mittels unterem Plot angezeigten Zeitraum bspw. Werte wie Durchschnitt berechnen</li>
+            <li>Breite des Charts soll sich an Fenster anpassen</li>
+            <li>Milk</li>
+          </ul>
     </div>
     
     <div class="content" id="content-dashboard2">
@@ -284,9 +335,7 @@
     </script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.13.0/umd/popper.min.js"></script>
-    <script src="rsc/bootstrap/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
