@@ -64,11 +64,11 @@
                     <!-- Content for Section 1 -->
                     <div class="card-body">
                         <p class="card-text">Stromverbrauch Vortag:</p>
-                        <h1>112.4 GWh <i class="fa-solid fa-arrow-trend-up"></i></h1>
+                        <h2>112.4 GWh <i class="fa-solid fa-arrow-trend-up"></i></h2>
                         <p class="card-text">sieben Tage Schnitt:</p>
-                        <h1>132.7 GWh <i class="fa-solid fa-arrow-trend-down"></i></h1>
+                        <h2>132.7 GWh <i class="fa-solid fa-arrow-trend-down"></i></h2>
                         <p class="card-text">evtl. weitere Kennzahl:</p>
-                        <h1>232.4 GWh <i class="fa-solid fa-circle-exclamation"></i></h1>
+                        <h2>63.17% <i class="fa-solid fa-circle-exclamation"></i></h2>
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
@@ -76,8 +76,8 @@
             <div class="col-lg-9 col-md-12">
                 <div class="card h-100">
                     <!-- Content for Section 2 -->
-                    
                     <div class="card-body">
+                        <h4 class="card-title">Stromverbrauch letzte t Jahre</h4>
                     </div>
                     <img class="card-img-bottom" src="data/img/screenshot_line.png" style="width: 100%;">
                     <br>
@@ -102,8 +102,9 @@
                 <div class="card h-100">
                     <!-- Content for Section 4 -->
                     <div class="card-body">
+                        <h4 class="card-title">Tagesmuster</h4>
                     </div>
-                    <img class="card-img-bottom" src="data/img/calendar_daily_intraday.png" style="width: 50%;">
+                    <img class="card-img-bottom" src="data/img/calendar_daily.png" style="width: 100%;">
                     <!-- Add your plot or other content here -->
                 </div>
             </div>
@@ -147,7 +148,13 @@
               
               <li >
                 <label>
-                  <input type="checkbox"> rollender Durchschnitt anzeigen
+                  <input type="checkbox"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
+                </label>
+              </li>
+
+              <li >
+                <label>
+                  <input type="checkbox"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
                 </label>
               </li>
               

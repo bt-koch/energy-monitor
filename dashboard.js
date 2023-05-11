@@ -13,3 +13,7 @@ $(".checkbox-menu").on("change", "input[type='checkbox']", function() {
  
  $('.allow-focus').on('click', function(e) { e.stopPropagation(); });
  
+ // for tooltip
+ $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
