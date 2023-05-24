@@ -20,7 +20,6 @@
 
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="testPlot.js"></script>
     <script src="dashboard.js"></script>
     
 
@@ -104,7 +103,7 @@
                     <div class="card-body">
                         <h4 class="card-title">Tagesmuster</h4>
                     </div>
-                    <img class="card-img-bottom" src="data/img/calendar_daily.png" style="width: 100%;">
+                    <img class="card-img-bottom" src="data/img/calendar-example.png" style="width: 100%;">
                     <!-- Add your plot or other content here -->
                 </div>
             </div>
@@ -203,7 +202,8 @@
             urna pharetra a. Nulla bibendum sapien at ex vehicula
             tempor. Nam gravida odio vel tellus blandit.
         </p>
-        <img src="data/img/calendar_daily_intraday.png" style="width: 100%;">
+        <!-- <img src="data/img/calendar_daily_intraday.png" style="width: 100%;"> -->
+        <div id="calendarheatmap"></div>
         <p>
             Pellentesque habitant morbi tristique senectus et netus
             et malesuada fames ac turpis egestas. Donec laoreet
@@ -322,10 +322,8 @@
 
     <!-- Optional JavaScript -->
 
-    <script src="linechart.js"></script>
-    <script>
-        generateTestPlot("testplot-container");
-    </script>
+    <script src="js/linechart.js"></script>
+    <script src="js/calendarheatmap.js"></script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
