@@ -1,5 +1,5 @@
     
-
+function calendarheatmap(){
     var title="Stromverbrauch effektiv";
     var units=" kWh";
     var breaks = [2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 5000000, 5500000];
@@ -9,7 +9,7 @@
     var cellSize = 17;
     var xOffset=20;
     var yOffset=60;
-    var calY=50;//offset of calendar in each group
+    var calY=35;//offset of calendar in each group
     var calX=25;
     var width = 960;
     var height = 163;
@@ -22,8 +22,6 @@
         //set up an array of all the dates in the data which we need to work out the range of the data
         var dates = new Array();
         var values = new Array();
-
-        console.log(data);
         
         //parse the data
         data.forEach(function(d)    {
@@ -33,8 +31,6 @@
                 d.value=d["Stromverbrauch effektiv"];
                 d.year=d.date.getFullYear();//extract the year from the data
         });
-
-        console.log(data);
         
         var yearlyData = d3.group(data, function(d) { return d.year; });
         
@@ -44,9 +40,9 @@
             
         //title
         svg.append("text")
-        .attr("x",xOffset)
-        .attr("y",20)
-        .text(title);
+            .attr("x",xOffset)
+            .attr("y",20)
+            .text(title);
         
         //create an SVG group for each year
         var cals = svg.selectAll("g")
@@ -58,7 +54,7 @@
             })
             .attr("transform",function(d,i){
                 return "translate(0,"+(yOffset+(i*(height+calY)))+")";  
-            })
+            });
         
         var labels = cals.append("text")
             .attr("class","yearLabel")
@@ -134,15 +130,15 @@
         
         //add monthly outlines for calendar
         cals.append("g")
-        .attr("id","monthOutlines")
-        .selectAll(".month")
-        .data(function(d) { 
-            return d3.timeMonth.range(new Date(parseInt(d[0]), 0, 1), new Date(parseInt(d[0]) + 1, 0, 1)); 
-        })
-        .enter().append("path")
-        .attr("class", "month")
-        .attr("transform","translate("+(xOffset+calX)+","+calY+")")
-        .attr("d", monthPath);
+            .attr("id","monthOutlines")
+            .selectAll(".month")
+            .data(function(d) { 
+                return d3.timeMonth.range(new Date(parseInt(d[0]), 0, 1), new Date(parseInt(d[0]) + 1, 0, 1)); 
+            })
+            .enter().append("path")
+            .attr("class", "month")
+            .attr("transform","translate("+(xOffset+calX)+","+calY+")")
+            .attr("d", monthPath);
         
         //retrieve the bounding boxes of the outlines
         var BB = new Array();
@@ -219,3 +215,13 @@
             + "H" + (w1 + 1) * cellSize + "V" + 0
             + "H" + (w0 + 1) * cellSize + "Z";
     }
+}
+
+/* Problem:
+getBBox() retourniert 0 wenn die relevanten Elemente nicht im Browser sichtbar sind. Dadurch werden die
+Labels nicht richtig positioniert.
+Aus diesem Grund soll der Code erst ausgeführt werden, wenn das relevante Tab per Click gewählt wird,
+sodass dann die Positionen korrekt berechnet werden können. Etwas unschön ist die kleine "Ladezeit",
+allerdings ist diese wirklich nur sehr kurz und nur beim ersten Anzeigen nötig.
+*/
+document.getElementById("tab-calendar").addEventListener("click", calendarheatmap);

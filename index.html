@@ -39,7 +39,7 @@
                 <a class="nav-link" href="#" onclick="showContent('content-dashboard1')"><i class="fa-solid fa-chart-line"></i> Line Chart</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')"><i class="fa-solid fa-calendar-days"></i> Calendar Heatmap</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')" id="tab-calendar"><i class="fa-solid fa-calendar-days"></i> Calendar Heatmap</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="showContent('content-dashboard3')"><i class="fa-solid fa-person-circle-question"></i> tbd</a>
@@ -238,9 +238,8 @@
     </div>
 
     <div class="content" id="content-about">
-        <p>hier alle administrativen links und infos etc</p>
         <div class="row d-flex align-items-stretch">
-            <div class="col-lg-3 col-md-12">
+            <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
                         <i class="fa-solid fa-table"></i> Datenquelle 1
@@ -267,7 +266,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-12">
+            <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
                         <i class="fa-solid fa-table"></i> Datenquelle 2
@@ -294,7 +293,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-12">
+        </div>
+        <br>
+        <div class="row d-flex align-items-stretch">
+            <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
                         <i class="fa-brands fa-github"></i> Sourcecode
@@ -319,12 +321,13 @@
     </div>
 
     
+    
 
     <!-- Optional JavaScript -->
 
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
-
+    <script src="js/waitForElm.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 </body>
