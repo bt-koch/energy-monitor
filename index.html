@@ -20,14 +20,14 @@
 
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="js/dashboard.js"></script>
     
 
     <title>Energy Monitor</title>
 </head>
 
 <body>
-    <script src="dashboard.js"></script>
+    <!--<script src="dashboard.js"></script>-->
     <!-- sidebar -->
     <div class="sidebar">
         <h2>Energy Monitor</h2>
@@ -54,7 +54,7 @@
     </div>
     <!-- main -->
     <div class="content" id="content-home">
-        <h1>Dashboard</h1>
+        <h1>Energy-Monitor: Kanton Basel-Stadt</h1>
         
         <!-- Four Sections with Plots -->
         <div class="row d-flex align-items-stretch">
@@ -92,9 +92,10 @@
                 <div class="card h-100">
                     <!-- Content for Section 3 -->
                     <div class="card-body">
-                        <h3 class="card-title">tbd</h3>
+                        <h3 class="card-title">Differenz effektiv und erwartet</h3>
                     </div>
                     <!-- Add your plot or other content here -->
+                    <p>hier soll bar chart mit differenzen effektiv-erwartet kommen (Spalte verfügbar)</p>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -123,41 +124,80 @@
             dynamische Anpassung von Text: der tatsächliche Stromverbrauch
             vom <span id="testdate"></span> war <span id="testvalue"></span>
         </p>
-                
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" 
-                    id="dropdownMenu1" data-bs-toggle="dropdown" 
-                    aria-haspopup="true" aria-expanded="true">
-              <i class="fa fa-gear"></i>
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+        <div id="wrapper">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu1" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                        <i class="fa-regular fa-clock"></i> Datenfrequenz
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu radio-menu allow-focus" aria-labelledby="dropdownMenu1">
+                <li>
+                    <label>
+                    <input type="radio" name="options" id="y" value="y"> jährlich
+                    </label>
+                </li>
+                <li>
+                    <label>
+                    <input type="radio" name="options" id="m" checked value="m"> monatlich
+                    </label>
+                </li>
+                <!-- <li>
+                    <label>
+                    <input type="radio" name="options" id="w" value="w"> wöchentlich
+                    </label>
+                </li> -->
+                <li>
+                    <label>
+                    <input type="radio" name="options" id="d" value="d"> täglich
+                    </label>
+                </li>
+                </ul>
+            </div>
             
-              <li >
-                <label>
-                  <input type="checkbox"> Wintermonate markieren
-                </label>
-              </li>
-              
-              <li >
-                <label>
-                  <input type="checkbox"> Kommunikationskampage markieren
-                </label>
-              </li>
-              
-              <li >
-                <label>
-                  <input type="checkbox"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
-                </label>
-              </li>
+                    
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu2" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-gear"></i> Optionen
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu2">
+                
+                <li >
+                    <label>
+                    <input type="checkbox" name="options"> Wintermonate markieren
+                    </label>
+                </li>
 
-              <li >
-                <label>
-                  <input type="checkbox"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
-                </label>
-              </li>
-              
-            </ul>
+                <li >
+                    <label>
+                    <input type="checkbox" name="options" id="showErw" checked> erwarteter Stromverbrauch zeigen
+                    </label>
+                </li>
+                
+                <li >
+                    <label>
+                    <input type="checkbox" name="options"> Kommunikationskampage markieren
+                    </label>
+                </li>
+                
+                <li >
+                    <label>
+                    <input type="checkbox" name="options"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
+                    </label>
+                </li>
+
+                <li >
+                    <label>
+                    <input type="checkbox" name="options"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
+                    </label>
+                </li>
+                
+                </ul>
+            </div>
         </div>
 
         <div id="lineplot"></div>
@@ -229,7 +269,8 @@
     </div>
     
     <div class="content" id="content-dashboard3">
-        <p>tbd</p>
+        <p>Differenz effektiver und erwarteter Stromverbrauch</p>
+        <div id="barchart"></div>
     </div>
 
     <div class="content" id="content-details">
@@ -317,6 +358,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <i class="fa-regular fa-circle-user"></i> Autor
+                    </div>
+                    <!-- Content for Section 1 -->
+                    <div class="card-body">
+                        <h3 class="card-title">Autor</h3>
+                        <p class="card-text">
+                            bli
+                        </p>
+                        <p class="card-text"></p>
+                            bla
+                        </p>
+                        <p class="card-text">
+                            blup
+                        </p>
+                        <a href="https://www.linkedin.com/in/bela-tim-koch/" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -327,7 +389,7 @@
 
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
-    <script src="js/waitForElm.js"></script>
+    <script src="js/barchart.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 </body>
