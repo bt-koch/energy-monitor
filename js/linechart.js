@@ -121,13 +121,32 @@ function linechart(){
       }
     });
 
+    const lastDay = d3.max(data, d => d.date);
+
+    function getLastDayOfMonth(date) {
+      // Set the date to the first day of the next month
+      date.setMonth(date.getMonth() + 1, 0);
+      return date;
+    }
+    function getLastDayOfYear(date) {
+      // Set the date to the first day of the next year
+      date.setFullYear(date.getFullYear() + 1, 0, 0);
+      return date;
+    }
+    
     // define date format conditional on selected frequency
     if(document.getElementById("m").checked) {
       var formatAggregation = d3.timeFormat("%Y-%m");
-    /* } else if(document.getElementById("w").checked) {
-      var formatAggregation = d3.timeFormat("%Y-W%U"); */
+      // filter out unfinished month
+      if(lastDay.getDate() < getLastDayOfMonth(lastDay)){
+        data = data.filter(d => d.date.getMonth() !== lastDay.getMonth());
+      }
     } else if(document.getElementById("y").checked) {
       var formatAggregation = d3.timeFormat("%Y");
+      // filter out unfinished year
+      if(lastDay.getDate() < getLastDayOfYear(lastDay)){
+        data = data.filter(d => d.date.getFullYear() !== lastDay.getFullYear());
+      }
     }
 
     // aggregate data conditional on selected frequency
@@ -147,16 +166,22 @@ function linechart(){
         aggregatedData[t].valueErwSum += d.valueErw;
         aggregatedData[t].lowerCISum += d.lowerCI;
         aggregatedData[t].upperCISum += d.upperCI;
-      });
+      });  
   
       data = Object.entries(aggregatedData).map(([t, values]) => {
-        return {
-          date: new Date(t),
-          valueEff: values.valueEffSum,
-          valueErw: values.valueErwSum,
-          lowerCI: values.lowerCISum,
-          upperCI: values.upperCISum
-        }
+        /*var aggregatedDate = new Date(t);
+        aggregatedDate = getLastDayOfMonth(aggregatedDate);
+        console.log("aggregatedDate: "+getLastDayOfMonth(aggregatedDate));
+        console.log("last day: "+lastDay);*/
+        //if (aggregatedDate < lastDay) {
+          return {
+            date: new Date(t),
+            valueEff: values.valueEffSum,
+            valueErw: values.valueErwSum,
+            lowerCI: values.lowerCISum,
+            upperCI: values.upperCISum
+          }
+        //}
       })
     }
 
@@ -174,7 +199,6 @@ function linechart(){
       .on('brush', brushed);
 
     var xRange = d3.extent(data, function(d) { return d.date; });
-    console.log("xRange: " + xRange);
 
     x.domain(xRange);
     y.domain(d3.extent(data, function(d) { return d.valueEff; }));
@@ -315,8 +339,6 @@ function linechart(){
         // get corresponding x values for the brushed area
         const x0 = xScale.invert(ext[0]);
         const x1 = xScale.invert(ext[1]);
-        console.log("x0: "+x0);
-        console.log("x1: "+x1);
 
         x.domain([x0,x1]);
         y.domain([
