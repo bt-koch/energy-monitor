@@ -60,11 +60,11 @@ body {
     stroke-width: 1.2px;
     clip-path: url("#clip");
   }
-  .chart__price--focus {
+  .chart__eff--focus {
     stroke-width: 2px;
     stroke: #2980b9;
   }
-  .chart__average--focus {
+  .chart__erw--focus {
     stroke-width: 2px;
     stroke: #f00;
     opacity: 0.3;
@@ -73,11 +73,11 @@ body {
     opacity: 0;
     pointer-events: all;
   }
-  .chart__tooltip--price {
+  .chart__tooltip--eff {
     fill: none;
-    stroke: #f00;
+    stroke: #2980b9;
   }
-  .chart__tooltip--average {
+  .chart__tooltip--erw {
     fill: none;
     stroke: #f00;
   }
@@ -183,3 +183,58 @@ text    {
 }
 
 .key    {font-size:0.5em;}
+
+/* bar chart */
+.bar{
+  fill: #16a085;
+}
+
+.bar:hover{
+  fill: white;
+}
+
+#tooltip {
+  background-color: #ecf0f1;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0.8;
+  padding: 10px;
+  vertical-align: middle;
+  border-radius: 5px;
+  text-align: center;
+  width: 180px;
+}
+
+#title {
+  text-anchor: middle;
+  font-size: 22px;
+}
+
+.label {
+  text-anchor: middle;
+} 
+
+/* button placement */
+#wrapper {
+  display: flex;
+}
+
+#left {
+  flex: 0 0 65%;
+}
+
+#right {
+  flex: 1;
+}
+
+.radio-menu li label {
+  display: block;
+  padding: 3px 10px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  margin:0;
+  transition: background-color .4s ease;
+}
