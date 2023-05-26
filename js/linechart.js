@@ -1,6 +1,6 @@
 /* global d3, _ */
+function linechart(){
 
-(function() {
   // adjust graph width, height and margins
   const margin = {top: 30, right: 20, bottom: 100, left: 20};
   const margin2 = {top: 210, right: 20, bottom: 100, left: 20};
@@ -8,43 +8,50 @@
   const width = 0.8*window.innerWidth - margin.left - margin.right;
   const height = 1.25*283 - margin.top - margin.bottom;
   const height2 = 1.25*283 - margin2.top - margin2.bottom;
-  
+
   // define format of date
-  /* const parseDate = d3.timeParse('%d/%m/%Y'); */
   const parseDate = d3.timeParse('%d.%m.%y');
   const bisectDate = d3.bisector(d => d.date).left;
-  const legendFormat = d3.timeFormat('%b %d, %Y');
-  
+  // here to do: dont use frequency but rather directly get DOM element and check whether its checked
+  // like i've done it for erw line below
 
+  if(document.getElementById("m").checked) {
+    var legendFormat = d3.timeFormat("%B %Y");
+  } else if(document.getElementById("y").checked) {
+    var legendFormat = d3.timeFormat("%Y");
+  } else {
+    var legendFormat = d3.timeFormat('%d.%m.%Y');
+  }
+
+  
   const x = d3.scaleTime().range([0, width]); // defines width of displayed x axis for line and bar
   const x2 = d3.scaleTime().range([0, width]); // defines width of displayed x axis for area
   const y = d3.scaleLinear().range([height, 0]); // height of yaxis line
   const y1 = d3.scaleLinear().range([height, 0]); // ?
   const y2 = d3.scaleLinear().range([height2, 0]); // height of yaxis area
   const y3 = d3.scaleLinear().range([60, 0]); // height of the bars
-  
+
   const xAxis = d3.axisBottom(x); // xaxis labels below line line
   const xAxis2 = d3.axisBottom(x2); // xaxis labels below line area
   const yAxis = d3.axisLeft(y); // yaxis labels left of line line
-  
-  // draw price line
-  const priceLine = d3.line()
-    /* .curve(d3.curveMonotoneX) */
+
+  // draw eff line
+  const effLine = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d.price));
+    .y(d => y(d.valueEff));
   
-  // draw moving average line
-  const avgLine = d3.line()
-    /* .curve(d3.curveMonotoneX) */
+  // draw erw line
+  //if(document.getElementById("showErw").checked) {
+    const erwLine = d3.line()
     .x(d => x(d.date))
-    .y(d => y(d.average));
+    .y(d => y(d.valueErw));
+  //}
   
   // draw area chart
   const area2 = d3.area()
-    /* .curve(d3.curveMonotoneX) */
     .x(d => x2(d.date))
     .y0(height2)
-    .y1(d => y2(d.price));
+    .y1(d => y2(d.valueEff));
   
   // append the SVG to HTML
   const svg = d3.select('#lineplot').append('svg')
@@ -53,7 +60,7 @@
     .attr('height', height + margin.top + margin.bottom + 60)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
-  
+
   // This code creates a clipping rectangle that limits the visible area of the SVG element.
   // The 'defs' element is used to define reusable graphical elements,
   // and the 'clipPath' element is used to create a clipping path that can be applied to other elements.
@@ -77,11 +84,6 @@
     const focus = svg.append('g')
       .attr('class', 'focus')
       .attr('transform', `translate(${margin.left},${margin.top})`);
-    // add barchart area
-    /* const barsGroup = svg.append('g')
-      .attr('class', 'volume')
-      .attr('clip-path', 'url(#clip)')
-      .attr('transform', `translate(${margin.left},${margin.top + 60 + 20})`); */
     // add areachart area
     const context = svg.append('g')
       .attr('class', 'context')
@@ -95,42 +97,74 @@
     // add header
     legend.append('text')
       .attr('class', 'chart__symbol')
-      .text('Stromverbrauch')
+      .text('Stromverbrauch in GWh')
     // add filter selection
     const rangeSelection = legend
       .append('g')
       .attr('class', 'chart__range-selection')
       .attr('transform', 'translate(110, 0)');
-    // y axis of line chart
-    focus.append("g")
-      .attr("class", "axis axis--y")
-      .call(yAxis);
-    // x axis of line chart
-    focus.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", `translate(0,${height})`)
-      .call(xAxis);
-    // y axis for bar chart
-    /* barsGroup.append("g")
-      .attr("class", "axis axis--y")
-      .call(make_y_axis()); */
-    // x axis for area chart
     context.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", `translate(0,${height2})`)
       .call(xAxis2);
 
   // read the data
-  d3.csv('./data/test.csv').then(function(data) {
+  d3.csv('./data/eff_erw_daily.csv').then(function(data) {
     // get relevant columns and rename
     data = data.map(d => {
       return {
-        date    : parseDate(d.Date),
-        price   : +d.Close,
-        average : +d.Average,
-        volume : +d.Volume,
+        date : parseDate(d.Tag),
+        valueEff : +d["Stromverbrauch effektiv"]/10**6,
+        valueErw : +d["Stromverbrauch erwartet"]/10**6,
+        lowerCI : +d["Prognoseintervall tief"]/10**6,
+        upperCI : +d["Prognoseintervall hoch"]/10**6
       }
     });
+
+    // define date format conditional on selected frequency
+    if(document.getElementById("m").checked) {
+      var formatAggregation = d3.timeFormat("%Y-%m");
+    /* } else if(document.getElementById("w").checked) {
+      var formatAggregation = d3.timeFormat("%Y-W%U"); */
+    } else if(document.getElementById("y").checked) {
+      var formatAggregation = d3.timeFormat("%Y");
+    }
+
+    // aggregate data conditional on selected frequency
+    if(!document.getElementById("d").checked){
+      var aggregatedData = {};
+      data.forEach(function(d) {
+        var t = formatAggregation(d.date);
+        if (!aggregatedData[t]) {
+          aggregatedData[t] = {
+            valueEffSum: 0,
+            valueErwSum: 0,
+            lowerCISum: 0,
+            upperCISum: 0
+          };
+        }
+        aggregatedData[t].valueEffSum += d.valueEff;
+        aggregatedData[t].valueErwSum += d.valueErw;
+        aggregatedData[t].lowerCISum += d.lowerCI;
+        aggregatedData[t].upperCISum += d.upperCI;
+      });
+  
+      data = Object.entries(aggregatedData).map(([t, values]) => {
+        return {
+          date: new Date(t),
+          valueEff: values.valueEffSum,
+          valueErw: values.valueErwSum,
+          lowerCI: values.lowerCISum,
+          upperCI: values.upperCISum
+        }
+      })
+    }
+
+    // sort data according to date
+    function sortByDateAscending(a, b) {
+        return a.date - b.date;
+    }
+    data = data.sort(sortByDateAscending);
 
     // Define a brush for selecting a range along the x-axis, with the
     // extent set to the dimensions of the second chart, and the 'brushed'
@@ -138,79 +172,78 @@
     var brush = d3.brushX()
       .extent([[0, 0], [width, height2]])
       .on('brush', brushed);
-  
+
     var xRange = d3.extent(data, function(d) { return d.date; });
     console.log("xRange: " + xRange);
-  
+
     x.domain(xRange);
-    y.domain(d3.extent(data, function(d) { return d.price; }));
-    y3.domain(d3.extent(data, function(d) { return d.price; }));
+    y.domain(d3.extent(data, function(d) { return d.valueEff; }));
+    y3.domain(d3.extent(data, function(d) { return d.valueEff; }));
     x2.domain(x.domain());
     y2.domain(y.domain());
-  
-    var min = d3.min(data, function(d) { return d.price; });
-    var max = d3.max(data, function(d) { return d.price; });
-  
+
+    var min = d3.min(data, function(d) { return d.valueEff; });
+    var max = d3.max(data, function(d) { return d.valueEff; });
+
     var range = legend.append('text')
       .text(legendFormat(new Date(xRange[0])) + ' - ' + legendFormat(new Date(xRange[1])))
       .attr('x', width)
       .style('text-anchor', 'end');
-  
+
     focus.append('g')
         .attr('class', 'y chart__grid')
         .call(make_y_axis()
           .tickSize(-width)
           .tickFormat(''));
-  
-    var averageChart = focus.append('path')
+
+    if(document.getElementById("showErw").checked) {
+      var erwChart = focus.append('path')
         .datum(data)
-        .attr('class', 'chart__line chart__average--focus line')
-        .attr('d', avgLine);
-  
-    var priceChart = focus.append('path')
+        .attr('class', 'chart__line chart__erw--focus line')
+        .attr('d', erwLine);
+    }
+
+    var effChart = focus.append('path')
         .datum(data)
-        .attr('class', 'chart__line chart__price--focus line')
-        .attr('d', priceLine);
-  
+        .attr('class', 'chart__line chart__eff--focus line')
+        .attr('d', effLine);
+
     focus.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0 ,' + height + ')')
         .call(xAxis);
-  
+
     focus.append('g')
         .attr('class', 'y axis')
         .attr('transform', 'translate(12, 0)')
         .call(yAxis);
-  
-    /* var focusGraph = barsGroup.selectAll('rect')
-        .data(data)
-        .enter().append('rect')
-        .attr('class', 'chart__bars')
-        .attr('x', function(d, i) { return x(d.date); })
-        .attr('y', function(d) { return 155 - y3(d.price); })
-        .attr('width', 1)
-        .attr('height', function(d) { return y3(d.price); }); */
-  
+
     var helper = focus.append('g')
       .attr('class', 'chart__helper')
       .style('text-anchor', 'end')
       .attr('transform', 'translate(' + width + ', 0)');
-  
+
     var helperText = helper.append('text')
-  
-    var priceTooltip = focus.append('g')
-      .attr('class', 'chart__tooltip--price')
-      .append('circle')
-      .style('display', 'none')
-      .attr('r', 2.5);
-  
-    var averageTooltip = focus.append('g')
-      .attr('class', 'chart__tooltip--average')
+
+    var effTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--eff')
       .append('circle')
       .style('display', 'none')
       .attr('r', 2.5);
 
-      const mouseArea = svg.append('g')
+    if(document.getElementById("showErw").checked) {
+      var erwTooltipRadius = 2.5;
+    } else {
+      var erwTooltipRadius = 0;
+    }
+    var erwTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--erw')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', erwTooltipRadius);
+   
+
+    const mouseArea = svg.append('g')
       .attr('class', 'chart__mouse')
       .append('rect')
       .attr('class', 'chart__overlay')
@@ -219,13 +252,13 @@
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
       .on('mouseover', function() {
         helper.style('display', null);
-        priceTooltip.style('display', null);
-        averageTooltip.style('display', null);
+        effTooltip.style('display', null);
+        erwTooltip.style('display', null);
       })
       .on('mouseout', function() {
         helper.style('display', 'none');
-        priceTooltip.style('display', 'none');
-        averageTooltip.style('display', 'none');
+        effTooltip.style('display', 'none');
+        erwTooltip.style('display', 'none');
       })
       .on('mousemove', mousemove);
     
@@ -246,30 +279,32 @@
         .attr('y', -6)
         .attr('height', height2 + 7);
 
+    
+
     function mousemove() {
       var x0 = x.invert(d3.pointer(event, this)[0]);
       var i = bisectDate(data, x0, 1);
       var d0 = data[i - 1];
       var d1 = data[i];
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      helperText.text(legendFormat(new Date(d.date)) + ' - effektiv: ' + d.price + ' erwartet: ' + d.average);
-      priceTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.price) + ')');
-      averageTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
+      if(document.getElementById("showErw").checked) {
+        var erwHelpterText = ' erwartet: ' + Math.round(d.valueErw*10)/10;
+      } else {
+        var erwHelpterText = "";
+      }
+      helperText.text(legendFormat(new Date(d.date)) + ' - effektiv: ' + Math.round(d.valueEff*10)/10 + erwHelpterText);
+      effTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.valueEff) + ')');
+      erwTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.valueErw) + ')');
 
       const testdate = d3.select("#testdate");
       testdate.text(legendFormat(new Date(d.date)));
       const testvalue = d3.select("#testvalue");
-      testvalue.text(d.price);
+      testvalue.text(d.valueEff);
     }
     
     function brushed() {
       let ext = d3.brushSelection(this);
-      console.log(d3.brushSelection(this));
-      /* 
-      if(input === "update") {
-        console.log("bliblabu");
-        ext = [start, end];
-      } */
+  
       // problem for range selection: stuff in condition doesnt run
       if (ext !== null) {
         // get x scale for the chart
@@ -285,8 +320,8 @@
 
         x.domain([x0,x1]);
         y.domain([
-          d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.price : max; })),
-          d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.price : min; }))
+          d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : max; })),
+          d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : min; }))
         ]);
         range.text(legendFormat(new Date(x0)) + ' - ' + legendFormat(new Date(x1)))
         /* focusGraph.attr('x', function(d, i) { return x(d.date); }); */
@@ -294,64 +329,40 @@
         focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5) */
       }
     
-      priceChart.attr('d', priceLine);
-      averageChart.attr('d', avgLine);
+      effChart.attr('d', effLine);
+      if(document.getElementById("showErw").checked) {
+        erwChart.attr('d', erwLine);
+      }
       focus.select('.x.axis').call(xAxis);
       focus.select('.y.axis').call(yAxis);
-    }
-    
-    const dateRange = ['1w', '1m', '3m', '6m', '1y', '5y'];
-    dateRange.forEach((v, i) => {
-      rangeSelection
-        .append('text')
-        .attr('class', 'chart__range-selection')
-        .text(v)
-        .attr('transform', `translate(${18 * i}, 0)`)
-        .on('click', function(d) { focusOnRange(this.textContent); });
-    });
-
-    function focusOnRange(range) {
-
-      const today = new Date(data[data.length - 1].date);
-      const ext = new Date(data[data.length - 1].date);
-
-      if (range === '1m') {
-        ext.setMonth(ext.getMonth() - 1);
-      }
-    
-      if (range === '1w') {
-        ext.setDate(ext.getDate() - 7);
-      }
-    
-      if (range === '3m') {
-        ext.setMonth(ext.getMonth() - 3);
-      }
-    
-      if (range === '6m') {
-        ext.setMonth(ext.getMonth() - 6);
-      }
-    
-      if (range === '1y') {
-        ext.setFullYear(ext.getFullYear() - 1);
-      }
-    
-      if (range === '5y') {
-        ext.setFullYear(ext.getFullYear() - 5);
-      }        
-
-      brush.extent([ext, today]);
-      brushed();
-      context.select('brush').call(brush.extent([ext, today]));
     }
 
   })// end Data
 
-  function type(d) {
-    return {
-      date    : parseDate(d.Date),
-      price   : +d.Close,
-      average : +d.Average,
-      volume : +d.Volume,
-    }
-  }
-}());
+}
+  
+linechart();
+
+// problem: we need to regenerate plot if frequency is changed AND
+// when option is changed -> how should i solve this??
+// maybe look for any change and then regenerate the plot and use in
+// conditionals directly the reference to the selections
+// -> don't run function with parameters
+
+// pseudo-algo
+// IF change-in-freq OR change-in-opt RERUN function
+
+/* rerun function conditional on frequency chosen */
+const optionSelection = document.querySelectorAll('input[name="options"]');
+// Add event listener to each radio button
+optionSelection.forEach(function(opt) {
+  opt.addEventListener('change', function() {
+    const svg = d3.select('#lineplot svg').remove();
+    linechart();
+      // Check which radio button is selected
+      /* if (radioButton.checked) {
+          const svg = d3.select('#lineplot svg').remove();
+          linechart(radioButton.value);
+      } */
+  });
+});
