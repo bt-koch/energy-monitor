@@ -360,11 +360,13 @@ function linechart(){
         const x1 = xScale.invert(ext[1]);
 
         x.domain([x0,x1]);
-        y.domain([
-          //d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : max; })),
-          0,
-          d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : min; }))
-        ]);
+        if(document.getElementById("dynY").checked){
+          y.domain([
+            d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : max; })),
+            d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : min; }))
+          ]);
+        }
+        
         range.text(legendFormat(new Date(x0)) + ' - ' + legendFormat(new Date(x1)))
         /* focusGraph.attr('x', function(d, i) { return x(d.date); }); */
         /* var days = Math.ceil((x1 - x0) / (24 * 3600 * 1000))
