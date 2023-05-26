@@ -46,6 +46,11 @@ function linechart(){
     .x(d => x(d.date))
     .y(d => y(d.valueErw));
   //}
+
+  const CIArea = d3.area()
+    .x(d => x(d.date))
+    .y0(d => y(d.lowerCI))
+    .y1(d => y(d.upperCI));
   
   // draw area chart
   const area2 = d3.area()
@@ -169,19 +174,13 @@ function linechart(){
       });  
   
       data = Object.entries(aggregatedData).map(([t, values]) => {
-        /*var aggregatedDate = new Date(t);
-        aggregatedDate = getLastDayOfMonth(aggregatedDate);
-        console.log("aggregatedDate: "+getLastDayOfMonth(aggregatedDate));
-        console.log("last day: "+lastDay);*/
-        //if (aggregatedDate < lastDay) {
-          return {
-            date: new Date(t),
-            valueEff: values.valueEffSum,
-            valueErw: values.valueErwSum,
-            lowerCI: values.lowerCISum,
-            upperCI: values.upperCISum
-          }
-        //}
+        return {
+          date: new Date(t),
+          valueEff: values.valueEffSum,
+          valueErw: values.valueErwSum,
+          lowerCI: values.lowerCISum,
+          upperCI: values.upperCISum
+        }
       })
     }
 
@@ -199,26 +198,44 @@ function linechart(){
       .on('brush', brushed);
 
     var xRange = d3.extent(data, function(d) { return d.date; });
+    var min = d3.min(data, function(d) { return d.valueEff; });
+    var max = d3.max(data, function(d) { return d.valueEff; });
 
     x.domain(xRange);
-    y.domain(d3.extent(data, function(d) { return d.valueEff; }));
+
+    if(document.getElementById("dynY").checked){
+      y.domain(d3.extent(data, function(d) { return d.valueEff; }));
+    } else {
+      y.domain([0,max]);
+    }
     y3.domain(d3.extent(data, function(d) { return d.valueEff; }));
     x2.domain(x.domain());
     y2.domain(y.domain());
 
-    var min = d3.min(data, function(d) { return d.valueEff; });
-    var max = d3.max(data, function(d) { return d.valueEff; });
+
 
     var range = legend.append('text')
       .text(legendFormat(new Date(xRange[0])) + ' - ' + legendFormat(new Date(xRange[1])))
       .attr('x', width)
       .style('text-anchor', 'end');
 
+
+
+    if(document.getElementById("showCI").checked) {
+      var CIChart = focus.append("path")
+        .datum(data)
+        .attr("fill", "#e6f6fe")
+        .attr("stroke", "none")
+        .attr("d", CIArea);
+    }
+
     focus.append('g')
         .attr('class', 'y chart__grid')
         .call(make_y_axis()
           .tickSize(-width)
           .tickFormat(''));
+
+    
 
     if(document.getElementById("showErw").checked) {
       var erwChart = focus.append('path')
@@ -231,6 +248,8 @@ function linechart(){
         .datum(data)
         .attr('class', 'chart__line chart__eff--focus line')
         .attr('d', effLine);
+
+
 
     focus.append('g')
         .attr('class', 'x axis')
@@ -342,7 +361,8 @@ function linechart(){
 
         x.domain([x0,x1]);
         y.domain([
-          d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : max; })),
+          //d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : max; })),
+          0,
           d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : min; }))
         ]);
         range.text(legendFormat(new Date(x0)) + ' - ' + legendFormat(new Date(x1)))
@@ -350,13 +370,19 @@ function linechart(){
         /* var days = Math.ceil((x1 - x0) / (24 * 3600 * 1000))
         focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5) */
       }
-    
+
+      if(document.getElementById("showCI").checked) {
+        CIChart.attr("d", CIArea);
+      }
       effChart.attr('d', effLine);
       if(document.getElementById("showErw").checked) {
         erwChart.attr('d', erwLine);
       }
+      
       focus.select('.x.axis').call(xAxis);
       focus.select('.y.axis').call(yAxis);
+
+
     }
 
   })// end Data
