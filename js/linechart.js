@@ -2,8 +2,8 @@
 function linechart(){
 
   // adjust graph width, height and margins
-  const margin = {top: 30, right: 20, bottom: 100, left: 20};
-  const margin2 = {top: 210, right: 20, bottom: 100, left: 20};
+  const margin = {top: 30, right: 40, bottom: 100, left: 20};
+  const margin2 = {top: 210, right: 40, bottom: 100, left: 20};
   /* const width = 764 - margin.left - margin.right; */
   const width = 0.8*window.innerWidth - margin.left - margin.right;
   const height = 1.25*283 - margin.top - margin.bottom;
@@ -12,8 +12,6 @@ function linechart(){
   // define format of date
   const parseDate = d3.timeParse('%d.%m.%y');
   const bisectDate = d3.bisector(d => d.date).left;
-  // here to do: dont use frequency but rather directly get DOM element and check whether its checked
-  // like i've done it for erw line below
 
   if(document.getElementById("m").checked) {
     var legendFormat = d3.timeFormat("%B %Y");
@@ -23,7 +21,6 @@ function linechart(){
     var legendFormat = d3.timeFormat('%d.%m.%Y');
   }
 
-  
   const x = d3.scaleTime().range([0, width]); // defines width of displayed x axis for line and bar
   const x2 = d3.scaleTime().range([0, width]); // defines width of displayed x axis for area
   const y = d3.scaleLinear().range([height, 0]); // height of yaxis line
@@ -62,6 +59,7 @@ function linechart(){
   const svg = d3.select('#lineplot').append('svg')
     .attr('class', 'chart')
     .attr('width', width + margin.left + margin.right)
+    //.attr("width", "90%")
     .attr('height', height + margin.top + margin.bottom + 60)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -403,7 +401,7 @@ linechart();
 // IF change-in-freq OR change-in-opt RERUN function
 
 /* rerun function conditional on frequency chosen */
-const optionSelection = document.querySelectorAll('input[name="options"]');
+const optionSelection = document.querySelectorAll('input[name="options-lineplot"]');
 // Add event listener to each radio button
 optionSelection.forEach(function(opt) {
   opt.addEventListener('change', function() {
@@ -415,4 +413,9 @@ optionSelection.forEach(function(opt) {
           linechart(radioButton.value);
       } */
   });
+});
+window.addEventListener('resize', function() {
+  //console.log('Window resized');
+  const svg = d3.select('#lineplot svg').remove();
+  linechart();
 });
