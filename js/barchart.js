@@ -1,14 +1,12 @@
 // 1. Load the data from external source
 d3.csv("./data/eff_erw_daily.csv").then(function(data) {
 
-    console.log(data);
     //parse the data
     var parseDate = d3.timeParse("%d.%m.%y");
     data.forEach(function(d) {
         d.date=parseDate(d.Tag);
         d.value= +d["Differenz Stromverbrauch (effektiv-erwartet)"]; // Convert value to a number
     });
-    console.log(data);
 
     // 2. Append svg-object for the bar chart to a div in your webpage
     // (here we use a div with id=container)
