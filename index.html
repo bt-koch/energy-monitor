@@ -135,22 +135,22 @@
                 <ul class="dropdown-menu radio-menu allow-focus" aria-labelledby="dropdownMenu1">
                 <li>
                     <label>
-                    <input type="radio" name="options" id="y" value="y"> jährlich
+                    <input type="radio" name="options-lineplot" id="y" value="y"> jährlich
                     </label>
                 </li>
                 <li>
                     <label>
-                    <input type="radio" name="options" id="m" checked value="m"> monatlich
+                    <input type="radio" name="options-lineplot" id="m" checked value="m"> monatlich
                     </label>
                 </li>
                 <!-- <li>
                     <label>
-                    <input type="radio" name="options" id="w" value="w"> wöchentlich
+                    <input type="radio" name="options-lineplot" id="w" value="w"> wöchentlich
                     </label>
                 </li> -->
                 <li>
                     <label>
-                    <input type="radio" name="options" id="d" value="d"> täglich
+                    <input type="radio" name="options-lineplot" id="d" value="d"> täglich
                     </label>
                 </li>
                 </ul>
@@ -168,37 +168,37 @@
 
                 <li>
                     <label>
-                        <input type="checkbox" name="options" id="dynY" checked> dynamische Y-Achse
+                        <input type="checkbox" name="options-lineplot" id="dynY" checked> dynamische Y-Achse
                     </label>
                 </li>
                 
                 <li >
                     <label>
-                    <input type="checkbox" name="options"> Wintermonate markieren
+                    <input type="checkbox" name="options-lineplot"> Wintermonate markieren
                     </label>
                 </li>
 
                 <li >
                     <label>
-                    <input type="checkbox" name="options" id="showErw" checked> erwarteter Stromverbrauch zeigen
+                    <input type="checkbox" name="options-lineplot" id="showErw" checked> erwarteter Stromverbrauch zeigen
                     </label>
                 </li>
                 
                 <li >
                     <label>
-                    <input type="checkbox" name="options"> Kommunikationskampage markieren
+                    <input type="checkbox" name="options-lineplot"> Kommunikationskampage markieren
                     </label>
                 </li>
                 
                 <li >
                     <label>
-                    <input type="checkbox" name="options"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
+                    <input type="checkbox" name="options-lineplot"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
                     </label>
                 </li>
 
                 <li >
                     <label>
-                    <input type="checkbox" name="options" id="showCI"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
+                    <input type="checkbox" name="options-lineplot" id="showCI"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
                     </label>
                 </li>
                 
@@ -248,7 +248,37 @@
             urna pharetra a. Nulla bibendum sapien at ex vehicula
             tempor. Nam gravida odio vel tellus blandit.
         </p>
-        <!-- <img src="data/img/calendar_daily_intraday.png" style="width: 100%;"> -->
+        <!-- would be better if filled automatically using data, to do if enought time -->
+        <div id="wrapper" style="width: 200px;">
+            <select class="form-select" id="start-year" name="year">
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022" selected>2022</option>
+                <option value="2023">2023</option>
+            </select>
+            <select class="form-select" id="end-year" name="year">
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023" selected>2023</option>
+            </select>
+        </div>
         <div id="calendarheatmap"></div>
         <p>
             Pellentesque habitant morbi tristique senectus et netus
