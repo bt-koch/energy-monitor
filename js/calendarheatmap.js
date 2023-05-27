@@ -1,8 +1,9 @@
     
 function calendarheatmap(){
-    var title="Stromverbrauch effektiv";
-    var units=" kWh";
-    var breaks = [2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 5000000, 5500000];
+    const svg = d3.select('#calendarheatmap svg').remove(); // to prevent adding multiple plots since function is called each time tab is klicked
+    var title="Stromverbrauch effektiv in GWh";
+    var units=" GWh";
+    var breaks = [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5];
     var colours = ["#ffffd4", "#ffeda0", "#fed98e", "#fdbe71", "#fe9929", "#d95f0e", "#a02c03", "#993404"];
     
     //general layout information
@@ -15,7 +16,7 @@ function calendarheatmap(){
     var height = 163;
     var parseDate = d3.timeParse("%d.%m.%y");
     format = d3.timeFormat("%d-%m-%Y");
-    toolDate = d3.timeFormat("%d/%b/%y");
+    toolDate = d3.timeFormat("%d.%m.%Y");
     
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
@@ -26,17 +27,27 @@ function calendarheatmap(){
         //parse the data
         data.forEach(function(d)    {
                 dates.push(parseDate(d.Tag));
-                values.push(d["Stromverbrauch effektiv"]);
+                values.push(d["Stromverbrauch effektiv"]/10**6);
                 d.date=parseDate(d.Tag);
-                d.value=d["Stromverbrauch effektiv"];
+                d.value=d["Stromverbrauch effektiv"]/10**6;
                 d.year=d.date.getFullYear();//extract the year from the data
         });
+        
+        var startYear = document.getElementById("start-year").value;
+        var endYear = document.getElementById("end-year").value;
+        var numberOfYears = endYear - startYear + 1;
+        console.log(numberOfYears);
+
+        data = data.filter(function(d) {
+            var year = d.year;
+            return year >= startYear && year <= endYear;
+          });
         
         var yearlyData = d3.group(data, function(d) { return d.year; });
         
         var svg = d3.select("#calendarheatmap").append("svg")
             .attr("width","90%")
-            .attr("viewBox","0 0 "+(xOffset+width)+" 2750")
+            .attr("viewBox","0 0 "+(xOffset+width)+" "+(yOffset+numberOfYears*height+numberOfYears*calY))
             
         //title
         svg.append("text")
@@ -126,7 +137,7 @@ function calendarheatmap(){
         
         //append a title element to give basic mouseover info
         dataRects.append("title")
-            .text(function(d) { return toolDate(d.date)+":\n"+d.value+units; });
+            .text(function(d) { return toolDate(d.date)+":\n"+Math.round(d.value*10)/10+units; });
         
         //add monthly outlines for calendar
         cals.append("g")
@@ -224,4 +235,7 @@ Aus diesem Grund soll der Code erst ausgeführt werden, wenn das relevante Tab p
 sodass dann die Positionen korrekt berechnet werden können. Etwas unschön ist die kleine "Ladezeit",
 allerdings ist diese wirklich nur sehr kurz und nur beim ersten Anzeigen nötig.
 */
+//calendarheatmap();
 document.getElementById("tab-calendar").addEventListener("click", calendarheatmap);
+document.getElementById("start-year").addEventListener("change", calendarheatmap);
+document.getElementById("end-year").addEventListener("change", calendarheatmap);
