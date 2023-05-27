@@ -34,7 +34,7 @@ Following major changes were made:
 
 ### Bar Chart
 
-The bar chart is based on [this code](https://marcwie.github.io/blog/responsive-bar-chart-d3/)
+The bar chart is based on [this code](https://marcwie.github.io/blog/responsive-bar-chart-d3/).  
 Following major changes were made:
 - updated from d3 v4 to d3 v7
 - allowed for negative values
