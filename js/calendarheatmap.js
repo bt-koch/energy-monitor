@@ -3,8 +3,31 @@ function calendarheatmap(){
     const svg = d3.select('#calendarheatmap svg').remove(); // to prevent adding multiple plots since function is called each time tab is klicked
     var title="Stromverbrauch effektiv in GWh";
     var units=" GWh";
-    var breaks = [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5];
-    var colours = ["#ffffd4", "#ffeda0", "#fed98e", "#fdbe71", "#fe9929", "#d95f0e", "#a02c03", "#993404"];
+    //var breaks = [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5];
+    //var colours = ["#ffffd4", "#ffeda0", "#fed98e", "#fdbe71", "#fe9929", "#d95f0e", "#a02c03", "#993404"];
+
+    var n = Number(document.getElementById("nCategories").value); // Number of categories
+    var domainMin = 2;
+    var domainMax = 6;
+
+    var baseColor = "#7f8faf"; // Base color
+
+    var breaks = [];
+    var step = (domainMax - domainMin) / n;
+
+    for (var i = 0; i <= n; i++) {
+        breaks.push(domainMin + i * step);
+    }
+
+    var colours = [];
+
+    var lightnessStep = Math.floor(100 / (n + 1)); // Step size for lightness
+
+    for (var i = 0; i < n; i++) {
+        var lightness = 100 - (i + 1) * lightnessStep; // Reverse the lightness calculation
+        var color = "hsl(216, 48%, " + lightness + "%)"; // Blue-gray color scheme using HSL
+        colours.push(color);
+    }
     
     //general layout information
     var cellSize = 17;
@@ -56,11 +79,6 @@ function calendarheatmap(){
 
         var numberOfYears = endYear-startYear+1;
 
-        console.log(startYear);
-        console.log(endYear);
-
-        console.log(numberOfYears);
-
         const displayStartYear = d3.select("#selected-start-year");
         displayStartYear.text(startYear);
         const displayEndYear = d3.select("#selected-end-year");
@@ -69,7 +87,7 @@ function calendarheatmap(){
         data = data.filter(function(d) {
             var year = d.year;
             return year >= startYear && year <= endYear;
-          });
+        });
         
         var yearlyData = d3.group(data, function(d) { return d.year; });
         
@@ -237,9 +255,9 @@ function calendarheatmap(){
             .attr("y","1em")
             .text(function(d,i){
                 if (i<colours.length-1){
-                    return "up to "+breaks[i];
+                    return "up to "+Math.round(breaks[i]*100)/100;
                 }   else    {
-                    return "over "+breaks[i-1];   
+                    return "over "+Math.round(breaks[i-1]*100)/100;   
                 }
             });
         
@@ -271,7 +289,7 @@ document.getElementById("tab-calendar").addEventListener("click", calendarheatma
 //document.getElementById("end-year").addEventListener("change", calendarheatmap);
 
 /* rerun function conditional on frequency chosen */
-const timeSelectionCal = document.querySelectorAll('input[name="options-calendar-sy"], input[name="options-calendar-ey"]');
+const timeSelectionCal = document.querySelectorAll('input[name="options-calendar-sy"], input[name="options-calendar-ey"], input[name="options-calendar-categories"]');
 // Add event listener to each radio button
 timeSelectionCal.forEach(function(opt) {
   opt.addEventListener('change', function() {

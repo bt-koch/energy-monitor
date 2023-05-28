@@ -215,6 +215,10 @@
         </div>
 
         <div id="lineplot"></div>
+
+        <div class="alert alert-info" role="alert">
+            <i class="fa-solid fa-circle-info"></i> Der betrachtete Zeitraum kann mittels ziehen des unteren Areacharts angepasst werden.
+        </div>
         
         <p>
             Pellentesque habitant morbi tristique senectus et netus
@@ -292,6 +296,12 @@
             </select>
         </div>
         -->
+        <div style="float:right;">
+            <form class="form-floating" >
+                <input type="number" class="form-control" id="nCategories" placeholder="Anzahl Kategorien" value="8" min="1" name="options-calendar-categories">
+                <label for="nCategories">Anzahl Kategorien</label>
+            </form>
+        </div>
         <div id="wrapper">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" 
@@ -304,7 +314,7 @@
     
                 <li>
                     <label>
-                        <input type="radio" name="options-calendar-sy" id="start-year-2012" value="2012" checked> 2012
+                        <input type="radio" name="options-calendar-sy" id="start-year-2012" value="2012"> 2012
                     </label>
                 </li>
                 <li>
@@ -349,7 +359,7 @@
                 </li>
                 <li>
                     <label>
-                        <input type="radio" name="options-calendar-sy" id="start-year-2021" value="2021"> 2021
+                        <input type="radio" name="options-calendar-sy" id="start-year-2021" value="2021" checked> 2021
                     </label>
                 </li>
                 <li>
@@ -477,6 +487,151 @@
         <div id="wrapper">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu5" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                    <i class="fa-solid fa-hourglass-start"></i> Startjahr: <span id="barchart-selected-start-year"></span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu5">
+    
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2012" value="2012" checked> 2012
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2013" value="2013"> 2013
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2014" value="2014"> 2014
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2015" value="2015"> 2015
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2016" value="2016"> 2016
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2017" value="2017"> 2017
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2018" value="2018"> 2018
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2019" value="2019"> 2019
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2020" value="2020"> 2020
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2021" value="2021"> 2021
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2022" value="2022"> 2022
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart-sy" id="barchart-start-year-2023" value="2023"> 2023
+                    </label>
+                </li>
+                
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu4" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                    <i class="fa-solid fa-hourglass-end"></i> Endjahr: <span id="barchart-selected-end-year"></span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu4">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2012" value="2012"> 2012
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2013" value="2013"> 2013
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2014" value="2014"> 2014
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2015" value="2015"> 2015
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2016" value="2016"> 2016
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2017" value="2017"> 2017
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2018" value="2018"> 2018
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2019" value="2019"> 2019
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2020" value="2020"> 2020
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2021" value="2021"> 2021
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2022" value="2022"> 2022
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-barchart-ey" id="barchart-end-year-2023" value="2023" checked> 2023
+                        </label>
+                    </li>
+                
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
                         id="dropdownMenu1" data-bs-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="true">
                         <i class="fa-regular fa-clock"></i> Datenfrequenz
@@ -506,7 +661,7 @@
                 </ul>
             </div>
             
-                    
+            <!--    
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" 
                         id="dropdownMenu2" data-bs-toggle="dropdown" 
@@ -522,10 +677,9 @@
                     </label>
                 </li>
                 
-                
-                
                 </ul>
             </div>
+            -->
         </div>
         <div id="barchart"></div>
         <p>
