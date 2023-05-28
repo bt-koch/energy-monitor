@@ -640,28 +640,27 @@
                 <ul class="dropdown-menu radio-menu allow-focus" aria-labelledby="dropdownMenu1">
                 <li>
                     <label>
-                    <input type="radio" name="options-barchart" id="y-barchart" value="y"> jährlich
+                    <input type="radio" name="options-barchart-freq" id="y-barchart" value="y"> jährlich
                     </label>
                 </li>
                 <li>
                     <label>
-                    <input type="radio" name="options-barchart" id="m-barchart" checked value="m"> monatlich
+                    <input type="radio" name="options-barchart-freq" id="m-barchart" checked value="m"> monatlich
                     </label>
                 </li>
                 <!-- <li>
                     <label>
-                    <input type="radio" name="options-barchart" id="w-barchart" value="w"> wöchentlich
+                    <input type="radio" name="options-barchart-freq" id="w-barchart" value="w"> wöchentlich
                     </label>
                 </li> -->
                 <li>
                     <label>
-                    <input type="radio" name="options-barchart" id="d-barchart" value="d"> täglich
+                    <input type="radio" name="options-barchart-freq" id="d-barchart" value="d"> täglich
                     </label>
                 </li>
                 </ul>
-            </div>
+            </div>  
             
-            <!--    
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" 
                         id="dropdownMenu2" data-bs-toggle="dropdown" 
@@ -669,17 +668,24 @@
                 <i class="fa fa-gear"></i> Optionen
                 <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu2">
+                <ul class="dropdown-menu radio-menu allow-focus" aria-labelledby="dropdownMenu2">
 
                 <li>
                     <label>
-                        <input type="checkbox" name="options-barchart" id="bla" checked> bla
+                        <input type="radio" name="options-barchart" id="absDiff" checked> Absolute Differenz
+                    </label>
+                </li>
+
+                <li>
+                    <label>
+                        <input type="radio" name="options-barchart" id="relDiff"> Relative Differenz
                     </label>
                 </li>
                 
                 </ul>
             </div>
-            -->
+        
+            
         </div>
         <div id="barchart"></div>
         <p>

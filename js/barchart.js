@@ -8,19 +8,30 @@ function barchart(){
         data.forEach(function(d) {
             d.date=parseDate(d.Tag);
             d.value= +d["Differenz Stromverbrauch (effektiv-erwartet)"]/10**6; // Convert value to a number
+            d.valueEff = +d["Stromverbrauch effektiv"]/10**6;
+            d.valueErw = +d["Stromverbrauch erwartet"]/10**6;
         });
+
+        if(document.getElementById("relDiff").checked){
+            data.forEach(function(d) {
+                d.value = ((d.valueEff - d.valueErw) / d.valueEff)*100;
+              });
+            var unit = "%"
+        } else {
+            var unit = "GWh"
+        }
 
         const lastDay = d3.max(data, d => d.date);
 
         function getLastDayOfMonth(date) {
-        // Set the date to the first day of the next month
-        date.setMonth(date.getMonth() + 1, 0);
-        return date;
+            // Set the date to the first day of the next month
+            date.setMonth(date.getMonth() + 1, 0);
+            return date;
         }
         function getLastDayOfYear(date) {
-        // Set the date to the first day of the next year
-        date.setFullYear(date.getFullYear() + 1, 0, 0);
-        return date;
+            // Set the date to the first day of the next year
+            date.setFullYear(date.getFullYear() + 1, 0, 0);
+            return date;
         }
         
         // define date format conditional on selected frequency
@@ -165,7 +176,7 @@ function barchart(){
                         .style("left", event.pageX+10+"px")
                         .style("top", event.pageY-80+"px")
                         .attr("data-date", d.date)
-                        .html(formatTooltip(d.date) + "</br>" + Math.round(d.value*10)/10 + " GWh" );
+                        .html(formatTooltip(d.date) + "</br>" + Math.round(d.value*10)/10 + " " + unit );
             })
             .on("mousemove", function(event){
                 tooltip.style("left", event.pageX+10+"px");
@@ -188,7 +199,7 @@ function barchart(){
         .attr("x", -height/2)
         .attr("transform", "rotate(-90)")
         .attr("class", "label")
-        .text("Differenz effektiv-erwartet [GWh]");
+        .text("Differenz effektiv-erwartet [in "+unit+"]");
 
         /*
         svg.append("text")
@@ -203,7 +214,7 @@ function barchart(){
 barchart();
 
 
-const optionSelectionBar = document.querySelectorAll('input[name="options-barchart"]');
+const freqSelectionBar = document.querySelectorAll('input[name="options-barchart-freq"]');
 // Remove the svg element and call the callback function
 function removeSvg(callback) {
     const svg = d3.select('#barchart svg');
@@ -216,7 +227,7 @@ function rerunBarchart() {
 }
   
 // Event listeners
-optionSelectionBar.forEach(function(opt) {
+freqSelectionBar.forEach(function(opt) {
     opt.addEventListener('change', function() {
         rerunBarchart();
     });
@@ -226,9 +237,9 @@ window.addEventListener('resize', function() {
     rerunBarchart();
 });
   
-const timeSelectionBar = document.querySelectorAll('input[name="options-barchart-sy"], input[name="options-barchart-ey"]');
+const optionsSelectionBar = document.querySelectorAll('input[name="options-barchart-sy"], input[name="options-barchart-ey"], input[name="options-barchart"]');
 // Add event listener to each radio button
-timeSelectionBar.forEach(function(opt) {
+optionsSelectionBar.forEach(function(opt) {
   opt.addEventListener('change', function() {
     rerunBarchart();
       // Check which radio button is selected
