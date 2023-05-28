@@ -32,11 +32,39 @@ function calendarheatmap(){
                 d.value=d["Stromverbrauch effektiv"]/10**6;
                 d.year=d.date.getFullYear();//extract the year from the data
         });
-        
+        /*
         var startYear = document.getElementById("start-year").value;
         var endYear = document.getElementById("end-year").value;
         var numberOfYears = endYear - startYear + 1;
+        */
+        
+        const sySelection = document.querySelectorAll('input[name="options-calendar-sy"]');
+        let startYear;
+        sySelection.forEach(function(sy) {
+            if(sy.checked){
+                startYear = sy.value;
+            }
+        });
+
+        const eySelection = document.querySelectorAll('input[name="options-calendar-ey"]');
+        let endYear;
+        eySelection.forEach(function(ey) {
+            if(ey.checked){
+                endYear = ey.value;
+            }
+        })
+
+        var numberOfYears = endYear-startYear+1;
+
+        console.log(startYear);
+        console.log(endYear);
+
         console.log(numberOfYears);
+
+        const displayStartYear = d3.select("#selected-start-year");
+        displayStartYear.text(startYear);
+        const displayEndYear = d3.select("#selected-end-year");
+        displayEndYear.text(endYear);
 
         data = data.filter(function(d) {
             var year = d.year;
@@ -50,10 +78,12 @@ function calendarheatmap(){
             .attr("viewBox","0 0 "+(xOffset+width)+" "+(yOffset+numberOfYears*height+numberOfYears*calY))
             
         //title
+        /*
         svg.append("text")
             .attr("x",xOffset)
             .attr("y",20)
             .text(title);
+        */
         
         //create an SVG group for each year
         var cals = svg.selectAll("g")
@@ -237,5 +267,20 @@ allerdings ist diese wirklich nur sehr kurz und nur beim ersten Anzeigen nötig.
 */
 //calendarheatmap();
 document.getElementById("tab-calendar").addEventListener("click", calendarheatmap);
-document.getElementById("start-year").addEventListener("change", calendarheatmap);
-document.getElementById("end-year").addEventListener("change", calendarheatmap);
+//document.getElementById("start-year").addEventListener("change", calendarheatmap);
+//document.getElementById("end-year").addEventListener("change", calendarheatmap);
+
+/* rerun function conditional on frequency chosen */
+const timeSelectionCal = document.querySelectorAll('input[name="options-calendar-sy"], input[name="options-calendar-ey"]');
+// Add event listener to each radio button
+timeSelectionCal.forEach(function(opt) {
+  opt.addEventListener('change', function() {
+    const svg = d3.select('#calendarheatmap svg').remove();
+    calendarheatmap();
+      // Check which radio button is selected
+      /* if (radioButton.checked) {
+          const svg = d3.select('#lineplot svg').remove();
+          linechart(radioButton.value);
+      } */
+  });
+});
