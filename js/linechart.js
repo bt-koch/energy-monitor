@@ -13,9 +13,9 @@ function linechart(){
   const parseDate = d3.timeParse('%d.%m.%y');
   const bisectDate = d3.bisector(d => d.date).left;
 
-  if(document.getElementById("m").checked) {
+  if(document.getElementById("m-lineplot").checked) {
     var legendFormat = d3.timeFormat("%B %Y");
-  } else if(document.getElementById("y").checked) {
+  } else if(document.getElementById("y-lineplot").checked) {
     var legendFormat = d3.timeFormat("%Y");
   } else {
     var legendFormat = d3.timeFormat('%d.%m.%Y');
@@ -138,13 +138,13 @@ function linechart(){
     }
     
     // define date format conditional on selected frequency
-    if(document.getElementById("m").checked) {
+    if(document.getElementById("m-lineplot").checked) {
       var formatAggregation = d3.timeFormat("%Y-%m");
       // filter out unfinished month
       if(lastDay.getDate() < getLastDayOfMonth(lastDay)){
         data = data.filter(d => d.date.getMonth() !== lastDay.getMonth());
       }
-    } else if(document.getElementById("y").checked) {
+    } else if(document.getElementById("y-lineplot").checked) {
       var formatAggregation = d3.timeFormat("%Y");
       // filter out unfinished year
       if(lastDay.getDate() < getLastDayOfYear(lastDay)){
@@ -153,7 +153,7 @@ function linechart(){
     }
 
     // aggregate data conditional on selected frequency
-    if(!document.getElementById("d").checked){
+    if(!document.getElementById("d-lineplot").checked){
       var aggregatedData = {};
       data.forEach(function(d) {
         var t = formatAggregation(d.date);
