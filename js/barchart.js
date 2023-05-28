@@ -1,6 +1,7 @@
 function barchart(){
     // 1. Load the data from external source
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
+        
 
         //parse the data
         var parseDate = d3.timeParse("%d.%m.%y");
@@ -175,22 +176,27 @@ function barchart(){
 
 barchart();
 
-/* rerun function conditional on frequency chosen */
 const optionSelectionBar = document.querySelectorAll('input[name="options-barchart"]');
-// Add event listener to each radio button
-optionSelectionBar.forEach(function(opt) {
-  opt.addEventListener('change', function() {
-    const svg = d3.select('#barchart svg').remove();
-    barchart();
-      // Check which radio button is selected
-      /* if (radioButton.checked) {
-          const svg = d3.select('#lineplot svg').remove();
-          linechart(radioButton.value);
-      } */
+// Remove the svg element and call the callback function
+function removeSvg(callback) {
+    const svg = d3.select('#barchart svg');
+    svg.transition().duration(0).remove().on('end', callback);
+  }
+  
+  // Rerun barchart function
+  function rerunBarchart() {
+    removeSvg(barchart);
+  }
+  
+  // Event listeners
+  optionSelectionBar.forEach(function(opt) {
+    opt.addEventListener('change', function() {
+      console.log("ringidingidingding");
+      rerunBarchart();
+    });
   });
-});
-window.addEventListener('resize', function() {
-  //console.log('Window resized');
-  const svg = d3.select('#barchart svg').remove();
-  barchart();
-});
+  
+  window.addEventListener('resize', function() {
+    console.log('Window resized ding dong ding dong');
+    rerunBarchart();
+  });
