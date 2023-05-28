@@ -116,7 +116,7 @@ function calendarheatmap(){
             .attr("id",function(d) {
                 return format(d.date)+":"+d.value;
             })
-            .attr("stroke","#ccc")
+            .attr("stroke","#686868")
             .attr("width",cellSize)
             .attr("height",cellSize)
             .attr("x", function(d){return xOffset+calX+(d3.timeWeek.count(d3.timeYear(d.date), d.date) * cellSize);})
