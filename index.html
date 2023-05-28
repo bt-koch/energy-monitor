@@ -135,22 +135,22 @@
                 <ul class="dropdown-menu radio-menu allow-focus" aria-labelledby="dropdownMenu1">
                 <li>
                     <label>
-                    <input type="radio" name="options-lineplot" id="y" value="y"> jährlich
+                    <input type="radio" name="options-lineplot" id="y-lineplot" value="y"> jährlich
                     </label>
                 </li>
                 <li>
                     <label>
-                    <input type="radio" name="options-lineplot" id="m" checked value="m"> monatlich
+                    <input type="radio" name="options-lineplot" id="m-lineplot" checked value="m"> monatlich
                     </label>
                 </li>
                 <!-- <li>
                     <label>
-                    <input type="radio" name="options-lineplot" id="w" value="w"> wöchentlich
+                    <input type="radio" name="options-lineplot" id="w-lineplot" value="w"> wöchentlich
                     </label>
                 </li> -->
                 <li>
                     <label>
-                    <input type="radio" name="options-lineplot" id="d" value="d"> täglich
+                    <input type="radio" name="options-lineplot" id="d-lineplot" value="d"> täglich
                     </label>
                 </li>
                 </ul>
@@ -249,7 +249,9 @@
             tempor. Nam gravida odio vel tellus blandit.
         </p>
         <!-- would be better if filled automatically using data, to do if enought time -->
-        <div id="wrapper" style="width: 200px;">
+        <!--
+        <div id="wrapper" style="width: 500px;">
+            <label class="year-selector" for="start-year">Startjahr:</label>
             <select class="form-select" id="start-year" name="year">
                 <option value="2012">2012</option>
                 <option value="2013">2013</option>
@@ -264,6 +266,8 @@
                 <option value="2022" selected>2022</option>
                 <option value="2023">2023</option>
             </select>
+            <div style="margin-right: 50px;"></div>
+            <label class="year-selector" for="start-year">Endjahr:</label>
             <select class="form-select" id="end-year" name="year">
                 <option value="2012">2012</option>
                 <option value="2013">2013</option>
@@ -279,6 +283,155 @@
                 <option value="2023" selected>2023</option>
             </select>
         </div>
+        -->
+        <div id="wrapper">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu3" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                    <i class="fa-solid fa-hourglass-start"></i> Startjahr: <span id="selected-start-year"></span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu3">
+    
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2012" value="2012" checked> 2012
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2013" value="2013"> 2013
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2014" value="2014"> 2014
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2015" value="2015"> 2015
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2016" value="2016"> 2016
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2017" value="2017"> 2017
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2018" value="2018"> 2018
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2019" value="2019"> 2019
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2020" value="2020"> 2020
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2021" value="2021"> 2021
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2022" value="2022"> 2022
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" name="options-calendar-sy" id="start-year-2023" value="2023"> 2023
+                    </label>
+                </li>
+                
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu4" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                    <i class="fa-solid fa-hourglass-end"></i> Endjahr: <span id="selected-end-year"></span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu4">
+    
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2012" value="2012"> 2012
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2013" value="2013"> 2013
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2014" value="2014"> 2014
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2015" value="2015"> 2015
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2016" value="2016"> 2016
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2017" value="2017"> 2017
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2018" value="2018"> 2018
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2019" value="2019"> 2019
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2020" value="2020"> 2020
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2021" value="2021"> 2021
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2022" value="2022"> 2022
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="radio" name="options-calendar-ey" id="end-year-2023" value="2023" checked> 2023
+                        </label>
+                    </li>
+                
+                </ul>
+            </div>
+        </div>
+        
+    <!--</div>-->
         <div id="calendarheatmap"></div>
         <p>
             Pellentesque habitant morbi tristique senectus et netus
@@ -306,7 +459,89 @@
     
     <div class="content" id="content-dashboard3">
         <p>Differenz effektiver und erwarteter Stromverbrauch</p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed vestibulum ultrices vehicula. Sed eget dui et erat
+            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
+            urna pharetra a. Nulla bibendum sapien at ex vehicula
+            tempor. Nam gravida odio vel tellus blandit.
+        </p>
+        <div id="wrapper">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu1" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                        <i class="fa-regular fa-clock"></i> Datenfrequenz
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu radio-menu allow-focus" aria-labelledby="dropdownMenu1">
+                <li>
+                    <label>
+                    <input type="radio" name="options-barchart" id="y-barchart" value="y"> jährlich
+                    </label>
+                </li>
+                <li>
+                    <label>
+                    <input type="radio" name="options-barchart" id="m-barchart" checked value="m"> monatlich
+                    </label>
+                </li>
+                <!-- <li>
+                    <label>
+                    <input type="radio" name="options-barchart" id="w-barchart" value="w"> wöchentlich
+                    </label>
+                </li> -->
+                <li>
+                    <label>
+                    <input type="radio" name="options-barchart" id="d-barchart" value="d"> täglich
+                    </label>
+                </li>
+                </ul>
+            </div>
+            
+                    
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" 
+                        id="dropdownMenu2" data-bs-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-gear"></i> Optionen
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu2">
+
+                <li>
+                    <label>
+                        <input type="checkbox" name="options-barchart" id="bla" checked> bla
+                    </label>
+                </li>
+                
+                
+                
+                </ul>
+            </div>
+        </div>
         <div id="barchart"></div>
+        <p>
+            Pellentesque habitant morbi tristique senectus et netus
+            et malesuada fames ac turpis egestas. Donec laoreet
+            fringilla libero, nec blandit turpis scelerisque at.
+            Curabitur a ligula sit amet mauris pellentesque
+            vestibulum vitae sit amet dui. Proin auctor enim
+            urna, at malesuada dui pellentesque vitae. Fusce
+            tristique mi sed ipsum ullamcorper tempus. Sed vel
+            elit elit. Praesent at ipsum in risus suscipit
+            tristique a eget ex. Pellentesque habitant morbi
+            tristique senectus et netus et malesuada fames ac
+            turpis egestas. Sed fermentum felis nunc, et suscipit
+            enim malesuada id. Aliquam id dignissim libero, in
+            malesuada sapien. Etiam fermentum, lacus a efficitur
+            cursus, nulla dolor convallis velit, ac malesuada
+            turpis orci in dui. In non magna sollicitudin,
+            dignissim tellus ac, suscipit purus. Pellentesque
+            fringilla fringilla libero, eu dapibus velit dignissim
+            id. Nunc luctus felis at vehicula porttitor. Quisque
+            bibendum urna et est laoreet, nec fermentum elit
+            bibendum.
+        </p>
     </div>
 
     <div class="content" id="content-details">
@@ -319,34 +554,7 @@
             <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        <i class="fa-solid fa-table"></i> Datenquelle 1
-                    </div>
-                    <!-- Content for Section 1 -->
-                    <div class="card-body">
-                        <h3 class="card-title">Kantonaler Stromverbrauch</h3>
-                        <p class="card-text">
-                            Dieser Datensatz beinhaltet die Summe der elektrischen Energie, die im Kanton Basel-Stadt
-                            innert 15-Minuten Intervallen aus dem Netz bezogen wird, inklusive Netzverluste.
-                        </p>
-                        <p class="card-text"></p>
-                            Lokal direkt am Ort der Produktion verbrauchte elektrische Energie (z.B. aus Photovoltaikanlagen),
-                            welche nicht ins öffentliche Netz eingespiesen wird, ist in den vorliegenden Daten nicht enthalten.
-                            Seit 1. September 2020 liegen auch Daten zum Verbrauch der Kunden in der Grundversorgung vs. dem freien Markt vor.
-                        </p>
-                        <p class="card-text">
-                            Die Daten umfassen den an allen im Netz installierten fernausgelesenen Zählern gemessenen Verbrauch sowie ergänzend,
-                            da nicht 100 % der Zähler fernauslesbar sind, Daten aus den ins Netz eingespeisten Strommengen. 
-                        <p class="card-text">
-                            Hinweis: Die Werte der folgenden Messstartzeiten sind interpoliert: 01.01.2014 00:00, 01.11.2015 00:00 und 01.10.2019 00:00.
-                        </p>
-                        <a href="https://data.bs.ch/explore/dataset/100233/table/?sort=timestamp_interval_start" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <i class="fa-solid fa-table"></i> Datenquelle 2
+                        <i class="fa-solid fa-table"></i> Datenquelle
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
@@ -367,6 +575,33 @@
                             sowie ergänzend, da nicht 100% der Zähler fernauslesbar sind, Daten aus den ins Netz eingespeisten Strommengen.
                         </p>
                         <a href="https://data.bs.ch/explore/dataset/100245/table/?sort=time" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <i class="fa-solid fa-table"></i> verwandte Datenquelle
+                    </div>
+                    <!-- Content for Section 1 -->
+                    <div class="card-body">
+                        <h3 class="card-title">Kantonaler Stromverbrauch</h3>
+                        <p class="card-text">
+                            Dieser Datensatz beinhaltet die Summe der elektrischen Energie, die im Kanton Basel-Stadt
+                            innert 15-Minuten Intervallen aus dem Netz bezogen wird, inklusive Netzverluste.
+                        </p>
+                        <p class="card-text"></p>
+                            Lokal direkt am Ort der Produktion verbrauchte elektrische Energie (z.B. aus Photovoltaikanlagen),
+                            welche nicht ins öffentliche Netz eingespiesen wird, ist in den vorliegenden Daten nicht enthalten.
+                            Seit 1. September 2020 liegen auch Daten zum Verbrauch der Kunden in der Grundversorgung vs. dem freien Markt vor.
+                        </p>
+                        <p class="card-text">
+                            Die Daten umfassen den an allen im Netz installierten fernausgelesenen Zählern gemessenen Verbrauch sowie ergänzend,
+                            da nicht 100 % der Zähler fernauslesbar sind, Daten aus den ins Netz eingespeisten Strommengen. 
+                        <p class="card-text">
+                            Hinweis: Die Werte der folgenden Messstartzeiten sind interpoliert: 01.01.2014 00:00, 01.11.2015 00:00 und 01.10.2019 00:00.
+                        </p>
+                        <a href="https://data.bs.ch/explore/dataset/100233/table/?sort=timestamp_interval_start" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
                     </div>
                 </div>
             </div>
