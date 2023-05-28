@@ -196,11 +196,12 @@ text    {
 
 /* bar chart */
 .bar{
-  fill: #16a085;
+  fill: #7f8faf;
+  fill-opacity: 0.6;
 }
 
 .bar:hover{
-  fill: white;
+  fill: #2980b9;
 }
 
 #tooltip {
