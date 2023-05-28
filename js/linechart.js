@@ -38,11 +38,14 @@ function linechart(){
     .y(d => y(d.valueEff));
   
   // draw erw line
-  //if(document.getElementById("showErw").checked) {
-    const erwLine = d3.line()
+  const erwLine = d3.line()
     .x(d => x(d.date))
     .y(d => y(d.valueErw));
-  //}
+
+  // draw MA line
+  const maLine = d3.line()
+    .x(d => x(d.date))
+    .y(d => y(d.movingAverage));
 
   const CIArea = d3.area()
     .x(d => x(d.date))
@@ -188,6 +191,22 @@ function linechart(){
     }
     data = data.sort(sortByDateAscending);
 
+    function calculateMovingAverage(data, periods) {
+      const movingAverageData = [];
+      for (let i = periods - 1; i < data.length; i++) {
+        const sum = data.slice(i - periods + 1, i + 1).reduce((total, d) => total + d.valueEff, 0);
+        const average = sum / periods;
+        movingAverageData.push({ ...data[i], movingAverage: average });
+      }
+      return movingAverageData;
+    }
+
+    const movingAveragePeriods = 7; // Adjust this value to set the number of periods for the moving average
+    data = calculateMovingAverage(data, movingAveragePeriods);
+
+    console.log(data);
+
+
     // Define a brush for selecting a range along the x-axis, with the
     // extent set to the dimensions of the second chart, and the 'brushed'
     // function called on each brush event.
@@ -242,12 +261,19 @@ function linechart(){
         .attr('d', erwLine);
     }
 
-    var effChart = focus.append('path')
+    if(document.getElementById("showMA").checked) {
+      var maChart = focus.append('path')
         .datum(data)
-        .attr('class', 'chart__line chart__eff--focus line')
-        .attr('d', effLine);
-
-
+        .attr('class', 'chart__line chart__erw--focus line')
+        .attr('d', maLine)
+    }
+    
+    if(document.getElementById("showEff").checked) {
+      var effChart = focus.append('path')
+      .datum(data)
+      .attr('class', 'chart__line chart__eff--focus line')
+      .attr('d', effLine);
+    }
 
     focus.append('g')
         .attr('class', 'x axis')
@@ -266,11 +292,16 @@ function linechart(){
 
     var helperText = helper.append('text')
 
+    if(document.getElementById("showEff").checked) {
+      var effTooltipRadius = 2.5;
+    } else {
+      var effTooltipRadius = 0;
+    }
     var effTooltip = focus.append('g')
       .attr('class', 'chart__tooltip--eff')
       .append('circle')
       .style('display', 'none')
-      .attr('r', 2.5);
+      .attr('r', effTooltipRadius);
 
     if(document.getElementById("showErw").checked) {
       var erwTooltipRadius = 2.5;
@@ -328,12 +359,17 @@ function linechart(){
       var d0 = data[i - 1];
       var d1 = data[i];
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      if(document.getElementById("showErw").checked) {
-        var erwHelpterText = ' erwartet: ' + Math.round(d.valueErw*10)/10;
+      if(document.getElementById("showEff").checked) {
+        var effHelperText = " - effektiv: " + Math.round(d.valueEff*10)/10
       } else {
-        var erwHelpterText = "";
+        var effHelperText = "";
       }
-      helperText.text(legendFormat(new Date(d.date)) + ' - effektiv: ' + Math.round(d.valueEff*10)/10 + erwHelpterText);
+      if(document.getElementById("showErw").checked) {
+        var erwHelperText = ' - erwartet: ' + Math.round(d.valueErw*10)/10;
+      } else {
+        var erwHelperText = "";
+      }
+      helperText.text(legendFormat(new Date(d.date)) + effHelperText + erwHelperText);
       effTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.valueEff) + ')');
       erwTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.valueErw) + ')');
 
@@ -374,9 +410,14 @@ function linechart(){
       if(document.getElementById("showCI").checked) {
         CIChart.attr("d", CIArea);
       }
-      effChart.attr('d', effLine);
+      if(document.getElementById("showEff").checked) {
+        effChart.attr('d', effLine);
+      }
       if(document.getElementById("showErw").checked) {
         erwChart.attr('d', erwLine);
+      }
+      if(document.getElementById("showMA").checked) {
+        maChart.attr('d', maLine);
       }
       
       focus.select('.x.axis').call(xAxis);
