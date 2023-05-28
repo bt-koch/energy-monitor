@@ -25,6 +25,11 @@ body {
     display: block;
 }
 
+/*
+.year-selector {
+  width: 400px;
+}
+*/
 
 
 /* for linechart ------------ */
@@ -68,6 +73,11 @@ body {
     stroke-width: 2px;
     stroke: #f00;
     opacity: 0.3;
+  }
+  .chart__ma--focus {
+    stroke-width: 2px;
+    stroke: #2980b9;
+    opacity: 0.6;
   }
   .chart__overlay {
     opacity: 0;

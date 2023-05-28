@@ -264,7 +264,7 @@ function linechart(){
     if(document.getElementById("showMA").checked) {
       var maChart = focus.append('path')
         .datum(data)
-        .attr('class', 'chart__line chart__erw--focus line')
+        .attr('class', 'chart__line chart__ma--focus line')
         .attr('d', maLine)
     }
     
