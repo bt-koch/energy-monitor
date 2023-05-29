@@ -255,9 +255,9 @@ function calendarheatmap(){
             .attr("y","1em")
             .text(function(d,i){
                 if (i<colours.length-1){
-                    return "up to "+Math.round(breaks[i]*100)/100;
+                    return "bis zu "+Math.round(breaks[i]*100)/100+" GWh";
                 }   else    {
-                    return "over "+Math.round(breaks[i-1]*100)/100;   
+                    return "über "+Math.round(breaks[i-1]*100)/100+" GWh";   
                 }
             });
         
