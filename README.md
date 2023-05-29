@@ -32,6 +32,7 @@ The calendar heatmap is based on [this code](https://gist.github.com/alansmithy/
 Following major changes were made:  
 - updated from d3 v3 to d3 v7
 - option to select displayed years
+- option to select number of categories
 
 ### Bar Chart
 
