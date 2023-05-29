@@ -1,8 +1,7 @@
-function barchart(){
+function barchart(preview = false){
     // 1. Load the data from external source
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
-
         //parse the data
         var parseDate = d3.timeParse("%d.%m.%y");
         data.forEach(function(d) {
@@ -12,7 +11,8 @@ function barchart(){
             d.valueErw = +d["Stromverbrauch erwartet"]/10**6;
         });
 
-        if(document.getElementById("relDiff").checked){
+        // if selected, calculate relative difference
+        if(document.getElementById("relDiff").checked && !preview){
             data.forEach(function(d) {
                 d.value = ((d.valueEff - d.valueErw) / d.valueEff)*100;
               });
@@ -21,8 +21,10 @@ function barchart(){
             var unit = "GWh"
         }
 
+        // determine the last observed day
         const lastDay = d3.max(data, d => d.date);
 
+        // some helper functions
         function getLastDayOfMonth(date) {
             // Set the date to the first day of the next month
             date.setMonth(date.getMonth() + 1, 0);
@@ -35,7 +37,7 @@ function barchart(){
         }
         
         // define date format conditional on selected frequency
-        if(document.getElementById("m-barchart").checked) {
+        if(document.getElementById("m-barchart").checked && !preview) {
             var formatAggregation = d3.timeFormat("%Y-%m");
             var formatTooltip = d3.timeFormat("%b %Y");
             var extendY = 0.5;
@@ -43,7 +45,7 @@ function barchart(){
             if(lastDay.getDate() < getLastDayOfMonth(lastDay)){
                 data = data.filter(d => d.date.getMonth() !== lastDay.getMonth());
             }
-        } else if(document.getElementById("y-barchart").checked) {
+        } else if(document.getElementById("y-barchart").checked && !preview) {
             var formatAggregation = d3.timeFormat("%Y");
             var formatTooltip = d3.timeFormat("%Y")
             var extendY = 1;
@@ -57,7 +59,7 @@ function barchart(){
         }
 
         // aggregate data conditional on selected frequency
-        if(!document.getElementById("d-barchart").checked){
+        if(!document.getElementById("d-barchart").checked && !preview){
         var aggregatedData = {};
         data.forEach(function(d) {
             var t = formatAggregation(d.date);
@@ -83,41 +85,62 @@ function barchart(){
         }
         data = data.sort(sortByDateAscending);
 
+        // filter: keep displayed observation period
+        if(!preview){
+            const sySelection = document.querySelectorAll('input[name="options-barchart-sy"]');
+            let startYear;
+            sySelection.forEach(function(sy) {
+                if(sy.checked){
+                    startYear = sy.value;
+                }
+            });
+    
+            const eySelection = document.querySelectorAll('input[name="options-barchart-ey"]');
+            let endYear;
+            eySelection.forEach(function(ey) {
+                if(ey.checked){
+                    endYear = ey.value;
+                }
+            })
+    
+            data = data.filter(function(d) {
+                var year = d.date.getFullYear();
+                return year >= startYear && year <= endYear;
+            });
+            
+            const displayStartYear = d3.select("#barchart-selected-start-year");
+            displayStartYear.text(startYear);
+            const displayEndYear = d3.select("#barchart-selected-end-year");
+            displayEndYear.text(endYear);
+        } else {
+            let startYear = 2022;
+            let endYear = 2023;
+            data = data.filter(function(d) {
+                var year = d.date.getFullYear();
+                return year >= startYear && year <= endYear;
+            });
+        }
 
-        const sySelection = document.querySelectorAll('input[name="options-barchart-sy"]');
-        let startYear;
-        sySelection.forEach(function(sy) {
-            if(sy.checked){
-                startYear = sy.value;
-            }
-        });
-
-        const eySelection = document.querySelectorAll('input[name="options-barchart-ey"]');
-        let endYear;
-        eySelection.forEach(function(ey) {
-            if(ey.checked){
-                endYear = ey.value;
-            }
-        })
-
-        data = data.filter(function(d) {
-            var year = d.date.getFullYear();
-            return year >= startYear && year <= endYear;
-        });
-        
-        const displayStartYear = d3.select("#barchart-selected-start-year");
-        displayStartYear.text(startYear);
-        const displayEndYear = d3.select("#barchart-selected-end-year");
-        displayEndYear.text(endYear);
-        
 
         // 2. Append svg-object for the bar chart to a div in your webpage
         // (here we use a div with id=container)
-        var width = 0.75*window.innerWidth;
-        var height = 500;
-        var margin = {left: 90, top: 70, bottom: 50, right: 20};
+        if(preview){
+            // to do
+            var width = document.getElementById("card-barchart-preview").offsetWidth;
+            var height = 400;
+            var margin = {left: 90, top: 10, bottom: 50, right: 20};
+        } else {
+            var width = 0.75*window.innerWidth;
+            var height = 500;
+            var margin = {left: 90, top: 70, bottom: 50, right: 20};
+        }
 
-        const svg = d3.select("#barchart")
+
+        var reference = "#barchart";
+        if(preview){
+            reference = reference+"-preview"
+        }
+        const svg = d3.select(reference)
                     .append("svg")
                     .attr("id", "svg")
                     .attr("width", width)
@@ -143,14 +166,14 @@ function barchart(){
         var yAxis = d3.axisLeft(yScale);
 
         svg.append("g")
-        .attr("transform", `translate(0, ${height - margin.bottom})`)
-        .attr("id", "x-axis")
-        .call(xAxis);
+            .attr("transform", `translate(0, ${height - margin.bottom})`)
+            .attr("id", "x-axis")
+            .call(xAxis);
 
         svg.append("g")
-        .attr("transform", `translate(${margin.left}, 0)`)
-        .attr("id", "y-axis")
-        .call(yAxis);
+            .attr("transform", `translate(${margin.left}, 0)`)
+            .attr("id", "y-axis")
+            .call(yAxis);
 
         // 5. Draw individual bars and define mouse events for the tooltip
         var barwidth = (xScale.range()[1] - xScale.range()[0]) / data.length;
@@ -195,11 +218,11 @@ function barchart(){
         */
 
         svg.append("text")
-        .attr("y", margin.left/4)
-        .attr("x", -height/2)
-        .attr("transform", "rotate(-90)")
-        .attr("class", "label")
-        .text("Differenz effektiv-erwartet [in "+unit+"]");
+            .attr("y", margin.left/4)
+            .attr("x", -height/2)
+            .attr("transform", "rotate(-90)")
+            .attr("class", "label")
+            .text("Differenz effektiv-erwartet [in "+unit+"]");
 
         /*
         svg.append("text")
@@ -211,41 +234,42 @@ function barchart(){
     });
 }
 
+barchart(preview=true);
 barchart();
 
-
-const freqSelectionBar = document.querySelectorAll('input[name="options-barchart-freq"]');
 // Remove the svg element and call the callback function
-function removeSvg(callback) {
-    const svg = d3.select('#barchart svg');
+function removeSvg(callback, preview) {
+    if(!preview){
+        console.log("true");
+        reference="#barchart svg";
+    } else {
+        console.log("false");
+        reference="#barchart-preview svg"
+    }
+    const svg = d3.select(reference);
     svg.transition().duration(0).remove().on('end', callback);
 }
   
 // Rerun barchart function
 function rerunBarchart() {
-    removeSvg(barchart);
+    removeSvg(function(){
+        barchart(preview=true);
+    }, preview=true);
+    removeSvg(function(){
+        barchart(preview=false);
+    }, preview=false)
 }
-  
-// Event listeners
-freqSelectionBar.forEach(function(opt) {
-    opt.addEventListener('change', function() {
-        rerunBarchart();
-    });
-});
-  
+
 window.addEventListener('resize', function() {
     rerunBarchart();
 });
   
-const optionsSelectionBar = document.querySelectorAll('input[name="options-barchart-sy"], input[name="options-barchart-ey"], input[name="options-barchart"]');
+const optionsSelectionBar = document.querySelectorAll('input[name="options-barchart-sy"], input[name="options-barchart-ey"], input[name="options-barchart"], input[name="options-barchart-freq"]');
 // Add event listener to each radio button
 optionsSelectionBar.forEach(function(opt) {
   opt.addEventListener('change', function() {
-    rerunBarchart();
-      // Check which radio button is selected
-      /* if (radioButton.checked) {
-          const svg = d3.select('#lineplot svg').remove();
-          linechart(radioButton.value);
-      } */
+    const svg = d3.select("#barchart svg").remove();
+    barchart();
   });
 });
+
