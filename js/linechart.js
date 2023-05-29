@@ -1,21 +1,31 @@
 /* global d3, _ */
-function linechart(){
+function linechart(preview = false){
 
   // adjust graph width, height and margins
-  const margin = {top: 30, right: 40, bottom: 100, left: 20};
-  const margin2 = {top: 210, right: 40, bottom: 100, left: 20};
-  /* const width = 764 - margin.left - margin.right; */
-  const width = 0.8*window.innerWidth - margin.left - margin.right;
-  const height = 1.25*283 - margin.top - margin.bottom;
-  const height2 = 1.25*283 - margin2.top - margin2.bottom;
+  let margin, margin2, width, height, height2;
+  if(preview) {
+    // todo
+    margin = {top: 30, right: 0, bottom: 0, left: 0};
+    margin2 = {top: 210, right: 0, bottom: 100, left: 0};
+    width = 1.4*document.getElementById("card-barchart-preview").offsetWidth - margin.left - margin.right;
+    height = 1*283 - margin.top - margin.bottom;
+    height2 = 1*283 - margin2.top - margin2.bottom;
+  } else {
+    margin = {top: 30, right: 40, bottom: 100, left: 20};
+    margin2 = {top: 210, right: 40, bottom: 100, left: 20};
+    width = 0.8*window.innerWidth - margin.left - margin.right;
+    height = 1.25*283 - margin.top - margin.bottom;
+    height2 = 1.25*283 - margin2.top - margin2.bottom;
+  }
 
+  
   // define format of date
   const parseDate = d3.timeParse('%d.%m.%y');
   const bisectDate = d3.bisector(d => d.date).left;
 
-  if(document.getElementById("m-lineplot").checked) {
+  if(document.getElementById("m-lineplot").checked && !preview) {
     var legendFormat = d3.timeFormat("%B %Y");
-  } else if(document.getElementById("y-lineplot").checked) {
+  } else if(document.getElementById("y-lineplot").checked && !preview) {
     var legendFormat = d3.timeFormat("%Y");
   } else {
     var legendFormat = d3.timeFormat('%d.%m.%Y');
@@ -59,7 +69,11 @@ function linechart(){
     .y1(d => y2(d.valueEff));
   
   // append the SVG to HTML
-  const svg = d3.select('#lineplot').append('svg')
+  var reference = "#lineplot"
+  if(preview){
+    reference = reference+"-preview"
+  }
+  const svg = d3.select(reference).append('svg')
     .attr('class', 'chart')
     .attr('width', width + margin.left + margin.right)
     //.attr("width", "90%")
@@ -94,6 +108,7 @@ function linechart(){
     const context = svg.append('g')
       .attr('class', 'context')
       .attr('transform', `translate(${margin2.left},${margin2.top + 60})`);
+
     // add legend
     const legend = svg.append('g')
       .attr('class', 'chart__legend')
@@ -109,10 +124,14 @@ function linechart(){
       .append('g')
       .attr('class', 'chart__range-selection')
       .attr('transform', 'translate(110, 0)');
-    context.append("g")
+
+    if(!preview){
+      context.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", `translate(0,${height2})`)
       .call(xAxis2);
+    }
+
 
   // read the data
   d3.csv('./data/eff_erw_daily.csv').then(function(data) {
@@ -141,13 +160,13 @@ function linechart(){
     }
     
     // define date format conditional on selected frequency
-    if(document.getElementById("m-lineplot").checked) {
+    if(document.getElementById("m-lineplot").checked && !preview) {
       var formatAggregation = d3.timeFormat("%Y-%m");
       // filter out unfinished month
       if(lastDay.getDate() < getLastDayOfMonth(lastDay)){
         data = data.filter(d => d.date.getMonth() !== lastDay.getMonth());
       }
-    } else if(document.getElementById("y-lineplot").checked) {
+    } else if(document.getElementById("y-lineplot").checked && !preview) {
       var formatAggregation = d3.timeFormat("%Y");
       // filter out unfinished year
       if(lastDay.getDate() < getLastDayOfYear(lastDay)){
@@ -156,7 +175,8 @@ function linechart(){
     }
 
     // aggregate data conditional on selected frequency
-    if(!document.getElementById("d-lineplot").checked){
+    if(!document.getElementById("d-lineplot").checked && !preview){
+      console.log("aergsegraerg");
       var aggregatedData = {};
       data.forEach(function(d) {
         var t = formatAggregation(d.date);
@@ -191,21 +211,27 @@ function linechart(){
     }
     data = data.sort(sortByDateAscending);
 
-    function calculateMovingAverage(data, periods) {
-      const movingAverageData = [];
-      for (let i = periods - 1; i < data.length; i++) {
-        const sum = data.slice(i - periods + 1, i + 1).reduce((total, d) => total + d.valueEff, 0);
-        const average = sum / periods;
-        movingAverageData.push({ ...data[i], movingAverage: average });
-      }
-      return movingAverageData;
+    if(preview){
+      data = data.filter(function(d) {
+        var year = d.date.getFullYear();
+        return year >= 2022;
+    });
     }
 
-    const movingAveragePeriods = 7; // Adjust this value to set the number of periods for the moving average
-    data = calculateMovingAverage(data, movingAveragePeriods);
-
-    console.log(data);
-
+    if(!preview){
+      function calculateMovingAverage(data, periods) {
+        const movingAverageData = [];
+        for (let i = periods - 1; i < data.length; i++) {
+          const sum = data.slice(i - periods + 1, i + 1).reduce((total, d) => total + d.valueEff, 0);
+          const average = sum / periods;
+          movingAverageData.push({ ...data[i], movingAverage: average });
+        }
+        return movingAverageData;
+      }
+  
+      const movingAveragePeriods = 7; // Adjust this value to set the number of periods for the moving average
+      data = calculateMovingAverage(data, movingAveragePeriods);
+    }
 
     // Define a brush for selecting a range along the x-axis, with the
     // extent set to the dimensions of the second chart, and the 'brushed'
@@ -238,7 +264,7 @@ function linechart(){
 
 
 
-    if(document.getElementById("showCI").checked) {
+    if(document.getElementById("showCI").checked && !preview) {
       var CIChart = focus.append("path")
         .datum(data)
         .attr("fill", "#e6f6fe")
@@ -252,23 +278,21 @@ function linechart(){
           .tickSize(-width)
           .tickFormat(''));
 
-    
-
-    if(document.getElementById("showErw").checked) {
+    if(document.getElementById("showErw").checked || preview) {
       var erwChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__erw--focus line')
         .attr('d', erwLine);
     }
 
-    if(document.getElementById("showMA").checked) {
+    if(document.getElementById("showMA").checked && !preview) {
       var maChart = focus.append('path')
         .datum(data)
         .attr('class', 'chart__line chart__ma--focus line')
         .attr('d', maLine)
     }
     
-    if(document.getElementById("showEff").checked) {
+    if(document.getElementById("showEff").checked || preview) {
       var effChart = focus.append('path')
       .datum(data)
       .attr('class', 'chart__line chart__eff--focus line')
@@ -292,7 +316,7 @@ function linechart(){
 
     var helperText = helper.append('text')
 
-    if(document.getElementById("showEff").checked) {
+    if(document.getElementById("showEff").checked || preview) {
       var effTooltipRadius = 2.5;
     } else {
       var effTooltipRadius = 0;
@@ -303,7 +327,7 @@ function linechart(){
       .style('display', 'none')
       .attr('r', effTooltipRadius);
 
-    if(document.getElementById("showErw").checked) {
+    if(document.getElementById("showErw").checked || preview) {
       var erwTooltipRadius = 2.5;
     } else {
       var erwTooltipRadius = 0;
@@ -333,25 +357,25 @@ function linechart(){
         erwTooltip.style('display', 'none');
       })
       .on('mousemove', mousemove);
-    
-    context.append('path')
-      .datum(data)
-      .attr('class', 'chart__area area')
-      .attr('d', area2);
-    
-    context.append('g')
-      .attr('class', 'x axis chart__axis--context')
-      .attr('transform', `translate(0, ${height2 - 22})`)
-      .call(xAxis2);
-    
-    context.append('g')
-      .attr('class', 'x brush')
-      .call(brush)
-      .selectAll('rect')
-        .attr('y', -6)
-        .attr('height', height2 + 7);
 
+    if(!preview){
+      context.append('path')
+        .datum(data)
+        .attr('class', 'chart__area area')
+        .attr('d', area2);
     
+      context.append('g')
+        .attr('class', 'x axis chart__axis--context')
+        .attr('transform', `translate(0, ${height2 - 22})`)
+        .call(xAxis2);
+    
+      context.append('g')
+        .attr('class', 'x brush')
+        .call(brush)
+        .selectAll('rect')
+          .attr('y', -6)
+          .attr('height', height2 + 7);
+    }
 
     function mousemove() {
       var x0 = x.invert(d3.pointer(event, this)[0]);
@@ -359,12 +383,12 @@ function linechart(){
       var d0 = data[i - 1];
       var d1 = data[i];
       var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-      if(document.getElementById("showEff").checked) {
+      if(document.getElementById("showEff").checked || preview) {
         var effHelperText = " - effektiv: " + Math.round(d.valueEff*10)/10
       } else {
         var effHelperText = "";
       }
-      if(document.getElementById("showErw").checked) {
+      if(document.getElementById("showErw").checked || preview) {
         var erwHelperText = ' - erwartet: ' + Math.round(d.valueErw*10)/10;
       } else {
         var erwHelperText = "";
@@ -407,16 +431,16 @@ function linechart(){
         focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5) */
       }
 
-      if(document.getElementById("showCI").checked) {
+      if(document.getElementById("showCI").checked && !preview) {
         CIChart.attr("d", CIArea);
       }
-      if(document.getElementById("showEff").checked) {
+      if(document.getElementById("showEff").checked || preview) {
         effChart.attr('d', effLine);
       }
-      if(document.getElementById("showErw").checked) {
+      if(document.getElementById("showErw").checked || preview) {
         erwChart.attr('d', erwLine);
       }
-      if(document.getElementById("showMA").checked) {
+      if(document.getElementById("showMA").checked && !preview) {
         maChart.attr('d', maLine);
       }
       
@@ -430,7 +454,8 @@ function linechart(){
 
 }
   
-linechart();
+linechart(preview = true);
+linechart(preview = false);
 
 // problem: we need to regenerate plot if frequency is changed AND
 // when option is changed -> how should i solve this??
@@ -455,8 +480,10 @@ optionSelection.forEach(function(opt) {
       } */
   });
 });
+
 window.addEventListener('resize', function() {
-  //console.log('Window resized');
   const svg = d3.select('#lineplot svg').remove();
   linechart();
+  const svg2 = d3.select('#lineplot-preview svg').remove();
+  linechart(preview = true);
 });
