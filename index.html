@@ -62,12 +62,14 @@
                 <div class="card h-100">
                     <!-- Content for Section 1 -->
                     <div class="card-body">
-                        <p class="card-text">Stromverbrauch Vortag:</p>
-                        <h2>112.4 GWh <i class="fa-solid fa-arrow-trend-up"></i></h2>
-                        <p class="card-text">sieben Tage Schnitt:</p>
-                        <h2>132.7 GWh <i class="fa-solid fa-arrow-trend-down"></i></h2>
-                        <p class="card-text">evtl. weitere Kennzahl:</p>
-                        <h2>63.17% <i class="fa-solid fa-circle-exclamation"></i></h2>
+                        <h5>letzte Beobachtung:</h5>
+                        <h1 id="energy-consumption-lastDay"></h1>
+                        </br>
+                        <h5>sieben Tage Schnitt:</h5>
+                        <h1 id="energy-consumption-MA"></h1>
+                        </br>
+                        <h5>TO DO IDEE NÖTIG:</h5>
+                        <h1>63.17% <i class="fa-solid fa-circle-exclamation"></i></h1>
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
@@ -76,7 +78,7 @@
                 <div class="card h-100" id="card-lineplot-preview">
                     <!-- Content for Section 2 -->
                     <div class="card-body">
-                        <h4 class="card-title">Stromverbrauch täglich seit 2022</h4>
+                        <h4 class="card-title">täglicher Stromverbrauch letzte 6 Monate</h4>
                         <div id="lineplot-preview"></div>
                     </div>
                     <br>
@@ -89,7 +91,7 @@
                 <div class="card h-100" id="card-barchart-preview">
                     <!-- Content for Section 3 -->
                     <div class="card-body">
-                        <h4 class="card-title">Differenz effektiv und erwartet täglich seit 2022</h4>
+                        <h4 class="card-title">tägliche Differenz effektiv und erwartet letzte 6 Monate</h4>
                         <div id="barchart-preview"></div>
                     </div>
                 </div>
@@ -876,15 +878,11 @@
         </div>
     </div>
 
-    
-    
-
-    <!-- Optional JavaScript -->
-    
+    <!-- JavaScript -->
+    <script src="js/mainnumbers.js"></script>
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
     <script src="js/barchart.js"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 </body>
 
