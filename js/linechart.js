@@ -176,7 +176,6 @@ function linechart(preview = false){
 
     // aggregate data conditional on selected frequency
     if(!document.getElementById("d-lineplot").checked && !preview){
-      console.log("aergsegraerg");
       var aggregatedData = {};
       data.forEach(function(d) {
         var t = formatAggregation(d.date);
@@ -212,9 +211,10 @@ function linechart(preview = false){
     data = data.sort(sortByDateAscending);
 
     if(preview){
+      const cutoff = new Date(lastDay);
+      cutoff.setMonth(cutoff.getMonth() - 6);
       data = data.filter(function(d) {
-        var year = d.date.getFullYear();
-        return year >= 2022;
+        return d.date >= cutoff;
     });
     }
 
