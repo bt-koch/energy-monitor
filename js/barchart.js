@@ -3,7 +3,7 @@ function barchart(preview = false){
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
         //parse the data
-        var parseDate = d3.timeParse("%d.%m.%y");
+        var parseDate = d3.timeParse("%Y-%m-%d");
         data.forEach(function(d) {
             d.date=parseDate(d.Tag);
             d.value= +d["Differenz Stromverbrauch (effektiv-erwartet)"]/10**6; // Convert value to a number
@@ -105,22 +105,28 @@ function barchart(preview = false){
             displayStartYear.text(startYear);
             const displayEndYear = d3.select("#barchart-selected-end-year");
             displayEndYear.text(endYear);
+
+            data = data.filter(function(d) {
+                var year = d.date.getFullYear();
+                return year >= startYear && year <= endYear;
+            });
+
         } else {
-            startYear = 2022;
-            endYear = 2023;
+            const cutoff = new Date(lastDay);
+            cutoff.setMonth(cutoff.getMonth() - 6);
+            data = data.filter(function(d) {
+                return d.date >= cutoff;
+            });
         }
 
-        data = data.filter(function(d) {
-            var year = d.date.getFullYear();
-            return year >= startYear && year <= endYear;
-        });
+
 
 
         // 2. Append svg-object for the bar chart to a div in your webpage
         // (here we use a div with id=container)
         if(preview){
             // to do
-            var width = document.getElementById("card-barchart-preview").offsetWidth;
+            var width = 0.95*document.getElementById("card-barchart-preview").offsetWidth;
             var height = 400;
             var margin = {left: 90, top: 10, bottom: 50, right: 20};
         } else {

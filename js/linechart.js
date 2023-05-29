@@ -20,7 +20,7 @@ function linechart(preview = false){
 
   
   // define format of date
-  const parseDate = d3.timeParse('%d.%m.%y');
+  const parseDate = d3.timeParse("%Y-%m-%d");
   const bisectDate = d3.bisector(d => d.date).left;
 
   if(document.getElementById("m-lineplot").checked && !preview) {
@@ -215,7 +215,7 @@ function linechart(preview = false){
       cutoff.setMonth(cutoff.getMonth() - 6);
       data = data.filter(function(d) {
         return d.date >= cutoff;
-    });
+      });
     }
 
     if(!preview){

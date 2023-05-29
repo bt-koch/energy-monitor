@@ -43,7 +43,7 @@ function calendarheatmap(preview=false){
         var calX=25*previewScale;
         var width = 960*previewScale;
         var height = 163*previewScale;
-        var parseDate = d3.timeParse("%d.%m.%y");
+        var parseDate = d3.timeParse("%Y-%m-%d");
         format = d3.timeFormat("%d-%m-%Y");
         toolDate = d3.timeFormat("%d.%m.%Y");
     } else {
@@ -54,7 +54,7 @@ function calendarheatmap(preview=false){
         var calX=25;
         var width = 960;
         var height = 163;
-        var parseDate = d3.timeParse("%d.%m.%y");
+        var parseDate = d3.timeParse("%Y-%m-%d");
         format = d3.timeFormat("%d-%m-%Y");
         toolDate = d3.timeFormat("%d.%m.%Y");
     }
