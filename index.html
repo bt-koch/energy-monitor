@@ -23,26 +23,26 @@
     <script src="js/dashboard.js"></script>
     
 
-    <title>Energy Monitor</title>
+    <title>Energie-Monitor</title>
 </head>
 
 <body>
     <!--<script src="dashboard.js"></script>-->
     <!-- sidebar -->
     <div class="sidebar">
-        <h2>Energy Monitor</h2>
+        <h2>Energie-Monitor</h2>
         <ul class="nav flex-column mt-4">
             <li class="nav-item">
                 <a class="nav-link active" href="#" onclick="showContent('content-home')"><i class="fa-solid fa-house"></i> Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard1')"><i class="fa-solid fa-chart-line"></i> Line Chart</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard1')"><i class="fa-solid fa-chart-line"></i> Analyse Trends</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')" id="tab-calendar"><i class="fa-solid fa-calendar-days"></i> Calendar Heatmap</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard2')" id="tab-calendar"><i class="fa-solid fa-calendar-days"></i> Analyse Tagesmuster</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" onclick="showContent('content-dashboard3')"><i class="fa-solid fa-person-circle-question"></i> tbd</a>
+                <a class="nav-link" href="#" onclick="showContent('content-dashboard3')"><i class="fa-solid fa-chart-column"></i> Analyse Differenzen</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="showContent('content-details')"><i class="fa-solid fa-circle-info"></i> Details</a>
@@ -54,7 +54,7 @@
     </div>
     <!-- main -->
     <div class="content" id="content-home">
-        <h1>Energy-Monitor: Kanton Basel-Stadt</h1>
+        <h1>Energie-Monitor: Kanton Basel-Stadt</h1>
         
         <!-- Four Sections with Plots -->
         <div class="row d-flex align-items-stretch">
@@ -73,13 +73,12 @@
                 </div>
             </div>
             <div class="col-lg-9 col-md-12">
-                <div class="card h-100">
+                <div class="card h-100" id="card-lineplot-preview">
                     <!-- Content for Section 2 -->
                     <div class="card-body">
                         <h4 class="card-title">Stromverbrauch täglich seit 2022</h4>
+                        <div id="lineplot-preview"></div>
                     </div>
-                    <!--<img class="card-img-bottom" src="data/img/screenshot_line.png" style="width: 100%;">-->
-                    <div id="lineplot-preview"></div>
                     <br>
                 </div>
             </div>
@@ -90,10 +89,9 @@
                 <div class="card h-100" id="card-barchart-preview">
                     <!-- Content for Section 3 -->
                     <div class="card-body">
-                        <h3 class="card-title">Differenz effektiv und erwartet täglich seit 2022</h3>
+                        <h4 class="card-title">Differenz effektiv und erwartet täglich seit 2022</h4>
+                        <div id="barchart-preview"></div>
                     </div>
-                    <!-- Add your plot or other content here -->
-                    <div id="barchart-preview"></div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -101,9 +99,8 @@
                     <!-- Content for Section 4 -->
                     <div class="card-body">
                         <h4 class="card-title">Tagesmuster</h4>
+                        <div id="calendarheatmap-preview"></div>
                     </div>
-                    <img class="card-img-bottom" src="data/img/calendar-example.png" style="width: 100%;">
-                    <!-- Add your plot or other content here -->
                 </div>
             </div>
         </div>
@@ -112,7 +109,7 @@
     <div class="content" id="content-dashboard1">
         <!-- Content for Dashboard 1 option -->
         <!-- Add your content here -->
-        <h1>Lineplot</h1>
+        <h1>Analyse der Trends über die Zeit</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
@@ -248,7 +245,7 @@
     <div class="content" id="content-dashboard2">
         <!-- Content for Dashboard 2 option -->
         <!-- Add your content here -->
-        <h1>Calendat Heatmap</h1>
+        <h1>Analyse der Tagesmuster</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
@@ -473,7 +470,7 @@
     </div>
     
     <div class="content" id="content-dashboard3">
-        <h1>Differenz effektiver und erwarteter Stromverbrauch</h1>
+        <h1>Analyse der Differenz effektiver und erwarteter Stromverbrauch</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
@@ -710,15 +707,23 @@
     </div>
 
     <div class="content" id="content-details">
-        <h1>weitere Informationen</h1>
+        <h3>Ziel dieser App</h3>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed vestibulum ultrices vehicula. Sed eget dui et erat
+            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
+            urna pharetra a. Nulla bibendum sapien at ex vehicula
+            tempor. Nam gravida odio vel tellus blandit.
+        </p>
+        <h3>weitere Informationen</h3>
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     Woher kommt der erwartete Stromverbrauch?
                 </button>
               </h2>
-              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     Der erwartete Stromverbrauch wird auf Basis der täglichen Stromverbrauchsdaten der Industriellen
                     Werke Basel (IWB) mittels einem statistischen Modell geschätzt. Da der Stromverbrauch von der
@@ -756,7 +761,7 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    Die Idee hinter dieser Visualisierung
+                    technische Details
                   </button>
                 </h2>
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
@@ -766,6 +771,7 @@
                 </div>
               </div>
           </div>
+      </div>
 
     </div>
 
@@ -857,7 +863,6 @@
                         <p class="card-text">
                             Mein Name ist <b>Bela Tim Koch</b>. Ich bin Masterstudent in <b>Applied Economic Analysis</b>
                             an der Universität Bern mit Nebenfach <b>Banking and Finance</b> an der Universität Zürich.
-                            Nebenbei arbeite ich als <b>Data Scientist</b> bei der Eidgenössischen Finanzverwaltung.
                         </p>
 
                         <p class="card-text">
@@ -875,10 +880,10 @@
     
 
     <!-- Optional JavaScript -->
-    <script src="js/barchart.js"></script>
+    
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
-    
+    <script src="js/barchart.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 </body>
