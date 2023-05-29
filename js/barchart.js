@@ -86,9 +86,9 @@ function barchart(preview = false){
         data = data.sort(sortByDateAscending);
 
         // filter: keep displayed observation period
+        let startYear, endYear;
         if(!preview){
             const sySelection = document.querySelectorAll('input[name="options-barchart-sy"]');
-            let startYear;
             sySelection.forEach(function(sy) {
                 if(sy.checked){
                     startYear = sy.value;
@@ -96,30 +96,24 @@ function barchart(preview = false){
             });
     
             const eySelection = document.querySelectorAll('input[name="options-barchart-ey"]');
-            let endYear;
             eySelection.forEach(function(ey) {
                 if(ey.checked){
                     endYear = ey.value;
                 }
-            })
-    
-            data = data.filter(function(d) {
-                var year = d.date.getFullYear();
-                return year >= startYear && year <= endYear;
-            });
-            
+            })            
             const displayStartYear = d3.select("#barchart-selected-start-year");
             displayStartYear.text(startYear);
             const displayEndYear = d3.select("#barchart-selected-end-year");
             displayEndYear.text(endYear);
         } else {
-            let startYear = 2022;
-            let endYear = 2023;
-            data = data.filter(function(d) {
-                var year = d.date.getFullYear();
-                return year >= startYear && year <= endYear;
-            });
+            startYear = 2022;
+            endYear = 2023;
         }
+
+        data = data.filter(function(d) {
+            var year = d.date.getFullYear();
+            return year >= startYear && year <= endYear;
+        });
 
 
         // 2. Append svg-object for the bar chart to a div in your webpage
