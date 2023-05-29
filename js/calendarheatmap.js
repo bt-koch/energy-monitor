@@ -1,12 +1,16 @@
     
-function calendarheatmap(){
+function calendarheatmap(preview=false){
     const svg = d3.select('#calendarheatmap svg').remove(); // to prevent adding multiple plots since function is called each time tab is klicked
     var title="Stromverbrauch effektiv in GWh";
     var units=" GWh";
-    //var breaks = [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5];
-    //var colours = ["#ffffd4", "#ffeda0", "#fed98e", "#fdbe71", "#fe9929", "#d95f0e", "#a02c03", "#993404"];
 
-    var n = Number(document.getElementById("nCategories").value); // Number of categories
+    // choose number of categories
+    if(preview){
+        var n = 8; // Number of categories
+    } else {
+        var n = Number(document.getElementById("nCategories").value); // Number of categories
+    }
+    
     var domainMin = 2;
     var domainMax = 6;
 
@@ -28,18 +32,33 @@ function calendarheatmap(){
         var color = "hsl(216, 48%, " + lightness + "%)"; // Blue-gray color scheme using HSL
         colours.push(color);
     }
-    
-    //general layout information
-    var cellSize = 17;
-    var xOffset=20;
-    var yOffset=60;
-    var calY=35;//offset of calendar in each group
-    var calX=25;
-    var width = 960;
-    var height = 163;
-    var parseDate = d3.timeParse("%d.%m.%y");
-    format = d3.timeFormat("%d-%m-%Y");
-    toolDate = d3.timeFormat("%d.%m.%Y");
+        
+    // general layout information
+    if(preview){
+        var previewScale = 0.65;
+        var cellSize = 17*previewScale;
+        var xOffset=20*previewScale;
+        var yOffset=60*previewScale;
+        var calY=35*previewScale;//offset of calendar in each group
+        var calX=25*previewScale;
+        var width = 960*previewScale;
+        var height = 163*previewScale;
+        var parseDate = d3.timeParse("%d.%m.%y");
+        format = d3.timeFormat("%d-%m-%Y");
+        toolDate = d3.timeFormat("%d.%m.%Y");
+    } else {
+        var cellSize = 17;
+        var xOffset=20;
+        var yOffset=60;
+        var calY=35;//offset of calendar in each group
+        var calX=25;
+        var width = 960;
+        var height = 163;
+        var parseDate = d3.timeParse("%d.%m.%y");
+        format = d3.timeFormat("%d-%m-%Y");
+        toolDate = d3.timeFormat("%d.%m.%Y");
+    }
+
     
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
@@ -60,29 +79,33 @@ function calendarheatmap(){
         var endYear = document.getElementById("end-year").value;
         var numberOfYears = endYear - startYear + 1;
         */
-        
-        const sySelection = document.querySelectorAll('input[name="options-calendar-sy"]');
-        let startYear;
-        sySelection.forEach(function(sy) {
-            if(sy.checked){
-                startYear = sy.value;
-            }
-        });
 
-        const eySelection = document.querySelectorAll('input[name="options-calendar-ey"]');
-        let endYear;
-        eySelection.forEach(function(ey) {
-            if(ey.checked){
-                endYear = ey.value;
-            }
-        })
+        let startYear, endYear;
+        if(!preview){
+            const sySelection = document.querySelectorAll('input[name="options-calendar-sy"]');
+            sySelection.forEach(function(sy) {
+                if(sy.checked){
+                    startYear = sy.value;
+                }
+            });
+    
+            const eySelection = document.querySelectorAll('input[name="options-calendar-ey"]');
+            eySelection.forEach(function(ey) {
+                if(ey.checked){
+                    endYear = ey.value;
+                }
+            })
+    
+            const displayStartYear = d3.select("#selected-start-year");
+            displayStartYear.text(startYear);
+            const displayEndYear = d3.select("#selected-end-year");
+            displayEndYear.text(endYear);
+        } else {
+            startYear = 2022;
+            endYear = 2023;
+        }
 
         var numberOfYears = endYear-startYear+1;
-
-        const displayStartYear = d3.select("#selected-start-year");
-        displayStartYear.text(startYear);
-        const displayEndYear = d3.select("#selected-end-year");
-        displayEndYear.text(endYear);
 
         data = data.filter(function(d) {
             var year = d.year;
@@ -90,8 +113,12 @@ function calendarheatmap(){
         });
         
         var yearlyData = d3.group(data, function(d) { return d.year; });
-        
-        var svg = d3.select("#calendarheatmap").append("svg")
+
+        var reference = "#calendarheatmap";
+        if(preview){
+            reference = reference+"-preview";
+        }
+        var svg = d3.select(reference).append("svg")
             .attr("width","90%")
             .attr("viewBox","0 0 "+(xOffset+width)+" "+(yOffset+numberOfYears*height+numberOfYears*calY))
             
@@ -188,8 +215,12 @@ function calendarheatmap(){
             .text(function(d) { return toolDate(d.date)+":\n"+Math.round(d.value*10)/10+units; });
         
         //add monthly outlines for calendar
+        var monthReference = "monthOutlines"
+        if(preview){
+            monthReference = monthReference+"-preview"
+        }
         cals.append("g")
-            .attr("id","monthOutlines")
+            .attr("id",monthReference)
             .selectAll(".month")
             .data(function(d) { 
                 return d3.timeMonth.range(new Date(parseInt(d[0]), 0, 1), new Date(parseInt(d[0]) + 1, 0, 1)); 
@@ -201,11 +232,11 @@ function calendarheatmap(){
         
         //retrieve the bounding boxes of the outlines
         var BB = new Array();
-        var mp = document.getElementById("monthOutlines").childNodes;
+        var mp = document.getElementById(monthReference).childNodes;
         for (var i=0;i<mp.length;i++){
             BB.push(mp[i].getBBox());
         }
-        
+
         var monthX = new Array();
         BB.forEach(function(d,i){
             boxCentre = d.width/2;
@@ -276,6 +307,8 @@ function calendarheatmap(){
     }
 }
 
+calendarheatmap(preview=true);
+
 /* Problem:
 getBBox() retourniert 0 wenn die relevanten Elemente nicht im Browser sichtbar sind. Dadurch werden die
 Labels nicht richtig positioniert.
@@ -284,7 +317,7 @@ sodass dann die Positionen korrekt berechnet werden können. Etwas unschön ist 
 allerdings ist diese wirklich nur sehr kurz und nur beim ersten Anzeigen nötig.
 */
 //calendarheatmap();
-document.getElementById("tab-calendar").addEventListener("click", calendarheatmap);
+document.getElementById("tab-calendar").addEventListener("click", function(){calendarheatmap(preview=false)});
 //document.getElementById("start-year").addEventListener("change", calendarheatmap);
 //document.getElementById("end-year").addEventListener("change", calendarheatmap);
 
@@ -294,7 +327,7 @@ const timeSelectionCal = document.querySelectorAll('input[name="options-calendar
 timeSelectionCal.forEach(function(opt) {
   opt.addEventListener('change', function() {
     const svg = d3.select('#calendarheatmap svg').remove();
-    calendarheatmap();
+    calendarheatmap(preview=false);
       // Check which radio button is selected
       /* if (radioButton.checked) {
           const svg = d3.select('#lineplot svg').remove();
