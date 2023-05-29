@@ -76,26 +76,24 @@
                 <div class="card h-100">
                     <!-- Content for Section 2 -->
                     <div class="card-body">
-                        <h4 class="card-title">Stromverbrauch letzte t Jahre</h4>
+                        <h4 class="card-title">Stromverbrauch täglich seit 2022</h4>
                     </div>
-                    <img class="card-img-bottom" src="data/img/screenshot_line.png" style="width: 100%;">
+                    <!--<img class="card-img-bottom" src="data/img/screenshot_line.png" style="width: 100%;">-->
+                    <div id="lineplot-preview"></div>
                     <br>
-                    <!-- Add your plot or other content here -->
-                    
-                    <!-- <div id="testplot-container"></div> -->
                 </div>
             </div>
         </div>
         <br>
         <div class="row d-flex align-items-stretch">
             <div class="col-lg-6 col-md-12">
-                <div class="card h-100">
+                <div class="card h-100" id="card-barchart-preview">
                     <!-- Content for Section 3 -->
                     <div class="card-body">
-                        <h3 class="card-title">Differenz effektiv und erwartet</h3>
+                        <h3 class="card-title">Differenz effektiv und erwartet täglich seit 2022</h3>
                     </div>
                     <!-- Add your plot or other content here -->
-                    <p>hier soll bar chart mit differenzen effektiv-erwartet kommen (Spalte verfügbar)</p>
+                    <div id="barchart-preview"></div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
@@ -168,48 +166,46 @@
 
                 <li>
                     <label>
-                        <input type="checkbox" name="options-lineplot" id="dynY" checked> dynamische Y-Achse
-                    </label>
-                </li>
-                
-                <li >
-                    <label>
-                    <input type="checkbox" name="options-lineplot"> Wintermonate markieren
-                    </label>
-                </li>
-
-                <li >
-                    <label>
                     <input type="checkbox" name="options-lineplot" id="showEff" checked> effektiver Stromverbrauch zeigen
                     </label>
                 </li>
 
-                <li >
+                <li>
                     <label>
                     <input type="checkbox" name="options-lineplot" id="showErw" checked> erwarteter Stromverbrauch zeigen
                     </label>
                 </li>
 
-                <li >
+                <li>
                     <label>
                     <input type="checkbox" name="options-lineplot" id="showMA"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
                     </label>
                 </li>
-                
-                <li >
-                    <label>
-                    <input type="checkbox" name="options-lineplot"> Kommunikationskampage markieren
-                    </label>
-                </li>
-                
-                
 
-                <li >
+                <li>
                     <label>
                     <input type="checkbox" name="options-lineplot" id="showCI"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
                     </label>
                 </li>
+
+                <li>
+                    <label>
+                        <input type="checkbox" name="options-lineplot" id="dynY" checked> dynamische Y-Achse
+                    </label>
+                </li>
                 
+                <li>
+                    <label>
+                    <input type="checkbox" name="options-lineplot"> Wintermonate markieren
+                    </label>
+                </li>
+
+                <li>
+                    <label>
+                    <input type="checkbox" name="options-lineplot"> Kommunikationskampage markieren
+                    </label>
+                </li>
+                                
                 </ul>
             </div>
         </div>
@@ -296,12 +292,13 @@
             </select>
         </div>
         -->
-        <div style="float:right;">
+        <div style="float:right; margin-right: 10%;">
             <form class="form-floating" >
                 <input type="number" class="form-control" id="nCategories" placeholder="Anzahl Kategorien" value="8" min="1" name="options-calendar-categories">
                 <label for="nCategories">Anzahl Kategorien</label>
             </form>
         </div>
+        <div style="width: 10%"></div>
         <div id="wrapper">
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" 
@@ -359,12 +356,12 @@
                 </li>
                 <li>
                     <label>
-                        <input type="radio" name="options-calendar-sy" id="start-year-2021" value="2021" checked> 2021
+                        <input type="radio" name="options-calendar-sy" id="start-year-2021" value="2021"> 2021
                     </label>
                 </li>
                 <li>
                     <label>
-                        <input type="radio" name="options-calendar-sy" id="start-year-2022" value="2022"> 2022
+                        <input type="radio" name="options-calendar-sy" id="start-year-2022" value="2022" checked> 2022
                     </label>
                 </li>
                 <li>
@@ -476,7 +473,7 @@
     </div>
     
     <div class="content" id="content-dashboard3">
-        <p>Differenz effektiver und erwarteter Stromverbrauch</p>
+        <h1>Differenz effektiver und erwarteter Stromverbrauch</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed vestibulum ultrices vehicula. Sed eget dui et erat
@@ -713,8 +710,63 @@
     </div>
 
     <div class="content" id="content-details">
-        <p>kurze Info zum Modell für Berechnung erwarteter Stromverbrauch</p>
-        <p>Model Performance Monitoring (beispielsweise MSE anzeigen)</p>
+        <h1>weitere Informationen</h1>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Woher kommt der erwartete Stromverbrauch?
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    Der erwartete Stromverbrauch wird auf Basis der täglichen Stromverbrauchsdaten der Industriellen
+                    Werke Basel (IWB) mittels einem statistischen Modell geschätzt. Da der Stromverbrauch von der
+                    Witterung abhängig ist, wird er witterungsbereinigt dargestellt. Im Modell wird ebenfalls berücksichtigt,
+                    ob es sich um Ferien-, Feier-, Werktage oder Wochenenden handelt.
+                    </br></br>
+                    <a href="https://www.statistik.bs.ch/grundlagen/methodenberichte/stromverbrauchsprognose.html" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Code zur Replikation</a>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Was ist eine Gigawattstunde (GWh)?
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Wie siehts im Rest der Schweiz aus?
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <a href="https://www.energiedashboard.ch/dashboard" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Energiedashboard Schweiz</a>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Die Idee hinter dieser Visualisierung
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      blablabla
+                  </div>
+                </div>
+              </div>
+          </div>
+
     </div>
 
     <div class="content" id="content-about">
@@ -722,7 +774,7 @@
             <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        <i class="fa-solid fa-table"></i> Datenquelle
+                        <i class="fa-solid fa-table"></i> verwendete Datenquelle
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
@@ -779,42 +831,40 @@
             <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        <i class="fa-brands fa-github"></i> Sourcecode
+                        <i class="fa-solid fa-code"></i> Sourcecode
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
-                        <h3 class="card-title">Sourcecode</h3>
                         <p class="card-text">
-                            bli
-                        </p>
-                        <p class="card-text"></p>
-                            bla
+                            Der gesamte für dieses Dashboard entwickelte Sourcecode ist auf
+                            <a href="https://github.com/bt-koch/energy-monitor/tree/master" target="_blank">GitHub <i class="fa-brands fa-github"></i></a>
+                            verfügbar.
                         </p>
                         <p class="card-text">
-                            blup
+                            Letzte Aktualisierung dieser App: 28. Mai 2023
                         </p>
-                        <a href="https://github.com/bt-koch/energy-monitor/tree/master" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        <i class="fa-regular fa-circle-user"></i> Autor
+                        <i class="fa-regular fa-circle-user"></i> über mich
                     </div>
                     <!-- Content for Section 1 -->
                     <div class="card-body">
-                        <h3 class="card-title">Autor</h3>
+
                         <p class="card-text">
-                            bli
+                            Mein Name ist <b>Bela Tim Koch</b>. Ich bin Masterstudent in <b>Applied Economic Analysis</b>
+                            an der Universität Bern mit Nebenfach <b>Banking and Finance</b> an der Universität Zürich.
+                            Nebenbei arbeite ich als <b>Data Scientist</b> bei der Eidgenössischen Finanzverwaltung.
                         </p>
-                        <p class="card-text"></p>
-                            bla
-                        </p>
+
                         <p class="card-text">
-                            blup
+                            Bei Fragen oder Anmerkungen kannst du mich gerne über
+                            <a href="https://www.linkedin.com/in/bela-tim-koch/" target="_blank"> LinkedIn<i class="fa-brands fa-linkedin"></i></a> 
+                            kontaktieren.
                         </p>
-                        <a href="https://www.linkedin.com/in/bela-tim-koch/" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Link</a>
                     </div>
                 </div>
             </div>
@@ -825,10 +875,10 @@
     
 
     <!-- Optional JavaScript -->
-
+    <script src="js/barchart.js"></script>
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
-    <script src="js/barchart.js"></script>
+    
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
 </body>
