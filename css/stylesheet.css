@@ -31,6 +31,18 @@ body {
 }
 */
 
+/* for alerts */
+.icon-text-container {
+  display: flex;
+  align-items: flex-start;
+}
+.icon-text-container i {
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+.text-container p {
+  margin: 0;
+}
+
 
 
 
@@ -103,7 +115,9 @@ body {
     fill: #2980b9;
   }
   .chart__axis--context text {
-    fill: #7f8faf;
+    /* fill: #7f8faf; */
+    fill: #2980b9;
+    opacity: 0.6;
   }
   .chart__axis--context .tick:nth-child(odd) {
     display: none;
