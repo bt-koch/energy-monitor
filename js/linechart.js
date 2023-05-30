@@ -1,6 +1,26 @@
 /* global d3, _ */
 function linechart(preview = false){
 
+  // some "error-handling"
+  if(document.getElementById("y-lineplot").checked && document.getElementById("showMA").checked && !preview){
+    alert("Achtung: durch die Berechnung des rollenden Durchschnitts werden die ersten 6 Beobachtungen abgeschnitten. Dies ist insb. bei jährlicher Frequenz auffallend.");
+  }
+  if(document.getElementById("d-lineplot").checked
+    && document.getElementById("showEff").checked
+    && !preview ||
+    document.getElementById("d-lineplot").checked
+    && document.getElementById("showErw").checked
+    && !preview){
+    alert("Achtung: bei Anzeige täglicher Daten über gesamten Zeitraum sind Linien nicht mehr sichtbar. Es ist empfohlen entweder Zeitraum einzuschränken oder nur rollender Durchschnitt anzuzeigen.")
+  }
+
+  if (document.getElementById("dynY").checked) {
+    document.getElementById("dynY-alert").style.display = "block";
+  } else {
+    document.getElementById("dynY-alert").style.display = "none";
+  }
+  
+
   // adjust graph width, height and margins
   let margin, margin2, width, height, height2;
   if(preview) {
@@ -125,12 +145,14 @@ function linechart(preview = false){
       .attr('class', 'chart__range-selection')
       .attr('transform', 'translate(110, 0)');
 
+    /*
     if(!preview){
       context.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", `translate(0,${height2})`)
-      .call(xAxis2);
+        .attr("class", "axis axis--x")
+        .attr("transform", `translate(0,${height2})`)
+        .call(xAxis2);
     }
+    */
 
 
   // read the data
@@ -171,6 +193,7 @@ function linechart(preview = false){
       // filter out unfinished year
       if(lastDay.getDate() < getLastDayOfYear(lastDay)){
         data = data.filter(d => d.date.getFullYear() !== lastDay.getFullYear());
+        console.log(data);
       }
     }
 
@@ -204,6 +227,8 @@ function linechart(preview = false){
       })
     }
 
+    console.log(data);
+
     // sort data according to date
     function sortByDateAscending(a, b) {
         return a.date - b.date;
@@ -218,7 +243,7 @@ function linechart(preview = false){
       });
     }
 
-    if(!preview){
+    if(document.getElementById("showMA").checked && !preview){
       function calculateMovingAverage(data, periods) {
         const movingAverageData = [];
         for (let i = periods - 1; i < data.length; i++) {
@@ -231,6 +256,8 @@ function linechart(preview = false){
   
       const movingAveragePeriods = 7; // Adjust this value to set the number of periods for the moving average
       data = calculateMovingAverage(data, movingAveragePeriods);
+
+      console.log(data);
     }
 
     // Define a brush for selecting a range along the x-axis, with the
@@ -364,10 +391,12 @@ function linechart(preview = false){
         .attr('class', 'chart__area area')
         .attr('d', area2);
     
+      
       context.append('g')
         .attr('class', 'x axis chart__axis--context')
         .attr('transform', `translate(0, ${height2 - 22})`)
         .call(xAxis2);
+      
     
       context.append('g')
         .attr('class', 'x brush')
@@ -446,7 +475,6 @@ function linechart(preview = false){
       
       focus.select('.x.axis').call(xAxis);
       focus.select('.y.axis').call(yAxis);
-
 
     }
 
