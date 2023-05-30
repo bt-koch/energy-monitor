@@ -9,8 +9,6 @@ function mainnumbers(){
             d.value = +d["Stromverbrauch effektiv"]/10**6;
         });
 
-        console.log(data);
-
         function calculateMovingAverage(data, periods) {
             const movingAverageData = [];
             for (let i = periods - 1; i < data.length; i++) {
@@ -30,8 +28,6 @@ function mainnumbers(){
         })
         var valueLastDay = objLastDay[0].value;
         var maLastDay = objLastDay[0].movingAverage;
-
-        console.log(objLastDay);
 
         // text element 1
         const domValueLastDay = d3.select("#energy-consumption-lastDay");
