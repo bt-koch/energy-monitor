@@ -240,10 +240,8 @@ barchart();
 // Remove the svg element and call the callback function
 function removeSvg(callback, preview) {
     if(!preview){
-        console.log("true");
         reference="#barchart svg";
     } else {
-        console.log("false");
         reference="#barchart-preview svg"
     }
     const svg = d3.select(reference);
