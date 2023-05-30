@@ -5,25 +5,31 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Energie-Monitor</title>
 
     <!-- Bootstrap CSS -->
     <link href="rsc/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <script src="https://kit.fontawesome.com/8a9845a52c.js" crossorigin="anonymous"></script>
+
+    <!-- fontawesome -->
+    <link href="/rsc/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/rsc/fontawesome/css/brands.css" rel="stylesheet">
+    <link href="/rsc/fontawesome/css/solid.css" rel="stylesheet">
+  
 
     <!-- Custom CSS -->
     <link href="css/stylesheet.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="rsc/jquery/jquery-3.7.0.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="rsc/bootstrap/js/bootstrap.min.js"></script>
 
+    <!-- D3.js -->
+    <script src="rsc/d3/dist/d3.min.js"></script>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- js which is used to control behaviour of dashboard -->
     <script src="js/dashboard.js"></script>
     
-
-    <title>Energie-Monitor</title>
 </head>
 
 <body>
@@ -210,6 +216,20 @@
         </div>
 
         <div id="lineplot"></div>
+
+        <div class="alert alert-warning" role="alert" id="dynY-alert">
+            <div class="icon-text-container">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div class="text-container">
+                    <p>
+                        Die Y-Achse ist dynamisch und beginnt daher nicht bei 0. Dies macht Trends besser sichtbar,
+                        kann die wahrgenommene Stärke des Trends allerdings verzerren.
+                        Über die Optionen kann die dynamische Y-Achse statisch gesetzt werden, wodurch diese bei 0 beginnt.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
 
         <div class="alert alert-info" role="alert">
             <i class="fa-solid fa-circle-info"></i> Der betrachtete Zeitraum kann mittels ziehen des unteren Areacharts angepasst werden.
