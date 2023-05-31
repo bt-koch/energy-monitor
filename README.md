@@ -3,7 +3,9 @@
 Building an Open Government Data visualization for data about the energy
 consumption of Canton Basel-Stadt.
 
-[](preview.jpeg)
+## Preview
+
+![](https://github.com/bt-koch/energy-monitor/blob/dbe9a498a6f05c66aafffeaa8cc18ed433917e7f/preview.jpeg)
 
 ## Context
 After both the Confederation and the Canton of Basel-Stadt launched calls to
