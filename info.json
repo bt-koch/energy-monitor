@@ -1,6 +1,6 @@
 {
 "title": "Energie-Monitor Kanton Basel-Stadt",
-"description": "Meine Beschreibung der Visualisierung",
+"description": "Diese App bietet die Möglichkeit, die Daten zum täglichen Stromverbrauch des Kanton Basel-Stadt eigentständig zu analysieren. Grunsätzlich steht dafür ein Liniendiagramm, ein Calendar-Heatmap sowie ein Säulendiagramm mit diversen interaktiven Funktionen zur Verfügung.",
 "authors": [
     {"name": "Bela Tim Koch", "email": "bela.koch@students.unibe.ch"}
 ],
