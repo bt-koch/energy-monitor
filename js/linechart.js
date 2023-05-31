@@ -1,7 +1,6 @@
-/* global d3, _ */
 function linechart(preview = false){
-
-  // some "error-handling"
+  
+  // conditional alerts / displayed information
   if(document.getElementById("y-lineplot").checked && document.getElementById("showMA").checked && !preview){
     alert("Achtung: durch die Berechnung des rollenden Durchschnitts werden die ersten 6 Beobachtungen abgeschnitten. Dies ist insb. bei jährlicher Frequenz auffallend.");
   }
@@ -25,7 +24,7 @@ function linechart(preview = false){
   let margin, margin2, width, height, height2;
   if(preview) {
     // todo
-    margin = {top: 30, right: 0, bottom: 0, left: 0};
+    margin = {top: 30, right: 40, bottom: 0, left: 20};
     margin2 = {top: 210, right: 0, bottom: 100, left: 0};
     width = 1.4*document.getElementById("card-barchart-preview").offsetWidth - margin.left - margin.right;
     height = 1*283 - margin.top - margin.bottom;
@@ -42,7 +41,6 @@ function linechart(preview = false){
   // define format of date
   const parseDate = d3.timeParse("%Y-%m-%d");
   const bisectDate = d3.bisector(d => d.date).left;
-
   if(document.getElementById("m-lineplot").checked && !preview) {
     var legendFormat = d3.timeFormat("%B %Y");
   } else if(document.getElementById("y-lineplot").checked && !preview) {
@@ -51,12 +49,12 @@ function linechart(preview = false){
     var legendFormat = d3.timeFormat('%d.%m.%Y');
   }
 
+  // define scales
   const x = d3.scaleTime().range([0, width]); // defines width of displayed x axis for line and bar
   const x2 = d3.scaleTime().range([0, width]); // defines width of displayed x axis for area
   const y = d3.scaleLinear().range([height, 0]); // height of yaxis line
   const y1 = d3.scaleLinear().range([height, 0]); // ?
   const y2 = d3.scaleLinear().range([height2, 0]); // height of yaxis area
-  const y3 = d3.scaleLinear().range([60, 0]); // height of the bars
 
   const xAxis = d3.axisBottom(x); // xaxis labels below line line
   const xAxis2 = d3.axisBottom(x2); // xaxis labels below line area
@@ -77,6 +75,7 @@ function linechart(preview = false){
     .x(d => x(d.date))
     .y(d => y(d.movingAverage));
 
+  // draw CI
   const CIArea = d3.area()
     .x(d => x(d.date))
     .y0(d => y(d.lowerCI))
@@ -96,7 +95,6 @@ function linechart(preview = false){
   const svg = d3.select(reference).append('svg')
     .attr('class', 'chart')
     .attr('width', width + margin.left + margin.right)
-    //.attr("width", "90%")
     .attr('height', height + margin.top + margin.bottom + 60)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -113,46 +111,49 @@ function linechart(preview = false){
     .attr('width', width)
     .attr('height', height);
 
-    const make_y_axis = function () {
-      return d3.axisLeft()
-        .scale(y)
-        .ticks(3); // vertical grid lines
-    };
-    
-    // add some html elements
-    // add linechart area
-    const focus = svg.append('g')
-      .attr('class', 'focus')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-    // add areachart area
-    const context = svg.append('g')
-      .attr('class', 'context')
-      .attr('transform', `translate(${margin2.left},${margin2.top + 60})`);
+  // define y axis
+  const make_y_axis = function () {
+    return d3.axisLeft()
+      .scale(y)
+      .ticks(3); // vertical grid lines
+  };
+      
+  // add linechart area
+  const focus = svg.append('g')
+    .attr('class', 'focus')
+    .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // add legend
-    const legend = svg.append('g')
-      .attr('class', 'chart__legend')
-      .attr('width', width)
-      .attr('height', 30)
-      .attr('transform', `translate(${margin2.left}, 10)`);
-    // add header
-    legend.append('text')
-      .attr('class', 'chart__symbol')
-      .text('Stromverbrauch in GWh')
-    // add filter selection
-    const rangeSelection = legend
-      .append('g')
-      .attr('class', 'chart__range-selection')
-      .attr('transform', 'translate(110, 0)');
+  // add areachart area
+  const context = svg.append('g')
+    .attr('class', 'context')
+    .attr('transform', `translate(${margin2.left},${margin2.top + 60})`);
 
-    /*
-    if(!preview){
-      context.append("g")
-        .attr("class", "axis axis--x")
-        .attr("transform", `translate(0,${height2})`)
-        .call(xAxis2);
-    }
-    */
+  // add legend
+  const legend = svg.append('g')
+    .attr('class', 'chart__legend')
+    .attr('width', width)
+    .attr('height', 30)
+    .attr('transform', `translate(${margin2.left}, 10)`);
+
+  // add header
+  legend.append('text')
+    .attr('class', 'chart__symbol')
+    .text('Stromverbrauch in GWh')
+  
+  // add filter selection
+  const rangeSelection = legend
+    .append('g')
+    .attr('class', 'chart__range-selection')
+    .attr('transform', 'translate(110, 0)');
+
+  /*
+  if(!preview){
+    context.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", `translate(0,${height2})`)
+      .call(xAxis2);
+  }
+  */
 
 
   // read the data
@@ -193,7 +194,6 @@ function linechart(preview = false){
       // filter out unfinished year
       if(lastDay.getDate() < getLastDayOfYear(lastDay)){
         data = data.filter(d => d.date.getFullYear() !== lastDay.getFullYear());
-        console.log(data);
       }
     }
 
@@ -227,8 +227,6 @@ function linechart(preview = false){
       })
     }
 
-    console.log(data);
-
     // sort data according to date
     function sortByDateAscending(a, b) {
         return a.date - b.date;
@@ -254,10 +252,8 @@ function linechart(preview = false){
         return movingAverageData;
       }
   
-      const movingAveragePeriods = 7; // Adjust this value to set the number of periods for the moving average
+      const movingAveragePeriods = 7; // give user possibility to change?
       data = calculateMovingAverage(data, movingAveragePeriods);
-
-      console.log(data);
     }
 
     // Define a brush for selecting a range along the x-axis, with the
@@ -268,28 +264,38 @@ function linechart(preview = false){
       .on('brush', brushed);
 
     var xRange = d3.extent(data, function(d) { return d.date; });
-    var min = d3.min(data, function(d) { return d.valueEff; });
-    var max = d3.max(data, function(d) { return d.valueEff; });
+    var min = d3.min(data, function(d) { return d.lowerCI; });
+    var max = d3.max(data, function(d) { return d.upperCI; });
 
     x.domain(xRange);
 
+    // define y domain: dynamic and fixed
     if(document.getElementById("dynY").checked){
-      y.domain(d3.extent(data, function(d) { return d.valueEff; }));
+      
+      // variables which define y-domain
+      var variables = ["upperCI", "lowerCI"];
+
+      // Calculate the extent for both variable
+      var extents = variables.map(function(variable) {
+        return d3.extent(data, function(d) { return d[variable]; });
+      });
+
+      // concatenate both extents to one array
+      extents = extents[0].concat(extents[1]);
+
+      // set domain respectively
+      y.domain(d3.extent(extents));
     } else {
       y.domain([0,max]);
     }
-    y3.domain(d3.extent(data, function(d) { return d.valueEff; }));
+
     x2.domain(x.domain());
     y2.domain(y.domain());
-
-
 
     var range = legend.append('text')
       .text(legendFormat(new Date(xRange[0])) + ' - ' + legendFormat(new Date(xRange[1])))
       .attr('x', width)
       .style('text-anchor', 'end');
-
-
 
     if(document.getElementById("showCI").checked && !preview) {
       var CIChart = focus.append("path")
@@ -333,7 +339,7 @@ function linechart(preview = false){
 
     focus.append('g')
         .attr('class', 'y axis')
-        .attr('transform', 'translate(12, 0)')
+        .attr('transform', 'translate(-20, 0)') // pos of y labels
         .call(yAxis);
 
     var helper = focus.append('g')
@@ -434,6 +440,8 @@ function linechart(preview = false){
     
     function brushed() {
       let ext = d3.brushSelection(this);
+
+      console.log(ext);
   
       // problem for range selection: stuff in condition doesnt run
       if (ext !== null) {
@@ -446,18 +454,20 @@ function linechart(preview = false){
         const x0 = xScale.invert(ext[0]);
         const x1 = xScale.invert(ext[1]);
 
+        console.log(x0);
+        console.log(x1);
+
         x.domain([x0,x1]);
+
+
         if(document.getElementById("dynY").checked){
           y.domain([
-            d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : max; })),
-            d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.valueEff : min; }))
+            d3.min(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.lowerCI : max; })),
+            d3.max(data.map(function(d) { return (d.date >= x0 && d.date <= x1) ? d.upperCI : min; }))
           ]);
         }
         
         range.text(legendFormat(new Date(x0)) + ' - ' + legendFormat(new Date(x1)))
-        /* focusGraph.attr('x', function(d, i) { return x(d.date); }); */
-        /* var days = Math.ceil((x1 - x0) / (24 * 3600 * 1000))
-        focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5) */
       }
 
       if(document.getElementById("showCI").checked && !preview) {
