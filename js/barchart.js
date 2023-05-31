@@ -79,11 +79,7 @@ function barchart(preview = false){
         })
         }
 
-        // sort data according to date
-        function sortByDateAscending(a, b) {
-            return a.date - b.date;
-        }
-        data = data.sort(sortByDateAscending);
+
 
         // filter: keep displayed observation period
         let startYear, endYear;
@@ -119,7 +115,11 @@ function barchart(preview = false){
             });
         }
 
-
+        // sort data according to date
+        function sortByDateAscending(a, b) {
+            return a.date - b.date;
+        }
+        data = data.sort(sortByDateAscending);
 
 
         // 2. Append svg-object for the bar chart to a div in your webpage
