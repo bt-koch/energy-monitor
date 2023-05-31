@@ -11,6 +11,12 @@ function barchart(preview = false){
             d.valueErw = +d["Stromverbrauch erwartet"]/10**6;
         });
 
+        // sort data according to date
+        function sortByDateAscending(a, b) {
+            return a.date - b.date;
+        }
+        data = data.sort(sortByDateAscending);
+
         // if selected, calculate relative difference
         if(document.getElementById("relDiff").checked && !preview){
             data.forEach(function(d) {
@@ -70,13 +76,14 @@ function barchart(preview = false){
             }
             aggregatedData[t].valueSum += d.value;
         });  
-    
+
         data = Object.entries(aggregatedData).map(([t, values]) => {
             return {
-            date: new Date(t),
-            value: values.valueSum
+                date: new Date(t),
+                value: values.valueSum
             }
         })
+
         }
 
 
@@ -115,11 +122,7 @@ function barchart(preview = false){
             });
         }
 
-        // sort data according to date
-        function sortByDateAscending(a, b) {
-            return a.date - b.date;
-        }
-        data = data.sort(sortByDateAscending);
+
 
 
         // 2. Append svg-object for the bar chart to a div in your webpage
@@ -149,6 +152,7 @@ function barchart(preview = false){
         // 3. Define scales to translate domains of the data to the range of the svg
         var xMin = d3.min(data, function(d){return d.date});
         var xMax = d3.max(data, function(d){return d.date});
+       
 
         var yMin = d3.min(data, function(d){return d.value})-extendY;
         var yMax = d3.max(data, function(d){return d.value})+extendY;
@@ -177,6 +181,7 @@ function barchart(preview = false){
 
         // 5. Draw individual bars and define mouse events for the tooltip
         var barwidth = (xScale.range()[1] - xScale.range()[0]) / data.length;
+
 
         const tooltip = d3.select("body")
                         .append("div")
