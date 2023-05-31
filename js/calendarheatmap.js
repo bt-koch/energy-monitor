@@ -74,6 +74,12 @@ function calendarheatmap(preview=false){
                 d.value=d["Stromverbrauch effektiv"]/10**6;
                 d.year=d.date.getFullYear();//extract the year from the data
         });
+
+        // sort data according to date
+        function sortByDateAscending(a, b) {
+            return a.date - b.date;
+        }
+        data = data.sort(sortByDateAscending);
         /*
         var startYear = document.getElementById("start-year").value;
         var endYear = document.getElementById("end-year").value;
@@ -263,6 +269,7 @@ function calendarheatmap(preview=false){
                 return "translate("+xOffset+","+(yOffset-(cellSize*1.5))+")";
             });
         
+
         key.selectAll("rect")
             .data(colours)
             .enter()
@@ -270,7 +277,7 @@ function calendarheatmap(preview=false){
             .attr("width",cellSize)
             .attr("height",cellSize)
             .attr("x",function(d,i){
-                return i*130;
+                return i*90;
             })
             .attr("fill",function(d){
                 return d;
@@ -281,7 +288,7 @@ function calendarheatmap(preview=false){
             .enter()
             .append("text")
             .attr("x",function(d,i){
-                return cellSize+5+(i*130);
+                return cellSize+5+(i*90);
             })
             .attr("y","1em")
             .text(function(d,i){
