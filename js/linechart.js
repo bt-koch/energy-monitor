@@ -30,8 +30,8 @@ function linechart(preview = false){
     height = 1*283 - margin.top - margin.bottom;
     height2 = 1*283 - margin2.top - margin2.bottom;
   } else {
-    margin = {top: 30, right: 40, bottom: 100, left: 20};
-    margin2 = {top: 210, right: 40, bottom: 100, left: 20};
+    margin = {top: 30, right: 0, bottom: 100, left: 0};
+    margin2 = {top: 210, right: 0, bottom: 100, left: 0};
     width = 0.8*window.innerWidth - margin.left - margin.right;
     height = 1.25*283 - margin.top - margin.bottom;
     height2 = 1.25*283 - margin2.top - margin2.bottom;
@@ -339,7 +339,7 @@ function linechart(preview = false){
 
     focus.append('g')
         .attr('class', 'y axis')
-        .attr('transform', 'translate(-20, 0)') // pos of y labels
+        .attr('transform', 'translate(12, 0)') // pos of y labels
         .call(yAxis);
 
     var helper = focus.append('g')
@@ -495,14 +495,6 @@ function linechart(preview = false){
 linechart(preview = true);
 linechart(preview = false);
 
-// problem: we need to regenerate plot if frequency is changed AND
-// when option is changed -> how should i solve this??
-// maybe look for any change and then regenerate the plot and use in
-// conditionals directly the reference to the selections
-// -> don't run function with parameters
-
-// pseudo-algo
-// IF change-in-freq OR change-in-opt RERUN function
 
 /* rerun function conditional on frequency chosen */
 const optionSelection = document.querySelectorAll('input[name="options-lineplot"]');
@@ -511,11 +503,6 @@ optionSelection.forEach(function(opt) {
   opt.addEventListener('change', function() {
     const svg = d3.select('#lineplot svg').remove();
     linechart();
-      // Check which radio button is selected
-      /* if (radioButton.checked) {
-          const svg = d3.select('#lineplot svg').remove();
-          linechart(radioButton.value);
-      } */
   });
 });
 
