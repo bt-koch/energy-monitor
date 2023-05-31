@@ -3,6 +3,8 @@
 Building an Open Government Data visualization for data about the energy
 consumption of Canton Basel-Stadt.
 
+
+
 ## Context
 After both the Confederation and the Canton of Basel-Stadt launched calls to
 save electricity due to the threat of an energy shortage in the autumn of 2022,
@@ -23,8 +25,9 @@ Following major changes were made:
 - allowed changing the frequency of data (daily, monthly, yearly)
 - removed the area chart in the middle
 - option to display confidence intervals of model
-- option to highlight certain time periods
 - option to display moving average
+- option to show and hide the different lines
+- option to choose between dynamic and static y axis
 
 ### Calendar Heatmap
 
@@ -40,6 +43,8 @@ The bar chart is based on [this code](https://marcwie.github.io/blog/responsive-
 Following major changes were made:
 - updated from d3 v4 to d3 v7
 - allowed for negative values
+- allowed changing frequency
+- option to choose between absolute and relative differences
 
 ## About
 This project was created as a part of the Lecture "Durchführung eines Open Data Projekts"
