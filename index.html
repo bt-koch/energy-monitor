@@ -11,10 +11,10 @@
     <link href="rsc/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- fontawesome -->
+    
     <link href="/rsc/fontawesome/css/fontawesome.css" rel="stylesheet">
     <link href="/rsc/fontawesome/css/brands.css" rel="stylesheet">
     <link href="/rsc/fontawesome/css/solid.css" rel="stylesheet">
-  
 
     <!-- Custom CSS -->
     <link href="css/stylesheet.css" rel="stylesheet">
@@ -25,7 +25,7 @@
     <script src="rsc/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- D3.js -->
-    <script src="rsc/d3/dist/d3.min.js"></script>
+    <script src="rsc/d3/d3.min.js"></script>
 
     <!-- js which is used to control behaviour of dashboard -->
     <script src="js/dashboard.js"></script>
@@ -70,12 +70,14 @@
                     <div class="card-body">
                         <h5>letzte Beobachtung:</h5>
                         <h1 id="energy-consumption-lastDay"></h1>
+                        <p id="energy-consumption-diff"></p>
                         </br>
                         <h5>sieben Tage Schnitt:</h5>
                         <h1 id="energy-consumption-MA"></h1>
                         </br>
-                        <h5>TO DO IDEE NÖTIG:</h5>
-                        <h1>63.17% <i class="fa-solid fa-circle-exclamation"></i></h1>
+                        <h5>Total Stromverbrauch letze 6 Monate:</h5>
+                        <h1 id="energy-consumption-sum"></h1>
+                        
                     </div>
                     <!-- Add your plot or other content here -->
                 </div>
@@ -115,17 +117,18 @@
     </div>
 
     <div class="content" id="content-dashboard1">
-        <!-- Content for Dashboard 1 option -->
-        <!-- Add your content here -->
         <h1>Analyse der Trends über die Zeit</h1>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Sed vestibulum ultrices vehicula. Sed eget dui et erat
-            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
-            urna pharetra a. Nulla bibendum sapien at ex vehicula
-            tempor. Nam gravida odio vel tellus blandit. Test für
-            dynamische Anpassung von Text: der tatsächliche Stromverbrauch
-            vom <span id="testdate"></span> war <span id="testvalue"></span>
+            Mittels dem folgenden Liniendiagramm lassen sich Trends
+            im Stromverbrauch des Kantons Basel-Stadt visuell analysieren.
+            Die beiden Buttons erlauben die Wahl der angezeigten Datenfrequenz
+            sowie diverser Möglichkeiten, das Liniendiagramm wie gewünscht
+            anzupassen. Grundlage sind tägliche Daten, ändert man die Frequenz
+            wird der Stromverbrauch im entsprechenden Zeitraum aufsummiert
+            dargestellt. Mittels klicken und ziehen auf dem unteren Flächendiagramm
+            kann der angezeigte Zeitraum geändert werden.
+            <!--Test für dynamische Anpassung von Text: der tatsächliche Stromverbrauch
+            vom <span id="testdate"></span> war <span id="testvalue"></span>-->
         </p>
         <div id="wrapper">
             <div class="dropdown">
@@ -146,11 +149,6 @@
                     <input type="radio" name="options-lineplot" id="m-lineplot" checked value="m"> monatlich
                     </label>
                 </li>
-                <!-- <li>
-                    <label>
-                    <input type="radio" name="options-lineplot" id="w-lineplot" value="w"> wöchentlich
-                    </label>
-                </li> -->
                 <li>
                     <label>
                     <input type="radio" name="options-lineplot" id="d-lineplot" value="d"> täglich
@@ -229,12 +227,8 @@
                 </div>
             </div>
         </div>
-        
 
-        <div class="alert alert-info" role="alert">
-            <i class="fa-solid fa-circle-info"></i> Der betrachtete Zeitraum kann mittels ziehen des unteren Areacharts angepasst werden.
-        </div>
-        
+        <!--
         <p>
             Pellentesque habitant morbi tristique senectus et netus
             et malesuada fames ac turpis egestas. Donec laoreet
@@ -256,61 +250,22 @@
             id. Nunc luctus felis at vehicula porttitor. Quisque
             bibendum urna et est laoreet, nec fermentum elit
             bibendum.
+
+            evtl durchschnitt etc berechnen und anzeigen für gew zeitraum
         </p>
-  <!--       <h5>Einige Ideen und to do's</h5>
-        <ul>
-            <li>für mittels unterem Plot angezeigten Zeitraum bspw. Werte wie Durchschnitt berechnen</li>
-            <li>Breite des Charts soll sich an Fenster anpassen</li>
-          </ul> -->
+        -->
     </div>
     
     <div class="content" id="content-dashboard2">
-        <!-- Content for Dashboard 2 option -->
-        <!-- Add your content here -->
         <h1>Analyse der Tagesmuster</h1>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Sed vestibulum ultrices vehicula. Sed eget dui et erat
-            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
-            urna pharetra a. Nulla bibendum sapien at ex vehicula
-            tempor. Nam gravida odio vel tellus blandit.
+            Das folgende Kalender-Heatmap ermöglicht die visuelle Analyse
+            von Muster im täglichen Stromverbrauch über die Woche und über
+            das Jahr. Beispielsweise wird ersichtlich, dass der Stromverbrauch
+            durch die Woche höher ist als am Wochenende. Auch Feiertage sind
+            durch einen tieferen Stromverbrauch sichtbar. Die Abstufung der
+            angezeigten Kategorien kann über das Textfeld angepasst werden.
         </p>
-        <!-- would be better if filled automatically using data, to do if enought time -->
-        <!--
-        <div id="wrapper" style="width: 500px;">
-            <label class="year-selector" for="start-year">Startjahr:</label>
-            <select class="form-select" id="start-year" name="year">
-                <option value="2012">2012</option>
-                <option value="2013">2013</option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022" selected>2022</option>
-                <option value="2023">2023</option>
-            </select>
-            <div style="margin-right: 50px;"></div>
-            <label class="year-selector" for="start-year">Endjahr:</label>
-            <select class="form-select" id="end-year" name="year">
-                <option value="2012">2012</option>
-                <option value="2013">2013</option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023" selected>2023</option>
-            </select>
-        </div>
-        -->
         <div style="float:right; margin-right: 10%;">
             <form class="form-floating" >
                 <input type="number" class="form-control" id="nCategories" placeholder="Anzahl Kategorien" value="8" min="1" name="options-calendar-categories">
@@ -467,6 +422,7 @@
         
     <!--</div>-->
         <div id="calendarheatmap"></div>
+        <!--
         <p>
             Pellentesque habitant morbi tristique senectus et netus
             et malesuada fames ac turpis egestas. Donec laoreet
@@ -489,16 +445,20 @@
             bibendum urna et est laoreet, nec fermentum elit
             bibendum.
         </p>
+        -->
     </div>
     
     <div class="content" id="content-dashboard3">
         <h1>Analyse der Differenz effektiver und erwarteter Stromverbrauch</h1>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Sed vestibulum ultrices vehicula. Sed eget dui et erat
-            accumsan lacinia. Etiam malesuada massa mi, ac dapibus
-            urna pharetra a. Nulla bibendum sapien at ex vehicula
-            tempor. Nam gravida odio vel tellus blandit.
+            Das Säulendiagramm zeigt die Differenz zwischen dem effektiv gemessenen Stromverbrauch 
+            und den mittels einem statistischen Modell berechneten erwarteten Stromverbrauch. 
+            Der Stromverbrauch wird dabei witterungsbereinigt dargestellt. Neben den meteologischen
+            Daten wird auch berücksichtigt, ob es sich bei den Messungszeitpunkten um Ferien-, Feier-, 
+            erktage oder Wochenenden handelt sowie ob sich die Schweiz aufgrund der Covid-19 Panemie
+            im Lockdown befand. Da die Kommunikationskampage des Bundes betreffend der Energiemangellage
+            nicht in das Modell hineinfliesst, stellt sich die Frage, ob der effektive Stromverbrauch
+            während dieser Kommunikationskampage unter dem erwarteten Stromverbrauch liegt.
         </p>
         <div id="wrapper">
             <div class="dropdown">
@@ -704,6 +664,7 @@
             
         </div>
         <div id="barchart"></div>
+        <!--
         <p>
             Pellentesque habitant morbi tristique senectus et netus
             et malesuada fames ac turpis egestas. Donec laoreet
@@ -726,6 +687,7 @@
             bibendum urna et est laoreet, nec fermentum elit
             bibendum.
         </p>
+        -->
     </div>
 
     <div class="content" id="content-details">
@@ -777,6 +739,8 @@
               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <a href="https://www.energiedashboard.ch/dashboard" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Energiedashboard Schweiz</a>
+                    <a href="https://www.srf.ch/news/schweiz/moegliche-energiekrise-so-viel-strom-verbraucht-die-schweiz-und-weitere-grafiken" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Datenjournalistischer Artikel SRF</a>
+                    
                 </div>
               </div>
             </div>
@@ -903,6 +867,7 @@
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
     <script src="js/barchart.js"></script>
+    
 
 </body>
 
