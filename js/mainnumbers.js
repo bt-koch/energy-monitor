@@ -7,6 +7,7 @@ function mainnumbers(){
         data.forEach(function(d) {
             d.date=parseDate(d.Tag);
             d.value = +d["Stromverbrauch effektiv"]/10**6;
+            d.diff = +d["Differenz Stromverbrauch (effektiv-erwartet)"]/10**6;
         });
 
         function calculateMovingAverage(data, periods) {
@@ -28,6 +29,21 @@ function mainnumbers(){
         })
         var valueLastDay = objLastDay[0].value;
         var maLastDay = objLastDay[0].movingAverage;
+        var diffLastDay = objLastDay[0].diff;
+
+        const cutoff = new Date(lastDay);
+        cutoff.setMonth(cutoff.getMonth() - 6);
+        data = data.filter(function(d) {
+          return d.date >= cutoff;
+        });
+
+        var sum = 0;
+        data.forEach(function(d) {
+            sum += d.value;
+        })
+
+
+        
 
         // text element 1
         const domValueLastDay = d3.select("#energy-consumption-lastDay");
@@ -38,6 +54,14 @@ function mainnumbers(){
         // text element 2
         const domMaLastDay = d3.select("#energy-consumption-MA");
         domMaLastDay.text(Math.round(maLastDay*10)/10+" GWh");
+
+        // text element 3
+        const domDiffLastDay = d3.select("#energy-consumption-diff");
+        domDiffLastDay.text("Differenz zu Erwartung: "+Math.round(diffLastDay*10)/10+" GWh")
+
+        // text element 4
+        const domSum = d3.select("#energy-consumption-sum");
+        domSum.text(Math.round(sum*10)/10+" GWh")
 
     }
 
