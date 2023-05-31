@@ -3,7 +3,7 @@
 Building an Open Government Data visualization for data about the energy
 consumption of Canton Basel-Stadt.
 
-
+[](preview.jpeg)
 
 ## Context
 After both the Confederation and the Canton of Basel-Stadt launched calls to
