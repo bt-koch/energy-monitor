@@ -6,9 +6,9 @@ function calendarheatmap(preview=false){
 
     // choose number of categories
     if(preview){
-        var n = 8; // Number of categories
+        var n = 8;
     } else {
-        var n = Number(document.getElementById("nCategories").value); // Number of categories
+        var n = Number(document.getElementById("nCategories").value);
     }
     
     var domainMin = 2;
@@ -25,11 +25,12 @@ function calendarheatmap(preview=false){
 
     var colours = [];
 
-    var lightnessStep = Math.floor(100 / (n + 1)); // Step size for lightness
+    // step size for lightness
+    var lightnessStep = Math.floor(100 / (n + 1));
 
     for (var i = 0; i < n; i++) {
-        var lightness = 100 - (i + 1) * lightnessStep; // Reverse the lightness calculation
-        var color = "hsl(216, 48%, " + lightness + "%)"; // Blue-gray color scheme using HSL
+        var lightness = 100 - (i + 1) * lightnessStep; // reverse the lightness calculation
+        var color = "hsl(216, 48%, " + lightness + "%)"; // blue-gray color scheme using HSL
         colours.push(color);
     }
         
@@ -39,40 +40,37 @@ function calendarheatmap(preview=false){
         var cellSize = 17*previewScale;
         var xOffset=20*previewScale;
         var yOffset=60*previewScale;
-        var calY=35*previewScale;//offset of calendar in each group
+        var calY=35*previewScale;
         var calX=25*previewScale;
         var width = 960*previewScale;
         var height = 163*previewScale;
-        var parseDate = d3.timeParse("%Y-%m-%d");
-        format = d3.timeFormat("%d-%m-%Y");
-        toolDate = d3.timeFormat("%d.%m.%Y");
     } else {
         var cellSize = 17;
         var xOffset=20;
         var yOffset=60;
-        var calY=35;//offset of calendar in each group
+        var calY=35;
         var calX=25;
         var width = 960;
         var height = 163;
-        var parseDate = d3.timeParse("%Y-%m-%d");
-        format = d3.timeFormat("%d-%m-%Y");
-        toolDate = d3.timeFormat("%d.%m.%Y");
     }
 
+    var parseDate = d3.timeParse("%Y-%m-%d");
+    format = d3.timeFormat("%d-%m-%Y");
+    toolDate = d3.timeFormat("%d.%m.%Y");
     
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
-        //set up an array of all the dates in the data which we need to work out the range of the data
+        // set up an array of all the dates in the data which we need to work out the range of the data
         var dates = new Array();
         var values = new Array();
         
-        //parse the data
+        // parse the data
         data.forEach(function(d)    {
                 dates.push(parseDate(d.Tag));
                 values.push(d["Stromverbrauch effektiv"]/10**6);
                 d.date=parseDate(d.Tag);
                 d.value=d["Stromverbrauch effektiv"]/10**6;
-                d.year=d.date.getFullYear();//extract the year from the data
+                d.year=d.date.getFullYear();
         });
 
         // sort data according to date
@@ -80,12 +78,8 @@ function calendarheatmap(preview=false){
             return a.date - b.date;
         }
         data = data.sort(sortByDateAscending);
-        /*
-        var startYear = document.getElementById("start-year").value;
-        var endYear = document.getElementById("end-year").value;
-        var numberOfYears = endYear - startYear + 1;
-        */
 
+        // chose observation period
         let startYear, endYear;
         if(!preview){
             const sySelection = document.querySelectorAll('input[name="options-calendar-sy"]');
@@ -113,6 +107,7 @@ function calendarheatmap(preview=false){
 
         var numberOfYears = endYear-startYear+1;
 
+        // filter data
         data = data.filter(function(d) {
             var year = d.year;
             return year >= startYear && year <= endYear;
@@ -120,23 +115,18 @@ function calendarheatmap(preview=false){
         
         var yearlyData = d3.group(data, function(d) { return d.year; });
 
+        // draw svg
         var reference = "#calendarheatmap";
+        var scale = "90%";
         if(preview){
             reference = reference+"-preview";
+            scale = "100%"
         }
         var svg = d3.select(reference).append("svg")
-            .attr("width","90%")
+            .attr("width",scale)
             .attr("viewBox","0 0 "+(xOffset+width)+" "+(yOffset+numberOfYears*height+numberOfYears*calY))
-            
-        //title
-        /*
-        svg.append("text")
-            .attr("x",xOffset)
-            .attr("y",20)
-            .text(title);
-        */
         
-        //create an SVG group for each year
+        // create an SVG group for each year
         var cals = svg.selectAll("g")
             .data(yearlyData)
             .enter()
@@ -154,7 +144,7 @@ function calendarheatmap(preview=false){
             .attr("y",15)
             .text(function(d){return d[0]});
         
-        //create a daily rectangle for each year
+        // create a daily rectangle for each year
         var rects = cals.append("g")
             .attr("id","alldays")
             .selectAll(".day")
@@ -162,7 +152,6 @@ function calendarheatmap(preview=false){
             .enter().append("rect")
             .attr("id",function(d) {
                 return "_"+format(d);
-                //return toolDate(d.date)+":\n"+d.value+" dead or missing";
             })
             .attr("class", "day")
             .attr("width", cellSize)
@@ -173,8 +162,8 @@ function calendarheatmap(preview=false){
             .attr("y", function(d) { return calY+(d.getDay() * cellSize); })
             .datum(format);
         
-        //create day labels
-        var days = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+        // create day labels
+        var days = ['So','Mo','Di','Mi','Do','Fr','Sa'];
         var dayLabels=cals.append("g").attr("id","dayLabels")
         days.forEach(function(d,i)    {
             dayLabels.append("text")
@@ -185,7 +174,7 @@ function calendarheatmap(preview=false){
             .text(d);
         })
         
-        //let's draw the data on
+        // let's draw the data on
         var dataRects = cals.append("g")
             .attr("id","dataDays")
             .selectAll(".dataday")
@@ -216,11 +205,11 @@ function calendarheatmap(preview=false){
                 }
             })
         
-        //append a title element to give basic mouseover info
+        // append a title element to give basic mouseover info
         dataRects.append("title")
             .text(function(d) { return toolDate(d.date)+":\n"+Math.round(d.value*10)/10+units; });
         
-        //add monthly outlines for calendar
+        // add monthly outlines for calendar
         var monthReference = "monthOutlines"
         if(preview){
             monthReference = monthReference+"-preview"
@@ -236,7 +225,7 @@ function calendarheatmap(preview=false){
             .attr("transform","translate("+(xOffset+calX)+","+calY+")")
             .attr("d", monthPath);
         
-        //retrieve the bounding boxes of the outlines
+        // retrieve the bounding boxes of the outlines
         var BB = new Array();
         var mp = document.getElementById(monthReference).childNodes;
         for (var i=0;i<mp.length;i++){
@@ -249,9 +238,8 @@ function calendarheatmap(preview=false){
             monthX.push(xOffset+calX+d.x+boxCentre);
         })
 
-        //create centered month labels around the bounding box of each month path
-        //create day labels
-        var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+        // create centered month labels around the bounding box of each month path
+        var months = ['JAN','FEB','MRZ','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'];
         var monthLabels=cals.append("g").attr("id","monthLabels")
         months.forEach(function(d,i)    {
             monthLabels.append("text")
@@ -261,7 +249,7 @@ function calendarheatmap(preview=false){
             .text(d);
         })
         
-        //create key
+        // create key
         var key = svg.append("g")
             .attr("id","key")
             .attr("class","key")
@@ -299,7 +287,7 @@ function calendarheatmap(preview=false){
                 }
             });
         
-    });//end data load
+    }); //end data load
     
     //pure Bostock - compute and return monthly path data for any year
     function monthPath(t0) {
@@ -317,28 +305,21 @@ function calendarheatmap(preview=false){
 calendarheatmap(preview=true);
 
 /* Problem:
-getBBox() retourniert 0 wenn die relevanten Elemente nicht im Browser sichtbar sind. Dadurch werden die
-Labels nicht richtig positioniert.
-Aus diesem Grund soll der Code erst ausgeführt werden, wenn das relevante Tab per Click gewählt wird,
-sodass dann die Positionen korrekt berechnet werden können. Etwas unschön ist die kleine "Ladezeit",
-allerdings ist diese wirklich nur sehr kurz und nur beim ersten Anzeigen nötig.
+getBBox() returns 0 if relevant elements are not shown in browser. This leads to the problem that
+labels are not positioned correctly.
+For this reason, the code should be executed only when relevant tab is clicked and content is
+displayed, allowing to calculate the positions correctly.
+Unfortunately this leads to a short "loading time", however, this is rather short and is only
+necessary when first displaying.
 */
-//calendarheatmap();
+
 document.getElementById("tab-calendar").addEventListener("click", function(){calendarheatmap(preview=false)});
-//document.getElementById("start-year").addEventListener("change", calendarheatmap);
-//document.getElementById("end-year").addEventListener("change", calendarheatmap);
 
 /* rerun function conditional on frequency chosen */
 const timeSelectionCal = document.querySelectorAll('input[name="options-calendar-sy"], input[name="options-calendar-ey"], input[name="options-calendar-categories"]');
-// Add event listener to each radio button
 timeSelectionCal.forEach(function(opt) {
   opt.addEventListener('change', function() {
     const svg = d3.select('#calendarheatmap svg').remove();
     calendarheatmap(preview=false);
-      // Check which radio button is selected
-      /* if (radioButton.checked) {
-          const svg = d3.select('#lineplot svg').remove();
-          linechart(radioButton.value);
-      } */
   });
 });
