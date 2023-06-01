@@ -1,8 +1,7 @@
 function mainnumbers(){
-    // 1. Load the data from external source
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
-        //parse the data
+        // parse the data
         var parseDate = d3.timeParse("%Y-%m-%d");
         data.forEach(function(d) {
             d.date=parseDate(d.Tag);
@@ -41,9 +40,6 @@ function mainnumbers(){
         data.forEach(function(d) {
             sum += d.value;
         })
-
-
-        
 
         // text element 1
         const domValueLastDay = d3.select("#energy-consumption-lastDay");
