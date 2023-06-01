@@ -10,7 +10,8 @@ function linechart(preview = false){
     document.getElementById("d-lineplot").checked
     && document.getElementById("showErw").checked
     && !preview){
-    alert("Achtung: bei Anzeige täglicher Daten über gesamten Zeitraum sind Linien nicht mehr sichtbar. Es ist empfohlen entweder Zeitraum einzuschränken oder nur rollender Durchschnitt anzuzeigen.")
+    alert("Achtung: bei Anzeige täglicher Daten über gesamten Zeitraum sind die Linien für den effektiven und erwarteten Stromverbrauch nicht mehr erkennbar. Es ist empfohlen, "+
+    "entweder den Zeitraum einzuschränken oder für grössere Zeiträume nur der rollende Durchschnitt anzuzeigen.")
   }
 
   if (document.getElementById("dynY").checked) {
@@ -23,7 +24,6 @@ function linechart(preview = false){
   // adjust graph width, height and margins
   let margin, margin2, width, height, height2;
   if(preview) {
-    // todo
     margin = {top: 30, right: 40, bottom: 0, left: 20};
     margin2 = {top: 210, right: 0, bottom: 100, left: 0};
     width = 1.4*document.getElementById("card-barchart-preview").offsetWidth - margin.left - margin.right;
@@ -138,7 +138,7 @@ function linechart(preview = false){
   // add header
   legend.append('text')
     .attr('class', 'chart__symbol')
-    .text('Stromverbrauch in GWh')
+    .text('Stromverbrauch in GWh (blau: effektiv, rot: erwartet)')
   
   // add filter selection
   const rangeSelection = legend
@@ -200,6 +200,8 @@ function linechart(preview = false){
     // aggregate data conditional on selected frequency
     if(!document.getElementById("d-lineplot").checked && !preview){
       var aggregatedData = {};
+      var dataCount = {};
+
       data.forEach(function(d) {
         var t = formatAggregation(d.date);
         if (!aggregatedData[t]) {
@@ -209,20 +211,23 @@ function linechart(preview = false){
             lowerCISum: 0,
             upperCISum: 0
           };
+          dataCount[t] = 0;
         }
         aggregatedData[t].valueEffSum += d.valueEff;
         aggregatedData[t].valueErwSum += d.valueErw;
         aggregatedData[t].lowerCISum += d.lowerCI;
         aggregatedData[t].upperCISum += d.upperCI;
+        dataCount[t] += 1;
       });  
   
       data = Object.entries(aggregatedData).map(([t, values]) => {
+        var count = dataCount[t];
         return {
           date: new Date(t),
-          valueEff: values.valueEffSum,
-          valueErw: values.valueErwSum,
-          lowerCI: values.lowerCISum,
-          upperCI: values.upperCISum
+          valueEff: values.valueEffSum / count,
+          valueErw: values.valueErwSum / count,
+          lowerCI: values.lowerCISum / count,
+          upperCI: values.upperCISum / count
         }
       })
     }
@@ -440,10 +445,7 @@ function linechart(preview = false){
     
     function brushed() {
       let ext = d3.brushSelection(this);
-
-      console.log(ext);
   
-      // problem for range selection: stuff in condition doesnt run
       if (ext !== null) {
         // get x scale for the chart
         const xScale = d3.scaleTime()
@@ -454,11 +456,7 @@ function linechart(preview = false){
         const x0 = xScale.invert(ext[0]);
         const x1 = xScale.invert(ext[1]);
 
-        console.log(x0);
-        console.log(x1);
-
         x.domain([x0,x1]);
-
 
         if(document.getElementById("dynY").checked){
           y.domain([

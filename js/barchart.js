@@ -2,7 +2,7 @@ function barchart(preview = false){
     // 1. Load the data from external source
     d3.csv("./data/eff_erw_daily.csv").then(function(data) {
         
-        //parse the data
+        // parse the data
         var parseDate = d3.timeParse("%Y-%m-%d");
         data.forEach(function(d) {
             d.date=parseDate(d.Tag);
@@ -46,15 +46,15 @@ function barchart(preview = false){
         if(document.getElementById("m-barchart").checked && !preview) {
             var formatAggregation = d3.timeFormat("%Y-%m");
             var formatTooltip = d3.timeFormat("%b %Y");
-            var extendY = 0.5;
+            var extendY = 0.05;
             // filter out unfinished month
             if(lastDay.getDate() < getLastDayOfMonth(lastDay)){
-                data = data.filter(d => d.date.getMonth() !== lastDay.getMonth());
+                data = data.filter(d => d.date.getMonth() !== (lastDay.getMonth() && lastDay.getFullYear()));
             }
         } else if(document.getElementById("y-barchart").checked && !preview) {
             var formatAggregation = d3.timeFormat("%Y");
             var formatTooltip = d3.timeFormat("%Y")
-            var extendY = 1;
+            var extendY = 0.01;
             // filter out unfinished year
             if(lastDay.getDate() < getLastDayOfYear(lastDay)){
                 data = data.filter(d => d.date.getFullYear() !== lastDay.getFullYear());
@@ -67,26 +67,29 @@ function barchart(preview = false){
         // aggregate data conditional on selected frequency
         if(!document.getElementById("d-barchart").checked && !preview){
         var aggregatedData = {};
+        var dataCount = {};
+
         data.forEach(function(d) {
             var t = formatAggregation(d.date);
             if (!aggregatedData[t]) {
             aggregatedData[t] = {
                 valueSum: 0
             };
+            dataCount[t] = 0;
             }
             aggregatedData[t].valueSum += d.value;
+            dataCount[t] += 1;
         });  
 
         data = Object.entries(aggregatedData).map(([t, values]) => {
+            var count = dataCount[t];
             return {
                 date: new Date(t),
-                value: values.valueSum
+                value: values.valueSum / count
             }
         })
 
         }
-
-
 
         // filter: keep displayed observation period
         let startYear, endYear;
@@ -122,10 +125,7 @@ function barchart(preview = false){
             });
         }
 
-
-
-
-        // 2. Append svg-object for the bar chart to a div in your webpage
+        // 2. Append svg-object for the bar chart to a div in webpage
         // (here we use a div with id=container)
         if(preview){
             // to do
@@ -204,7 +204,7 @@ function barchart(preview = false){
                         .style("left", event.pageX+10+"px")
                         .style("top", event.pageY-80+"px")
                         .attr("data-date", d.date)
-                        .html(formatTooltip(d.date) + "</br>" + Math.round(d.value*10)/10 + " " + unit );
+                        .html(formatTooltip(d.date) + "</br>" + Math.round(d.value*100)/100 + " " + unit );
             })
             .on("mousemove", function(event){
                 tooltip.style("left", event.pageX+10+"px");
@@ -214,13 +214,6 @@ function barchart(preview = false){
             });
 
         // 6. Finalize chart by adding title and axes labels
-        /*
-        svg.append("text")
-            .attr("x", margin.left + (width - margin.left - margin.right) / 2)
-            .attr("y", height - margin.bottom / 5)
-            .attr("class", "label")
-            .text("Date");
-        */
 
         svg.append("text")
             .attr("y", margin.left/4)
@@ -229,13 +222,6 @@ function barchart(preview = false){
             .attr("class", "label")
             .text("Differenz effektiv-erwartet [in "+unit+"]");
 
-        /*
-        svg.append("text")
-            .attr("x", margin.left + (width - margin.left - margin.right) / 2)
-            .attr("y", margin.top / 2)
-            .attr("id", "title")
-            .text("United States GDP");
-        */
     });
 }
 
@@ -268,7 +254,7 @@ window.addEventListener('resize', function() {
 });
   
 const optionsSelectionBar = document.querySelectorAll('input[name="options-barchart-sy"], input[name="options-barchart-ey"], input[name="options-barchart"], input[name="options-barchart-freq"]');
-// Add event listener to each radio button
+// Add event listener
 optionsSelectionBar.forEach(function(opt) {
   opt.addEventListener('change', function() {
     const svg = d3.select("#barchart svg").remove();
