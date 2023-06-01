@@ -175,6 +175,12 @@ function calendarheatmap(preview=false){
         })
         
         // let's draw the data on
+
+        const tooltip = d3.select("body")
+                        .append("div")
+                        .attr("id", "tooltip")
+                        .style("visibility", "hidden");
+
         var dataRects = cals.append("g")
             .attr("id","dataDays")
             .selectAll(".dataday")
@@ -204,6 +210,19 @@ function calendarheatmap(preview=false){
                     return colours[breaks.length]   
                 }
             })
+            .on("mouseover", function(event, d){
+                tooltip.style("visibility", "visible")
+                        .style("left", event.pageX+10+"px")
+                        .style("top", event.pageY-50+"px")
+                        .attr("data-date", d.date)
+                        .html(toolDate(d.date)+": "+Math.round(d.value*10)/10+units );
+            })
+            .on("mousemove", function(event){
+                tooltip.style("left", event.pageX+"px");
+            })
+            .on("mouseout", function(){
+                tooltip.style("visibility", "hidden");
+            });
         
         // append a title element to give basic mouseover info
         dataRects.append("title")
