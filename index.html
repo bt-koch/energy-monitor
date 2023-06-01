@@ -5,13 +5,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Energie-Monitor</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="rsc/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>Energie-Monitor</title>    
 
     <!-- fontawesome -->
-    
     <link href="/rsc/fontawesome/css/fontawesome.css" rel="stylesheet">
     <link href="/rsc/fontawesome/css/brands.css" rel="stylesheet">
     <link href="/rsc/fontawesome/css/solid.css" rel="stylesheet">
@@ -19,7 +15,8 @@
     <!-- Custom CSS -->
     <link href="css/stylesheet.css" rel="stylesheet">
 
-    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <!-- Bootstrap, jquery, popper -->
+    <link href="rsc/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="rsc/jquery/jquery-3.7.0.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="rsc/bootstrap/js/bootstrap.min.js"></script>
@@ -33,7 +30,6 @@
 </head>
 
 <body>
-    <!--<script src="dashboard.js"></script>-->
     <!-- sidebar -->
     <div class="sidebar">
         <h2>Energie-Monitor</h2>
@@ -66,7 +62,6 @@
         <div class="row d-flex align-items-stretch">
             <div class="col-lg-3 col-md-12">
                 <div class="card h-100">
-                    <!-- Content for Section 1 -->
                     <div class="card-body">
                         <h5>letzte Beobachtung:</h5>
                         <h1 id="energy-consumption-lastDay"></h1>
@@ -79,14 +74,12 @@
                         <h1 id="energy-consumption-sum"></h1>
                         
                     </div>
-                    <!-- Add your plot or other content here -->
                 </div>
             </div>
             <div class="col-lg-9 col-md-12">
                 <div class="card h-100" id="card-lineplot-preview">
-                    <!-- Content for Section 2 -->
                     <div class="card-body">
-                        <h4 class="card-title">täglicher Stromverbrauch letzte 6 Monate</h4>
+                        <h4 class="card-title">täglicher Stromverbrauch (letzte 6 Monate)</h4>
                         <div id="lineplot-preview"></div>
                     </div>
                     <br>
@@ -97,16 +90,14 @@
         <div class="row d-flex align-items-stretch">
             <div class="col-lg-6 col-md-12">
                 <div class="card h-100" id="card-barchart-preview">
-                    <!-- Content for Section 3 -->
                     <div class="card-body">
-                        <h4 class="card-title">tägliche Differenz effektiv und erwartet letzte 6 Monate</h4>
+                        <h4 class="card-title">tägliche Differenz effektiv und erwartet (letzte 6 Monate)</h4>
                         <div id="barchart-preview"></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="card h-100">
-                    <!-- Content for Section 4 -->
                     <div class="card-body">
                         <h4 class="card-title">Tagesmuster</h4>
                         <div id="calendarheatmap-preview"></div>
@@ -121,14 +112,23 @@
         <p>
             Mittels dem folgenden Liniendiagramm lassen sich Trends
             im Stromverbrauch des Kantons Basel-Stadt visuell analysieren.
+            Insbesondere wenn man sich den effektiven Stromverbrauch in täglicher
+            Frequenz anzeigen lässt, sind regelmässige wöchentliche Schwankungen
+            sichtbar, welche zeigen, dass an Wochenenden grunsätzlich weniger
+            Strom konsumiert wird. Über den gesamten Zeitraum ist grundsätzlich ein negativer Trend
+            beobachtbar. Der Grund für diese Abnahme müsste noch bestimmt werden,
+            Faktoren könnten beispielsweise zunehmend erhöhte Temperaturen oder effizientere
+            elektronische Geräte sein. Für weitere Informationen zum erwarteten
+            Stromverbrauch siehe <span><a class="nav-link" href="#" onclick="showContent('content-details')" style="color:blue; display: inline-block">Details</a></span>.
+            </br></br>
             Die beiden Buttons erlauben die Wahl der angezeigten Datenfrequenz
             sowie diverser Möglichkeiten, das Liniendiagramm wie gewünscht
             anzupassen. Grundlage sind tägliche Daten, ändert man die Frequenz
-            wird der Stromverbrauch im entsprechenden Zeitraum aufsummiert
-            dargestellt. Mittels klicken und ziehen auf dem unteren Flächendiagramm
-            kann der angezeigte Zeitraum geändert werden.
-            <!--Test für dynamische Anpassung von Text: der tatsächliche Stromverbrauch
-            vom <span id="testdate"></span> war <span id="testvalue"></span>-->
+            wird der Stromverbrauch im entsprechenden Zeitraum aufsummiert und durch
+            die Anzahl Tage im entsprechenden Monat oder Jahr dividiert. Mittels
+            klicken und ziehen auf dem unteren Flächendiagramm kann der angezeigte
+            Zeitraum geändert werden. Das Flächendiagramm zeigt dabei den effektiven
+            Stromverbrauch in gewählter Frequenz über den gesamten Zeitraum.
         </p>
         <div id="wrapper">
             <div class="dropdown">
@@ -181,13 +181,17 @@
 
                 <li>
                     <label>
-                    <input type="checkbox" name="options-lineplot" id="showMA"> rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" title="Rollender Durchschnitt"></i>
+                        <input type="checkbox" name="options-lineplot" id="showMA">
+                            rollender Durchschnitt anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip"
+                            title="Der rollende Durchschnitt zeigt den durchschnittlichen Stromverbrauch über die jeweils letzten sieben Zeiteinheiten."></i>
                     </label>
                 </li>
 
                 <li>
                     <label>
-                    <input type="checkbox" name="options-lineplot" id="showCI"> Prognoseintervall anzeigen <i class="fa-solid fa-circle-info"></i>
+                        <input type="checkbox" name="options-lineplot" id="showCI">
+                            Prognoseintervall anzeigen <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip"
+                            title="Intervall, in welchem der prognostizierte effektive Stromverbrauch mit 95% Wahrscheinlichkeit auf Grundlage des statistischen Modells zu vermuten ist."></i>
                     </label>
                 </li>
 
@@ -196,7 +200,7 @@
                         <input type="checkbox" name="options-lineplot" id="dynY" checked> dynamische Y-Achse
                     </label>
                 </li>
-                
+            <!-- unfortunately I don't have enough time to implement this functionalities 
                 <li>
                     <label>
                     <input type="checkbox" name="options-lineplot"> Wintermonate markieren
@@ -208,7 +212,7 @@
                     <input type="checkbox" name="options-lineplot"> Kommunikationskampage markieren
                     </label>
                 </li>
-                                
+            -->           
                 </ul>
             </div>
         </div>
@@ -221,39 +225,12 @@
                 <div class="text-container">
                     <p>
                         Die Y-Achse ist dynamisch und beginnt daher nicht bei 0. Dies macht Trends besser sichtbar,
-                        kann die wahrgenommene Stärke des Trends allerdings verzerren.
-                        Über die Optionen kann die dynamische Y-Achse statisch gesetzt werden, wodurch diese bei 0 beginnt.
+                        kann die wahrgenommene Stärke des Trends allerdings verzerren. Über die Optionen kann die
+                        dynamische Y-Achse deaktiviert werden, wodurch diese bei 0 beginnt.
                     </p>
                 </div>
             </div>
         </div>
-
-        <!--
-        <p>
-            Pellentesque habitant morbi tristique senectus et netus
-            et malesuada fames ac turpis egestas. Donec laoreet
-            fringilla libero, nec blandit turpis scelerisque at.
-            Curabitur a ligula sit amet mauris pellentesque
-            vestibulum vitae sit amet dui. Proin auctor enim
-            urna, at malesuada dui pellentesque vitae. Fusce
-            tristique mi sed ipsum ullamcorper tempus. Sed vel
-            elit elit. Praesent at ipsum in risus suscipit
-            tristique a eget ex. Pellentesque habitant morbi
-            tristique senectus et netus et malesuada fames ac
-            turpis egestas. Sed fermentum felis nunc, et suscipit
-            enim malesuada id. Aliquam id dignissim libero, in
-            malesuada sapien. Etiam fermentum, lacus a efficitur
-            cursus, nulla dolor convallis velit, ac malesuada
-            turpis orci in dui. In non magna sollicitudin,
-            dignissim tellus ac, suscipit purus. Pellentesque
-            fringilla fringilla libero, eu dapibus velit dignissim
-            id. Nunc luctus felis at vehicula porttitor. Quisque
-            bibendum urna et est laoreet, nec fermentum elit
-            bibendum.
-
-            evtl durchschnitt etc berechnen und anzeigen für gew zeitraum
-        </p>
-        -->
     </div>
     
     <div class="content" id="content-dashboard2">
@@ -263,8 +240,15 @@
             von Muster im täglichen Stromverbrauch über die Woche und über
             das Jahr. Beispielsweise wird ersichtlich, dass der Stromverbrauch
             durch die Woche höher ist als am Wochenende. Auch Feiertage sind
-            durch einen tieferen Stromverbrauch sichtbar. Die Abstufung der
-            angezeigten Kategorien kann über das Textfeld angepasst werden.
+            durch einen tieferen Stromverbrauch sichtbar. Lässt man weitere
+            Jahre in der Vergangenheit anzeigen wird zudem erkennbar, dass
+            der Stromverbrauch über die Jahre abgenommen hat. Der Grund für
+            diese Abnahme müsste noch bestimmt werden, Faktoren könnten beispielsweise
+            erhöhte Temperaturen oder effizientere elektronische Geräte sein.
+            </br></br>
+            Die Abstufung der angezeigten Kategorien kann über das Textfeld angepasst
+            werden. Fährt man mit der Maus auf einen spezifischen Tag, wird der effektive
+            Stromverbrauch gezeigt.
         </p>
         <div style="float:right; margin-right: 10%;">
             <form class="form-floating" >
@@ -419,46 +403,27 @@
                 </ul>
             </div>
         </div>
-        
-    <!--</div>-->
         <div id="calendarheatmap"></div>
-        <!--
-        <p>
-            Pellentesque habitant morbi tristique senectus et netus
-            et malesuada fames ac turpis egestas. Donec laoreet
-            fringilla libero, nec blandit turpis scelerisque at.
-            Curabitur a ligula sit amet mauris pellentesque
-            vestibulum vitae sit amet dui. Proin auctor enim
-            urna, at malesuada dui pellentesque vitae. Fusce
-            tristique mi sed ipsum ullamcorper tempus. Sed vel
-            elit elit. Praesent at ipsum in risus suscipit
-            tristique a eget ex. Pellentesque habitant morbi
-            tristique senectus et netus et malesuada fames ac
-            turpis egestas. Sed fermentum felis nunc, et suscipit
-            enim malesuada id. Aliquam id dignissim libero, in
-            malesuada sapien. Etiam fermentum, lacus a efficitur
-            cursus, nulla dolor convallis velit, ac malesuada
-            turpis orci in dui. In non magna sollicitudin,
-            dignissim tellus ac, suscipit purus. Pellentesque
-            fringilla fringilla libero, eu dapibus velit dignissim
-            id. Nunc luctus felis at vehicula porttitor. Quisque
-            bibendum urna et est laoreet, nec fermentum elit
-            bibendum.
-        </p>
-        -->
     </div>
     
     <div class="content" id="content-dashboard3">
-        <h1>Analyse der Differenz effektiver und erwarteter Stromverbrauch</h1>
+        <h1>Analyse der Differenz zwischen effektivem und erwartetem Stromverbrauch</h1>
         <p>
             Das Säulendiagramm zeigt die Differenz zwischen dem effektiv gemessenen Stromverbrauch 
             und den mittels einem statistischen Modell berechneten erwarteten Stromverbrauch. 
             Der Stromverbrauch wird dabei witterungsbereinigt dargestellt. Neben den meteologischen
             Daten wird auch berücksichtigt, ob es sich bei den Messungszeitpunkten um Ferien-, Feier-, 
-            erktage oder Wochenenden handelt sowie ob sich die Schweiz aufgrund der Covid-19 Panemie
-            im Lockdown befand. Da die Kommunikationskampage des Bundes betreffend der Energiemangellage
-            nicht in das Modell hineinfliesst, stellt sich die Frage, ob der effektive Stromverbrauch
-            während dieser Kommunikationskampage unter dem erwarteten Stromverbrauch liegt.
+            Werktage oder Wochenenden handelt sowie ob sich die Schweiz aufgrund der Covid-19 Panemie
+            im Lockdown befand. Somit liefert das statistische Modell einen aufgrund des Wetters und
+            des entsprechenden Tages den zu erwartenden Stromverbrauch. Änderungen des Stromkonsums
+            beispielsweise durch Verhaltensänderungen der Bevölkerung fliessen nicht in das Modell ein.
+            Deshalb könnte die Kommunikationskampage des Bundes betreffend der Energiemangellage als negative
+            Differenz im untenstehenden Säulendiagramm sichtbar sein, da der durch das Wetter und die
+            Klassifizierung des entsprechenden Tages erwartete Stromverbrauch höher ausfallen sollte
+            als der effektive Stromverbrauch. Dies bedingt allerdings, dass während dieser Zeit keine
+            weiteren Faktoren den Stromkonsum beeinflussen (positiv oder negativ). Für weitere Informationen
+            zum erwarteten Stromverbrauch siehe
+            <span><a class="nav-link" href="#" onclick="showContent('content-details')" style="color:blue; display: inline-block">Details</a></span>.
         </p>
         <div id="wrapper">
             <div class="dropdown">
@@ -624,11 +589,6 @@
                     <input type="radio" name="options-barchart-freq" id="m-barchart" checked value="m"> monatlich
                     </label>
                 </li>
-                <!-- <li>
-                    <label>
-                    <input type="radio" name="options-barchart-freq" id="w-barchart" value="w"> wöchentlich
-                    </label>
-                </li> -->
                 <li>
                     <label>
                     <input type="radio" name="options-barchart-freq" id="d-barchart" value="d"> täglich
@@ -664,44 +624,27 @@
             
         </div>
         <div id="barchart"></div>
-        <!--
         <p>
-            Pellentesque habitant morbi tristique senectus et netus
-            et malesuada fames ac turpis egestas. Donec laoreet
-            fringilla libero, nec blandit turpis scelerisque at.
-            Curabitur a ligula sit amet mauris pellentesque
-            vestibulum vitae sit amet dui. Proin auctor enim
-            urna, at malesuada dui pellentesque vitae. Fusce
-            tristique mi sed ipsum ullamcorper tempus. Sed vel
-            elit elit. Praesent at ipsum in risus suscipit
-            tristique a eget ex. Pellentesque habitant morbi
-            tristique senectus et netus et malesuada fames ac
-            turpis egestas. Sed fermentum felis nunc, et suscipit
-            enim malesuada id. Aliquam id dignissim libero, in
-            malesuada sapien. Etiam fermentum, lacus a efficitur
-            cursus, nulla dolor convallis velit, ac malesuada
-            turpis orci in dui. In non magna sollicitudin,
-            dignissim tellus ac, suscipit purus. Pellentesque
-            fringilla fringilla libero, eu dapibus velit dignissim
-            id. Nunc luctus felis at vehicula porttitor. Quisque
-            bibendum urna et est laoreet, nec fermentum elit
-            bibendum.
+            Während der <a href="https://www.admin.ch/gov/de/start/dokumentation/medienmitteilungen.msg-id-90158.html" target="_blank">
+            <i class="fa-solid fa-link"></i>Kommunikationskampage des Bundes betreffend Energiemangellage</a> (Ende August 2022 bis April 2023)
+            sind negative Differenzen zwischen dem effektiven und erwarteten Stromverbrauch beobachtbar, was auf eine Auswirkung
+            der Kampagne auf den Stromkonsum hinweisen könnte. Um den tatsächlichen Effekt bestimmen und messen zu können, wären
+            allerdings weitere Analysen nötig. Zudem sind ähnliche negative Differenzen auch in früheren Jahren beobachtbar.
         </p>
-        -->
     </div>
 
     <div class="content" id="content-details">
         <h3>Ziel dieser App</h3>
         <p>
-            Ziel dieser App ist ein Anwendungsbeispiel zu bieten, wie Open Government Data (OGD) publiziert werden könnten.
-            Häufig wird seitens "Daten-Konsumenten" die Kritik genannt, dass OGD ohne fortgeschrittene Kenntnisse im Umgang
-            mit Daten kaum verwendet werden können. Daher können Visualisierungs-  und Analysetools helfen, das Einblick in
-            Daten ohne grössere Eintrittsbarrieren zu bieten. Zudem kommt seitens "Daten-Produzenten" häufig der Kritikpunkt,
-            dass Daten ohne Kontextinformationen als OGD zu veröffentlichen zu Fehlinterpretationen der Daten führen könnten.
-            Durch solche Tools können den "Daten-Konsumenten" daher alle nötigen Kontextinformationen geliefert werden und bei
-            schwer interpretierbaren oder leicht zu fehlinterpretierenden Daten entsprechende Hinweise und Hilfestellungen
-            geboten werden. Das Bereitstellen von Daten in einer Form, welche keine oder tiefe Eintrittsbarrieren bietet und
-            keine Missinformationen verbreitet ist daher nötig für eine erfolgreiche Demokratisierung der Daten.
+            Ziel dieser App ist ein Anwendungsbeispiel zu bieten, wie Open Government Data (OGD) publiziert respektive kommuniziert
+            werden könnten. Häufig wird seitens "Daten-Konsumenten" die Kritik genannt, dass OGD ohne fortgeschrittene Kenntnisse im Umgang
+            mit Daten kaum verwendet werden können. Daher können Visualisierungs-  und Analysetools helfen, dass Einblicke in
+            Daten ohne grössere Eintrittsbarrieren geboten werden können. Des Weiteren kommt seitens "Daten-Produzenten" häufig der Kritikpunkt,
+            dass Daten ohne Kontextinformationen in Rohform zu veröffentlichen zu Fehlinterpretationen führen könnten.
+            Durch Tools wie beispielsweise Dashboards können den "Daten-Konsumenten" alle nötigen Kontextinformationen geliefert werden und bei
+            schwer interpretierbaren oder Daten mit erhöhtem Potential für Fehlinterpretationen entsprechende Hinweise und Hilfestellungen
+            geboten werden. Das Bereitstellen von Daten in einer Form, welche im Idealfall keine oder tiefe Eintrittsbarrieren hat und
+            keine Fehlinformationen verbreitet ist daher nötig für eine erfolgreiche Demokratisierung der Daten.
         </p>
         </br>
         <h3>weitere Informationen</h3>
@@ -758,7 +701,7 @@
                     </br>
                     <a href="https://www.energiedashboard.ch/dashboard" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> Energiedashboard Schweiz</a>
                     </br></br>
-                    Zudem veröffentlichte das SRF ein datenjournalistischer Beitrag zur Energielage der Schweiz, welcher laufend mittels neuer Daten aktualisiert wird:
+                    Das SRF pflegt ein datenjournalistischer Beitrag zur Energielage der Schweiz, welcher laufend mittels neuen Daten aktualisiert wird:
                     </br>
                     <a href="https://www.srf.ch/news/schweiz/moegliche-energiekrise-so-viel-strom-verbraucht-die-schweiz-und-weitere-grafiken" target="_blank" class="btn btn-primary"><i class="fa-solid fa-link"></i> datenjournalistischer Beitrag SRF</a>
                 </div>
@@ -794,7 +737,6 @@
                     <div class="card-header">
                         <i class="fa-solid fa-table"></i> verwendete Datenquelle
                     </div>
-                    <!-- Content for Section 1 -->
                     <div class="card-body">
                         <h3 class="card-title">Effektiver und erwarteter täglicher Stromverbrauch</h3>
                         <p class="card-text">
@@ -821,7 +763,6 @@
                     <div class="card-header">
                         <i class="fa-solid fa-table"></i> verwandte Datenquelle
                     </div>
-                    <!-- Content for Section 1 -->
                     <div class="card-body">
                         <h3 class="card-title">Kantonaler Stromverbrauch</h3>
                         <p class="card-text">
@@ -851,7 +792,6 @@
                     <div class="card-header">
                         <i class="fa-solid fa-code"></i> Sourcecode
                     </div>
-                    <!-- Content for Section 1 -->
                     <div class="card-body">
                         <p class="card-text">
                             Der gesamte für dieses Dashboard entwickelte Sourcecode ist auf
@@ -859,7 +799,7 @@
                             verfügbar.
                         </p>
                         <p class="card-text">
-                            Letzte Aktualisierung dieser App: 31. Mai 2023
+                            Letzte Aktualisierung dieser App: 01. Juni 2023
                         </p>
                     </div>
                 </div>
@@ -869,7 +809,6 @@
                     <div class="card-header">
                         <i class="fa-regular fa-circle-user"></i> über mich
                     </div>
-                    <!-- Content for Section 1 -->
                     <div class="card-body">
 
                         <p class="card-text">
@@ -888,7 +827,7 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- JavaScript to draw and update plots -->
     <script src="js/mainnumbers.js"></script>
     <script src="js/linechart.js"></script>
     <script src="js/calendarheatmap.js"></script>
