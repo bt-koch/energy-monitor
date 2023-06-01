@@ -204,7 +204,7 @@ function barchart(preview = false){
                         .style("left", event.pageX+10+"px")
                         .style("top", event.pageY-80+"px")
                         .attr("data-date", d.date)
-                        .html(formatTooltip(d.date) + "</br>" + Math.round(d.value*100)/100 + " " + unit );
+                        .html(formatTooltip(d.date) + ": " + Math.round(d.value*100)/100 + " " + unit );
             })
             .on("mousemove", function(event){
                 tooltip.style("left", event.pageX+10+"px");
