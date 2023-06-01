@@ -1,10 +1,12 @@
-/* Custom styles for the dashboard */
+/* ---------------------
+styles for the dashboard 
+--------------------- */
 body {
     padding-top: 60px;
 }
 
 .sidebar {
-    background-color: #f8f9fa;
+    background-color: #f0f5f9;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -25,11 +27,6 @@ body {
     display: block;
 }
 
-/*
-.year-selector {
-  width: 400px;
-}
-*/
 
 /* for alerts */
 .icon-text-container {
@@ -43,10 +40,9 @@ body {
   margin: 0;
 }
 
-
-
-
-/* for linechart ------------ */
+/* -----------------
+styles for linechart
+----------------- */
 
 .chart__grid {
     stroke: #e7eef4;
@@ -115,7 +111,6 @@ body {
     fill: #2980b9;
   }
   .chart__axis--context text {
-    /* fill: #7f8faf; */
     fill: #2980b9;
     opacity: 0.6;
   }
@@ -146,7 +141,9 @@ body {
     display: none;
   }
 
-/*   for chart options dropdown  -------- */
+/* ------------------------------
+style for chart options selection 
+------------------------------ */
 
 .checkbox-menu li label {
   display: block;
@@ -180,7 +177,33 @@ body {
   background-color: #b8b8ff;
 }
 
-/*   for calendar heatmap  -------- */
+#wrapper {
+  display: flex;
+}
+
+#left {
+  flex: 0 0 65%;
+}
+
+#right {
+  flex: 1;
+}
+
+.radio-menu li label {
+  display: block;
+  padding: 3px 10px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+  margin:0;
+  transition: background-color .4s ease;
+}
+
+/* -----------------------
+style for calendar heatmap 
+----------------------- */
 .month {
   fill: none;
   stroke: #000;
@@ -210,7 +233,9 @@ text    {
 
 .key    {font-size:0.5em;}
 
-/* bar chart */
+/* ----------------
+style for bar chart
+---------------- */
 .bar{
   fill: #7f8faf;
   fill-opacity: 0.6;
@@ -242,26 +267,3 @@ text    {
 } 
 
 /* button placement */
-#wrapper {
-  display: flex;
-}
-
-#left {
-  flex: 0 0 65%;
-}
-
-#right {
-  flex: 1;
-}
-
-.radio-menu li label {
-  display: block;
-  padding: 3px 10px;
-  clear: both;
-  font-weight: normal;
-  line-height: 1.42857143;
-  color: #333;
-  white-space: nowrap;
-  margin:0;
-  transition: background-color .4s ease;
-}
