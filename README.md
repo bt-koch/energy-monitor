@@ -44,7 +44,7 @@ Following major changes were made:
 
 ### Calendar Heatmap
 
-<img src="https://github.com/bt-koch/energy-monitor/blob/4b1473dbd6e9c5e92b345e934b3862f631eb1d4c/img/calendar.png" width="50%>
+<img src="https://github.com/bt-koch/energy-monitor/blob/4b1473dbd6e9c5e92b345e934b3862f631eb1d4c/img/calendar.png" width="50%">
 
 The calendar heatmap is based on [this code](https://gist.github.com/alansmithy/6fd2625d3ba2b6c9ad48).  
 Following major changes were made:  
