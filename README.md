@@ -21,7 +21,7 @@ in the universal supply vs. the free market since 1 September 2022.
 
 ### Line Chart
 
-<img src="https://github.com/bt-koch/energy-monitor/blob/a6ef128c3bed94959a75e518be665a28a9491db7/img/line.png" style="max-width:25%;">
+<img src="https://github.com/bt-koch/energy-monitor/blob/a6ef128c3bed94959a75e518be665a28a9491db7/img/line.png" width="200">
 
 
 The line chart is based on [this code](https://github.com/arnauddri/d3-stock).  
