@@ -3,6 +3,10 @@
 Building an Open Government Data visualization for data about the energy
 consumption of Canton Basel-Stadt.
 
+The app is hosted on the open data show room of the University of Bern:
+
+![Energie-Monitor Basel-Stadt](https://energie-monitor-basel-stadt.opendata.iwi.unibe.ch/#)
+
 ## Preview
 
 ![](https://github.com/bt-koch/energy-monitor/blob/dbe9a498a6f05c66aafffeaa8cc18ed433917e7f/preview.jpeg)
