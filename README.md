@@ -5,6 +5,8 @@ consumption of Canton Basel-Stadt.
 
 The app is hosted on the open data show room of the University of Bern: <a href="https://energie-monitor-basel-stadt.opendata.iwi.unibe.ch/#" target="_blank">Energie-Monitor Basel-Stadt</a>
 
+Alternative URL: <a href="https://bk17s011.opendata.iwi.unibe.ch" target="_blank">Energie-Monitor Basel-Stadt</a>
+
 ## Preview
 
 ![](https://github.com/bt-koch/energy-monitor/blob/dbe9a498a6f05c66aafffeaa8cc18ed433917e7f/preview.jpeg)
